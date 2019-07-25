@@ -1,0 +1,46 @@
+import React, { Fragment } from 'react'
+
+import { DragDropContext } from 'react-beautiful-dnd'
+
+import Actions from '../../actions'
+import TaskBoardStoryRow from './task_board_story_row'
+import { connect } from 'react-redux';
+
+export default connect()(({ stories, dispatch }) => {
+
+  const onDragEnd = result => {
+    const { destination, source, draggableId } = result
+
+    if (!destination
+      || (destination.droppableId === source.droppableId && destination.index === source.index)) return
+    
+    const [sprintId, storyId, newStatus] = destination.droppableId.split("#")
+    
+    dispatch(Actions.changeTaskStatus(
+      { sprintId, storyId, taskId: draggableId, newStatus }))
+  }
+
+  return (
+    <Fragment>
+      <table className="table table-bordered" style={{ marginTop: "10px" }}>
+        <thead className="thead-light">
+          <tr>
+            <th style={{ width: "20%" }}>ストーリー</th>
+            <th style={{ width: "25%" }}>タスク</th>
+            <th style={{ width: "27%" }}>進行中</th>
+            <th style={{ width: "28%" }}>完了</th>
+          </tr>
+        </thead>
+        <tbody>
+          <DragDropContext onDragEnd={onDragEnd}>
+            {stories ?
+              Array.from(stories.values()).map(story => (
+                <TaskBoardStoryRow story={story} key={story.storyId} />
+              ))
+              : null}
+          </DragDropContext>
+        </tbody>
+      </table>
+    </Fragment>
+  )
+})
