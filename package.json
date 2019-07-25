@@ -1,5 +1,11 @@
 {
   "name": "simple-task-board",
+  "description": "very simple kanban-like task board",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/nagaitakeyuki/simple_task_board.git"
+  },
+  "license" : "MIT",
   "dependencies": {
     "axios": "0.17.1",
     "history": "4.7.2",
