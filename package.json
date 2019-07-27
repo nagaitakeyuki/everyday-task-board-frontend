@@ -3,7 +3,7 @@
   "description": "kanban-like task board for everyday and everyone",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/nagaitakeyuki/simple_task_board.git"
+    "url": "git+ssh://git@github.com/nagaitakeyuki/everyday-task-board-frontend.git"
   },
   "license": "MIT",
   "dependencies": {
