@@ -19,5 +19,33 @@ export default {
   changeTaskStatus: payload => ({
     type: Types.CHANGE_TASK_STATUS,
     payload
+  }),
+
+  setTaskStatus: payload => ({
+    type: Types.SET_TASK_STATUS,
+    payload
+  }),
+
+  openTaskAdd: payload => ({
+    type: Types.OPEN_TASK_ADD,
+    payload
+  }),
+
+  closeTaskAdd: payload => ({
+    type: Types.CLOSE_TASK_ADD,
+    payload
+  }),
+
+  addTasks: payload => ({
+    type: Types.ADD_TASKS,
+    payload
+  }),
+
+  setAddedTasks: payload => ({
+    type: Types.SET_ADDED_TASKS,
+    payload
   })
+
+
+
 }

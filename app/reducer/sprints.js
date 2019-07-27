@@ -1,8 +1,32 @@
+import uuid from 'uuid'
+
 import Types from '../utils/types'
 
 const initState = {
   sprints: new Map(),
   currentSprint: undefined
+}
+
+const copySprintsMap = srcSprintsMap => {
+  const copiedSprintsMap = new Map()
+
+  for (const [srcSprintId, srcSprint] of srcSprintsMap.entries()) {
+    const copiedStories = new Map()
+
+    for (const [srcStoryId, srcStory] of srcSprint.stories.entries()) {
+      const copiedTasks = new Map()
+
+      for (const [srcTaskId, srcTask] of srcStory.tasks.entries()) {
+        copiedTasks.set(srcTaskId, {...srcTask})
+      }
+
+      copiedStories.set(srcStoryId, {...srcStory, tasks: copiedTasks})
+    }
+
+    copiedSprintsMap.set(srcSprintId, {...srcSprint, stories: copiedStories})
+  }
+
+  return copiedSprintsMap
 }
 
 export default (state = initState, action) => {
@@ -44,18 +68,32 @@ export default (state = initState, action) => {
 
       return {...state, currentSprint: state.sprints.get(sprintId)}
     }
-    case Types.CHANGE_TASK_STATUS: {
+    case Types.SET_TASK_STATUS: {
       const { sprintId, storyId, taskId, newStatus } = action.payload
 
-      state
-        .sprints.get(sprintId)
+      const copiedSprints = copySprintsMap(state.sprints)
+
+      copiedSprints.get(sprintId)
         .stories.get(storyId)
         .tasks.get(taskId).taskStatus = newStatus
       
-      return { ...state }
+      return { sprints: copiedSprints, currentSprint: copiedSprints.get(sprintId)}
       
     }
-    default:
+    case Types.SET_ADDED_TASKS: {
+      const { sprintId, storyId, newTasks } = action.payload
+      
+      const copiedSprints = copySprintsMap(state.sprints)
+
+      const tasks = copiedSprints.get(sprintId)
+                          .stories.get(storyId)
+                          .tasks
+
+      newTasks.forEach(newTask => {tasks.set(newTask.taskId, newTask)});
+
+      return { sprints: copiedSprints, currentSprint: copiedSprints.get(sprintId)}
+      
+    } default:
       return state
   }
 }
