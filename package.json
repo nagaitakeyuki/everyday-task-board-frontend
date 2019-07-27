@@ -1,6 +1,6 @@
 {
-  "name": "simple-task-board",
-  "description": "very simple kanban-like task board",
+  "name": "everyday-task-board-frontend",
+  "description": "kanban-like task board for everyday and everyone",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/nagaitakeyuki/simple_task_board.git"
