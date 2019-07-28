@@ -6,7 +6,7 @@ import { Droppable } from 'react-beautiful-dnd'
 import Task from './task'
 
 
-export default connect()(({ statusOfCell, story, dispatch }) =>
+export default connect()(({ statusOfCell, story }) =>
   (
     <Fragment> 
       <Droppable

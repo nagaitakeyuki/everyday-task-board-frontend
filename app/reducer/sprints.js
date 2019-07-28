@@ -1,5 +1,3 @@
-import uuid from 'uuid'
-
 import Types from '../utils/types'
 
 const initState = {
