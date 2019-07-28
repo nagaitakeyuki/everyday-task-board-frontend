@@ -63,6 +63,23 @@ export default (state = initState, action) => {
 
       return { ...state, sprints: sprintsMap }
     }
+    case Types.CHANGE_TASK_STATUS: {
+      /*
+      DBへの永続化が完了する前に、先行して新ステータスをstateに反映させる。
+      先行して反映させないと、タスクのオブジェクトが旧ステータスの位置に一瞬だけ戻ってしまう。
+      */
+
+      const { sprintId, storyId, taskId, newStatus } = action.payload
+
+      const copiedSprints = copySprintsMap(state.sprints)
+
+      copiedSprints.get(sprintId)
+        .stories.get(storyId)
+        .tasks.get(taskId).taskStatus = newStatus
+      
+      return { sprints: copiedSprints, currentSprint: copiedSprints.get(sprintId)}
+      
+    }
     case Types.SWITCH_SPRINT: {
       const { sprintId } = action.payload
 
