@@ -10,16 +10,22 @@ export default connect()(({ statusOfCell, story }) =>
   (
     <Fragment> 
       <Droppable
-        droppableId={story.baseSprintId + "#" + story.storyId + "#" + statusOfCell}>
+        droppableId={story.baseSprintId + "#" + story.storyId + "#" + statusOfCell}
+        direction="horizontal">
         
         {provided => (
-          <td
+          <td 
             ref={provided.innerRef}
             {...provided.droppableProps}>
               {story.tasks ?
-                Array.from(story.tasks.values())
+              <div style={{display: "flex"}}>
+                {Array.from(story.tasks.values())
                   .filter(task => task.taskStatus === statusOfCell)
-                .map((task, index) => (<div key={task.taskId + task.taskStatus}><Task task={task} index={index} status={statusOfCell} /></div>))
+                  .sort((a, b) => a.sortIndex - b.sortIndex)
+                  .map(task => (
+                        <Task task={task} status={statusOfCell} key={task.taskId + task.taskStatus}/>
+                      ))}
+              </div>
                 : null
               }
             {provided.placeholder}

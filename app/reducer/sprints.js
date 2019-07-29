@@ -61,37 +61,80 @@ export default (state = initState, action) => {
 
       return { ...state, sprints: sprintsMap }
     }
-    case Types.CHANGE_TASK_STATUS: {
-      /*
-      DBへの永続化が完了する前に、先行して新ステータスをstateに反映させる。
-      先行して反映させないと、タスクのオブジェクトが旧ステータスの位置に一瞬だけ戻ってしまう。
-      */
-
-      const { sprintId, storyId, taskId, newStatus } = action.payload
-
-      const copiedSprints = copySprintsMap(state.sprints)
-
-      copiedSprints.get(sprintId)
-        .stories.get(storyId)
-        .tasks.get(taskId).taskStatus = newStatus
-      
-      return { sprints: copiedSprints, currentSprint: copiedSprints.get(sprintId)}
-      
-    }
     case Types.SWITCH_SPRINT: {
       const { sprintId } = action.payload
 
       return {...state, currentSprint: state.sprints.get(sprintId)}
     }
-    case Types.SET_TASK_STATUS: {
-      const { sprintId, storyId, taskId, newStatus } = action.payload
+    case Types.CHANGE_SORT_ORDER: {
+      // CHANGE_TASK_STATUSと同様の理由で、DBへの永続化が完了する前に、先行して新しいソート順をstateに反映させる。
+      const { sprintId, storyId, taskId, newIndex } = action.payload
 
       const copiedSprints = copySprintsMap(state.sprints)
 
-      copiedSprints.get(sprintId)
-        .stories.get(storyId)
-        .tasks.get(taskId).taskStatus = newStatus
+      const tasks = copiedSprints.get(sprintId).stories.get(storyId).tasks
+
+      // 現在のステータス
+      const currentStatus = tasks.get(taskId).taskStatus
+
+      // 新たな表示位置を指定
+      tasks.get(taskId).sortIndex = newIndex
+
+      // タスク順を再設定する
+      Array.from(tasks.values())
+        .filter(task => task.taskStatus === currentStatus)
+        .sort((a, b) => {
+          // ユーザーにより変更されたタスクを優先的に前に並べる
+          if(a.sortIndex === b.sortIndex && a.taskId === taskId) return -1;
+          
+          // その他の場合は単純に昇順に並べる
+          return a.sortIndex - b.sortIndex
+        })
+        .forEach((task, index) => (task.sortIndex = index))
+
+      return { sprints: copiedSprints, currentSprint: copiedSprints.get(sprintId)}
+    }
+    case Types.CHANGE_TASK_STATUS: {
+      // TODO: 新ステータスやソート順の反映をAPIだけで実現できないか。APIとフロントエンドで重複した処理ができている。
+
+      /*
+      DBへの永続化が完了する前に、先行して新ステータスをstateに反映させる。
+      先行して反映させないと、タスクのオブジェクトが旧ステータスの位置に一瞬だけ戻ってしまう。
+      */
+      const { sprintId, storyId, taskId, newStatus, newIndex } = action.payload
+
+      const copiedSprints = copySprintsMap(state.sprints)
+
+      const tasks = copiedSprints.get(sprintId).stories.get(storyId).tasks
+
+      const oldStatus = tasks.get(taskId).taskStatus
+
+      // ステータス変更
+      tasks.get(taskId).taskStatus = newStatus
+
+      // 新ステータスでの表示位置を指定
+      tasks.get(taskId).sortIndex = newIndex
+
+      // ステータスごとにタスク順を再設定する
+      // 　1. 変更前のステータス
+      // 　　　　ステータス変更されたタスクが無くなると、抜け番ができる。その抜け番を詰める。
+      Array.from(tasks.values())
+        .filter(task => task.taskStatus === oldStatus)
+        .sort((a, b) => a.sortIndex - b.sortIndex)
+        .forEach((task, index) => (task.sortIndex = index))
       
+      // 　2. 変更後のステータス
+      Array.from(tasks.values())
+        .filter(task => task.taskStatus === newStatus)
+        .sort((a, b) => {
+          // ステータス変更されたタスクを優先的に前に並べる
+          if(a.sortIndex === b.sortIndex && a.taskId === taskId) return -1;
+          
+          // その他の場合は単純に昇順に並べる
+          return a.sortIndex - b.sortIndex
+        })
+        .forEach((task, index) => (task.sortIndex = index))
+
       return { sprints: copiedSprints, currentSprint: copiedSprints.get(sprintId)}
       
     }

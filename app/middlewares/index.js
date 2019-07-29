@@ -12,11 +12,17 @@ export default store => next => action => {
     })()
   }
 
+  if (action.type === Types.CHANGE_SORT_ORDER) {
+    ; (async () => {
+      // TODO: エラーハンドリング
+      await API.sprints.post(action.payload, "/taskSortIndex")
+    })()
+  }
+
   if (action.type === Types.CHANGE_TASK_STATUS) {
     ; (async () => {
       // TODO: エラーハンドリング
       await API.sprints.post(action.payload, "/taskStatus")
-      dispatch(Actions.setTaskStatus(action.payload))
     })()
   }
 
@@ -24,6 +30,7 @@ export default store => next => action => {
     ; (async () => {
       // TODO: エラーハンドリング
       const response =  await API.sprints.post(action.payload, "/tasks")
+
       dispatch(Actions.setAddedTasks({...action.payload, newTasks : response.newTasks}))
     })()
   }

@@ -16,8 +16,23 @@ export default {
     payload
   }),
 
+  changeSortOrder: payload => ({
+    type: Types.CHANGE_SORT_ORDER,
+    payload
+  }),
+
+  setSortOrder: payload => ({
+    type: Types.SET_SORT_ORDER,
+    payload
+  }),
+
   changeTaskStatus: payload => ({
     type: Types.CHANGE_TASK_STATUS,
+    payload
+  }),
+
+  setTaskStatus: payload => ({
+    type: Types.SET_TASK_STATUS,
     payload
   }),
 

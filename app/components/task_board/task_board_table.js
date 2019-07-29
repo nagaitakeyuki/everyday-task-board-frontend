@@ -14,10 +14,21 @@ export default connect()(({ stories, dispatch }) => {
     if (!destination
       || (destination.droppableId === source.droppableId && destination.index === source.index)) return
     
-    const [sprintId, storyId, newStatus] = destination.droppableId.split("#")
-    
-    dispatch(Actions.changeTaskStatus(
-      { sprintId, storyId, taskId: draggableId, newStatus }))
+    const isStatusChanged = destination.droppableId !== source.droppableId
+    if (isStatusChanged) {
+      const [sprintId, storyId, newStatus] = destination.droppableId.split("#")
+  
+      dispatch(Actions.changeTaskStatus(
+        { sprintId, storyId, taskId: draggableId, newStatus, newIndex: destination.index }))
+    }
+
+    const isSortOrderChanged = destination.index !== source.index
+    if (isSortOrderChanged) {
+      const [sprintId, storyId] = destination.droppableId.split("#")
+
+      dispatch(Actions.changeSortOrder(
+        { sprintId, storyId, taskId: draggableId, newIndex: destination.index }))
+    }
   }
 
   return (
