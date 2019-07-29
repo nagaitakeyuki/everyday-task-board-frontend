@@ -20,6 +20,10 @@ export default connect(state => (
 
   let tasksEl
 
+  const autofocus = () => {
+    tasksEl.focus()
+  }
+
   const addTasks = () => {
     const taskNames = tasksEl.value.split("\n")
     dispatch(Actions.addTasks({sprintId: story.baseSprintId, storyId : story.storyId, taskNames}))
@@ -39,6 +43,7 @@ export default connect(state => (
           <ReactModal 
             isOpen={taskAddOpening.sprintId === story.baseSprintId
                && taskAddOpening.storyId === story.storyId}
+            onAfterOpen={autofocus}
             onRequestClose={closeTaskAdd}
             style={{content: {marginLeft: "auto", marginRight: "auto",  width: "600px", height: "400px"}}}>
 
@@ -48,7 +53,7 @@ export default connect(state => (
 
             <p>{story.storyName} </p>
               <div className="form-group">
-                  <textarea name="tasks" rows="10" className="form-control" ref={el => tasksEl = el}/>
+                  <textarea name="tasks" rows="10" className="form-control" ref={el => tasksEl = el }/>
               </div>
               <div className="form-actions clearfix">
                   <button type="button" className="btn btn-secondary float-right" onClick={() => addTasks()}>登録</button>
