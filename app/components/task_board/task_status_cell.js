@@ -18,7 +18,7 @@ export default connect()(({ statusOfCell, story }) =>
             ref={provided.innerRef}
             {...provided.droppableProps}>
               {story.tasks ?
-              <div style={{display: "flex"}}>
+              <div style={{display: "flex", flexWrap: "wrap"}}>
                 {Array.from(story.tasks.values())
                   .filter(task => task.taskStatus === statusOfCell)
                   .sort((a, b) => a.sortIndex - b.sortIndex)
