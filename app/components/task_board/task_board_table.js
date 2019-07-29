@@ -11,23 +11,35 @@ export default connect()(({ stories, dispatch }) => {
   const onDragEnd = result => {
     const { destination, source, draggableId } = result
 
-    if (!destination
-      || (destination.droppableId === source.droppableId && destination.index === source.index)) return
+    const isUnvalidDrop = !destination ||
+                         (destination.droppableId === source.droppableId
+                           && destination.index === source.index)
+
+    if (isUnvalidDrop) return
     
     const isStatusChanged = destination.droppableId !== source.droppableId
     if (isStatusChanged) {
       const [sprintId, storyId, newStatus] = destination.droppableId.split("#")
   
-      dispatch(Actions.changeTaskStatus(
-        { sprintId, storyId, taskId: draggableId, newStatus, newIndex: destination.index }))
+      dispatch(Actions.changeTaskStatus({ sprintId,
+                                          storyId,
+                                          taskId: draggableId,
+                                          newStatus,
+                                          newIndex: destination.index }))
+      
+      return
     }
 
     const isSortOrderChanged = destination.index !== source.index
     if (isSortOrderChanged) {
       const [sprintId, storyId] = destination.droppableId.split("#")
 
-      dispatch(Actions.changeSortOrder(
-        { sprintId, storyId, taskId: draggableId, newIndex: destination.index }))
+      dispatch(Actions.changeSortOrder({ sprintId,
+                                         storyId,
+                                         taskId: draggableId,
+                                         newIndex: destination.index }))
+
+      return
     }
   }
 
