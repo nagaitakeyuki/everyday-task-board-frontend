@@ -5,7 +5,7 @@ import { Draggable } from 'react-beautiful-dnd'
 export default ({ task }) =>
   (
     <Draggable
-      draggableId={task.taskId} index={task.sortIndex}>
+      draggableId={task.taskId} index={task.sortOrder}>
       
       {provided => (
         <div

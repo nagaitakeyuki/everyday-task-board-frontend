@@ -21,7 +21,7 @@ export default connect()(({ statusOfCell, story }) =>
               <div style={{display: "flex", flexWrap: "wrap"}}>
                 {Array.from(story.tasks.values())
                   .filter(task => task.taskStatus === statusOfCell)
-                  .sort((a, b) => a.sortIndex - b.sortIndex)
+                  .sort((a, b) => a.sortOrder - b.sortOrder)
                   .map(task => (
                         <Task task={task} status={statusOfCell} key={task.taskId + task.taskStatus}/>
                       ))}

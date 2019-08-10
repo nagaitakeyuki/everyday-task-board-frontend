@@ -15,7 +15,7 @@ export default store => next => action => {
   if (action.type === Types.CHANGE_SORT_ORDER) {
     ; (async () => {
       // TODO: エラーハンドリング
-      await API.sprints.post(action.payload, "/taskSortIndex")
+      await API.sprints.post(action.payload, "/taskSortOrder")
     })()
   }
 

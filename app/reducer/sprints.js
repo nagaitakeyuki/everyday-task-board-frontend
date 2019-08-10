@@ -2,6 +2,7 @@ import Types from '../utils/types'
 
 const initState = {
   sprints: new Map(),
+  backlogCategories: new Map(),
   currentSprint: undefined
 }
 
@@ -59,7 +60,36 @@ export default (state = initState, action) => {
 
       }
 
-      return { ...state, sprints: sprintsMap }
+      const { backlogCategories } = action.payload
+
+      const backlogCategoriesMap = new Map()
+
+      for (const backlogCategoryId in backlogCategories) {
+        const backlogCategory = backlogCategories[backlogCategoryId]
+        backlogCategoriesMap.set(backlogCategoryId, backlogCategory)
+
+        const storiesMap = new Map()
+
+        for (const storyId in backlogCategory.stories) {
+          const story = backlogCategory.stories[storyId]
+          storiesMap.set(storyId, story)
+
+          const tasksMap = new Map()
+
+          for (const taskId in story.tasks) {
+            const task = story.tasks[taskId]
+            tasksMap.set(taskId, task)
+
+          }
+
+          story.tasks = tasksMap
+        }
+
+        backlogCategory.stories = storiesMap
+
+      }
+
+      return { ...state, sprints: sprintsMap, backlogCategories: backlogCategoriesMap }
     }
     case Types.SWITCH_SPRINT: {
       const { sprintId } = action.payload
@@ -78,19 +108,19 @@ export default (state = initState, action) => {
       const currentStatus = tasks.get(taskId).taskStatus
 
       // 新たな表示位置を指定
-      tasks.get(taskId).sortIndex = newIndex
+      tasks.get(taskId).sortOrder = newIndex
 
       // タスク順を再設定する
       Array.from(tasks.values())
         .filter(task => task.taskStatus === currentStatus)
         .sort((a, b) => {
           // ユーザーにより変更されたタスクを優先的に前に並べる
-          if(a.sortIndex === b.sortIndex && a.taskId === taskId) return -1;
+          if(a.sortOrder === b.sortOrder && a.taskId === taskId) return -1;
           
           // その他の場合は単純に昇順に並べる
-          return a.sortIndex - b.sortIndex
+          return a.sortOrder - b.sortOrder
         })
-        .forEach((task, index) => (task.sortIndex = index))
+        .forEach((task, index) => (task.sortOrder = index))
 
       return { sprints: copiedSprints, currentSprint: copiedSprints.get(sprintId)}
     }
@@ -113,27 +143,27 @@ export default (state = initState, action) => {
       tasks.get(taskId).taskStatus = newStatus
 
       // 新ステータスでの表示位置を指定
-      tasks.get(taskId).sortIndex = newIndex
+      tasks.get(taskId).sortOrder = newIndex
 
       // ステータスごとにタスク順を再設定する
       // 　1. 変更前のステータス
       // 　　　　ステータス変更されたタスクが無くなると、抜け番ができる。その抜け番を詰める。
       Array.from(tasks.values())
         .filter(task => task.taskStatus === oldStatus)
-        .sort((a, b) => a.sortIndex - b.sortIndex)
-        .forEach((task, index) => (task.sortIndex = index))
+        .sort((a, b) => a.sortOrder - b.sortOrder)
+        .forEach((task, index) => (task.sortOrder = index))
       
       // 　2. 変更後のステータス
       Array.from(tasks.values())
         .filter(task => task.taskStatus === newStatus)
         .sort((a, b) => {
           // ステータス変更されたタスクを優先的に前に並べる
-          if(a.sortIndex === b.sortIndex && a.taskId === taskId) return -1;
+          if(a.sortOrder === b.sortOrder && a.taskId === taskId) return -1;
           
           // その他の場合は単純に昇順に並べる
-          return a.sortIndex - b.sortIndex
+          return a.sortOrder - b.sortOrder
         })
-        .forEach((task, index) => (task.sortIndex = index))
+        .forEach((task, index) => (task.sortOrder = index))
 
       return { sprints: copiedSprints, currentSprint: copiedSprints.get(sprintId)}
       

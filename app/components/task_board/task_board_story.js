@@ -1,6 +1,6 @@
 import React, {Fragment} from 'react'
 import { connect } from 'react-redux'
-import ReactModal from 'react-modal';
+import ReactModal from 'react-modal'
 
 import Actions from '../../actions'
 

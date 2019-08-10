@@ -41,6 +41,16 @@ export default {
     payload
   }),
 
+  openSprintAdd: payload => ({
+    type: Types.OPEN_SPRINT_ADD,
+    payload
+  }),
+
+  closeSprintAdd: payload => ({
+    type: Types.CLOSE_SPRINT_ADD,
+    payload
+  }),
+
   openTaskAdd: payload => ({
     type: Types.OPEN_TASK_ADD,
     payload
@@ -48,6 +58,11 @@ export default {
 
   closeTaskAdd: payload => ({
     type: Types.CLOSE_TASK_ADD,
+    payload
+  }),
+
+  addSprint: payload => ({
+    type: Types.ADD_SPRINT,
     payload
   }),
 
