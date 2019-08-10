@@ -5,6 +5,7 @@ import {connect} from 'react-redux'
 
 import Actions from '../../actions'
 
+// TODO: 最終的には削除する
 export default connect(state => {
   return {
     sprints: state.sprint.sprints,
