@@ -1,7 +1,6 @@
 import Types from '../utils/types'
 
 const initState = {
-  isSprintAddOpening : false,
   taskAddOpening : {sprintId: undefined, storyId: undefined}
 }
 
