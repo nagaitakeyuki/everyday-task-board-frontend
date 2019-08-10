@@ -11,6 +11,16 @@ export default {
     payload
   }),
   
+  addStory: payload => ({
+    type: Types.ADD_STORY,
+    payload
+  }),
+
+  setStory: payload => ({
+    type: Types.SET_STORY,
+    payload
+  }),
+
   swithSprint: payload => ({
     type: Types.SWITCH_SPRINT,
     payload

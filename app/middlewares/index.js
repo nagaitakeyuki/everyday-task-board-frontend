@@ -12,6 +12,14 @@ export default store => next => action => {
     })()
   }
 
+  if (action.type === Types.ADD_STORY) {
+    ; (async () => {
+      // TODO: エラーハンドリング
+      const newStory = await API.sprints.post(action.payload, "/storyBelongingToSprint")
+      dispatch(Actions.setStory({...action.payload, newStory}))
+    })()
+  }
+
   if (action.type === Types.CHANGE_SORT_ORDER) {
     ; (async () => {
       // TODO: エラーハンドリング

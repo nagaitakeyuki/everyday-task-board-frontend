@@ -91,6 +91,15 @@ export default (state = initState, action) => {
 
       return { ...state, sprints: sprintsMap, backlogCategories: backlogCategoriesMap }
     }
+    case Types.SET_STORY: {
+      const { sprintId, newStory } = action.payload
+      
+      const copiedSprints = copySprintsMap(state.sprints)
+
+      copiedSprints.get(sprintId).stories.set(newStory.storyId, newStory)
+
+      return { ...state, sprints: copiedSprints}
+    }
     case Types.SWITCH_SPRINT: {
       const { sprintId } = action.payload
 
