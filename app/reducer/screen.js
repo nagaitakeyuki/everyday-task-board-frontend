@@ -7,12 +7,6 @@ const initState = {
 
 export default (state = initState, action) => {
   switch (action.type) {
-    case Types.OPEN_SPRINT_ADD: {
-      return { ...state, isSprintAddOpening: true }
-    }
-    case Types.CLOSE_SPRINT_ADD: {
-      return { ...state, isSprintAddOpening: false }
-    }
     case Types.OPEN_TASK_ADD: {
       const { sprintId, storyId } = action.payload
       return { ...state, taskAddOpening: {sprintId, storyId} }
