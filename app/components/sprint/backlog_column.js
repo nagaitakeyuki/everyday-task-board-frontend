@@ -12,8 +12,10 @@ export default ({backlogCategories}) => (
     {backlogCategories.size > 0 ? (
         <Fragment >
           {
-            Array.from(backlogCategories.values()).map(backlogCategory => (
-              <BacklogCategory backlogCategory={backlogCategory} key={backlogCategory.backlogCategoryId}/>
+            Array.from(backlogCategories.values())
+              .sort((a, b) => a.sortOrder - b.sortOrder)
+              .map(backlogCategory => (
+                <BacklogCategory backlogCategory={backlogCategory} key={backlogCategory.backlogCategoryId}/>
             ))
           }
         </Fragment>

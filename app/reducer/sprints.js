@@ -28,6 +28,28 @@ const copySprintsMap = srcSprintsMap => {
   return copiedSprintsMap
 }
 
+const copyBacklogCategoriesMap = srcBacklogCategoriesMap => {
+  const copiedBacklogCategoriesMap = new Map()
+
+  for (const [srcBacklogCategoryId, srcBacklogCategory] of srcBacklogCategoriesMap.entries()) {
+    const copiedStories = new Map()
+
+    for (const [srcStoryId, srcStory] of srcBacklogCategory.stories.entries()) {
+      const copiedTasks = new Map()
+
+      for (const [srcTaskId, srcTask] of srcStory.tasks.entries()) {
+        copiedTasks.set(srcTaskId, {...srcTask})
+      }
+
+      copiedStories.set(srcStoryId, {...srcStory, tasks: copiedTasks})
+    }
+
+    copiedBacklogCategoriesMap.set(srcBacklogCategoryId, {...srcBacklogCategory, stories: copiedStories})
+  }
+
+  return copiedBacklogCategoriesMap
+}
+
 export default (state = initState, action) => {
   switch (action.type) {
     case Types.SET_SPRINTS: {
@@ -114,6 +136,18 @@ export default (state = initState, action) => {
       copiedSprints.get(sprintId).stories.set(newStory.storyId, newStory)
 
       return { ...state, sprints: copiedSprints}
+    }
+    case Types.SET_STORY_TO_BACKLOGCATEGORY: {
+      const { backlogCategoryId, newStory } = action.payload
+
+      // copySprintsMap()のために、空のMapを初期設定する
+      newStory.tasks = new Map()
+      
+      const copiedBacklogCategories = copyBacklogCategoriesMap(state.backlogCategories)
+
+      copiedBacklogCategories.get(backlogCategoryId).stories.set(newStory.storyId, newStory)
+
+      return { ...state, backlogCategories: copiedBacklogCategories}
     }
     case Types.SWITCH_SPRINT: {
       const { sprintId } = action.payload

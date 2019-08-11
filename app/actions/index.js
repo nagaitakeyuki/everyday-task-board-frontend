@@ -31,6 +31,16 @@ export default {
     payload
   }),
 
+  addStoryToBacklogCategory: payload => ({
+    type: Types.ADD_STORY_TO_BACKLOGCATEGORY,
+    payload
+  }),
+
+  setStoryToBacklogCategory: payload => ({
+    type: Types.SET_STORY_TO_BACKLOGCATEGORY,
+    payload
+  }),
+
   swithSprint: payload => ({
     type: Types.SWITCH_SPRINT,
     payload

@@ -28,6 +28,14 @@ export default store => next => action => {
     })()
   }
 
+  if (action.type === Types.ADD_STORY_TO_BACKLOGCATEGORY) {
+    ; (async () => {
+      // TODO: エラーハンドリング
+      const newStory = await API.sprints.post(action.payload, "/storyBelongingToBacklogCategory")
+      dispatch(Actions.setStoryToBacklogCategory({...action.payload, newStory}))
+    })()
+  }
+
   if (action.type === Types.CHANGE_SORT_ORDER) {
     ; (async () => {
       // TODO: エラーハンドリング
