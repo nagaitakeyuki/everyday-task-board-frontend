@@ -40,10 +40,12 @@ class Sprint extends Component {
           <span style={{position: "absolute", right: "5px"}}>2019/7/14 〜 2019/7/28</span>
         </div>
     
-        {sprint.stories ?
-            Array.from(sprint.stories.values()).map(story => (
-              <Story story={story} key={story.storyId} />
-            ))
+        {sprint.stories.size > 0 ?
+            Array.from(sprint.stories.values())
+              .sort((a, b) => a.sortOrder - b.sortOrder)
+              .map(story => (
+                <Story story={story} key={story.storyId} />
+              ))
             : null}
     
         <ReactModal 

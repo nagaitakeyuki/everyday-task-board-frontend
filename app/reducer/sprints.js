@@ -91,8 +91,23 @@ export default (state = initState, action) => {
 
       return { ...state, sprints: sprintsMap, backlogCategories: backlogCategoriesMap }
     }
+    case Types.SET_NEW_SPRINT: {
+      const { newSprint } = action.payload
+
+      // copySprintsMap()のために、空のMapを初期設定する
+      newSprint.stories = new Map()
+      
+      const copiedSprints = copySprintsMap(state.sprints)
+
+      copiedSprints.set(newSprint.sprintId, newSprint)
+
+      return { ...state, sprints: copiedSprints}
+    }
     case Types.SET_STORY: {
       const { sprintId, newStory } = action.payload
+
+      // copySprintsMap()のために、空のMapを初期設定する
+      newStory.tasks = new Map()
       
       const copiedSprints = copySprintsMap(state.sprints)
 
@@ -131,7 +146,7 @@ export default (state = initState, action) => {
         })
         .forEach((task, index) => (task.sortOrder = index))
 
-      return { sprints: copiedSprints, currentSprint: copiedSprints.get(sprintId)}
+      return { ...state, sprints: copiedSprints, currentSprint: copiedSprints.get(sprintId)}
     }
     case Types.CHANGE_TASK_STATUS: {
       // TODO: 新ステータスやソート順の反映をAPIだけで実現できないか。APIとフロントエンドで重複した処理ができている。
@@ -174,7 +189,7 @@ export default (state = initState, action) => {
         })
         .forEach((task, index) => (task.sortOrder = index))
 
-      return { sprints: copiedSprints, currentSprint: copiedSprints.get(sprintId)}
+      return { ...state, sprints: copiedSprints, currentSprint: copiedSprints.get(sprintId)}
       
     }
     case Types.SET_ADDED_TASKS: {
@@ -188,7 +203,7 @@ export default (state = initState, action) => {
 
       newTasks.forEach(newTask => {tasks.set(newTask.taskId, newTask)});
 
-      return { sprints: copiedSprints, currentSprint: copiedSprints.get(sprintId)}
+      return { ...state, sprints: copiedSprints, currentSprint: copiedSprints.get(sprintId)}
       
     } default:
       return state
