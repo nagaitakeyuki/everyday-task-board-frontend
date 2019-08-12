@@ -14,7 +14,6 @@ export default store => next => action => {
 
   if (action.type === Types.ADD_SPRINT) {
     ; (async () => {
-      // TODO: エラーハンドリング
       const newSprint = await API.sprints.post(action.payload, "/sprint")
       dispatch(Actions.setNewSprint({...action.payload, newSprint}))
     })()
@@ -22,7 +21,6 @@ export default store => next => action => {
 
   if (action.type === Types.ADD_BACKLOG_CATEGORY) {
     ; (async () => {
-      // TODO: エラーハンドリング
       const newBacklogCategory = await API.sprints.post(action.payload, "/backlogCategory")
       dispatch(Actions.setNewBacklogCategory({...action.payload, newBacklogCategory}))
     })()
@@ -30,7 +28,6 @@ export default store => next => action => {
 
   if (action.type === Types.ADD_STORY) {
     ; (async () => {
-      // TODO: エラーハンドリング
       const newStory = await API.sprints.post(action.payload, "/storyBelongingToSprint")
       dispatch(Actions.setStory({...action.payload, newStory}))
     })()
@@ -38,29 +35,31 @@ export default store => next => action => {
 
   if (action.type === Types.ADD_STORY_TO_BACKLOGCATEGORY) {
     ; (async () => {
-      // TODO: エラーハンドリング
       const newStory = await API.sprints.post(action.payload, "/storyBelongingToBacklogCategory")
       dispatch(Actions.setStoryToBacklogCategory({...action.payload, newStory}))
     })()
   }
 
+  if (action.type === Types.CHANGE_STORY_BELONGING) {
+    ; (async () => {
+      await API.sprints.post(action.payload, "/storyBelonging")
+    })()
+  }
+
   if (action.type === Types.CHANGE_SORT_ORDER) {
     ; (async () => {
-      // TODO: エラーハンドリング
       await API.sprints.post(action.payload, "/taskSortOrder")
     })()
   }
 
   if (action.type === Types.CHANGE_TASK_STATUS) {
     ; (async () => {
-      // TODO: エラーハンドリング
       await API.sprints.post(action.payload, "/taskStatus")
     })()
   }
 
   if (action.type === Types.ADD_TASKS) {
     ; (async () => {
-      // TODO: エラーハンドリング
       const response =  await API.sprints.post(action.payload, "/tasks")
 
       dispatch(Actions.setAddedTasks({...action.payload, newTasks : response.newTasks}))

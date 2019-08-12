@@ -41,6 +41,11 @@ export default {
     payload
   }),
 
+  changeStoryBelonging: payload => ({
+    type: Types.CHANGE_STORY_BELONGING,
+    payload
+  }),
+
   swithSprint: payload => ({
     type: Types.SWITCH_SPRINT,
     payload

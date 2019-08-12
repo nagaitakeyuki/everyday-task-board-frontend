@@ -161,6 +161,43 @@ export default (state = initState, action) => {
 
       return { ...state, backlogCategories: copiedBacklogCategories}
     }
+    case Types.CHANGE_STORY_BELONGING: {
+      const { sourceId, destinationId, storyId, newIndex } = action.payload
+
+      const copiedSprints = copySprintsMap(state.sprints)
+      const copiedBacklogCategories = copyBacklogCategoriesMap(state.backlogCategories)
+
+      const srcSideCopy = sourceId.startsWith("backlogCategory") ? copiedBacklogCategories : copiedSprints
+      const destSideCopy = destinationId.startsWith("backlogCategory") ? copiedBacklogCategories : copiedSprints
+
+      const src = srcSideCopy.get(sourceId)
+      const dest = destSideCopy.get(destinationId)
+
+      const changedStory = src.stories.get(storyId)
+      changedStory.sortOrder = newIndex
+      dest.stories.set(changedStory.storyId, changedStory)
+      src.stories.delete(storyId)
+
+      // 表示順を再設定する
+      // 　1. 移動元のスプリント or バックログカテゴリーのストーリー群。移動されたストーリー分の抜け番ができる。その抜け番を詰める。
+      Array.from(src.stories.values())
+            .sort((a, b) => a.sortOrder - b.sortOrder)
+            .forEach((story, index) => (story.sortOrder = index))
+
+      // 　2. 移動先のスプリント or バックログカテゴリーのストーリー群
+      Array.from(dest.stories.values())
+        .sort((a, b) => {
+          // ステータス変更されたタスクを優先的に前に並べる
+          if(a.sortOrder === b.sortOrder && a.storyId === storyId) return -1;
+          
+          // その他の場合は単純に昇順に並べる
+          return a.sortOrder - b.sortOrder
+        })
+        .forEach((story, index) => (story.sortOrder = index))
+
+      return { ...state, sprints: copiedSprints, backlogCategories: copiedBacklogCategories}
+      
+    }
     case Types.SWITCH_SPRINT: {
       const { sprintId } = action.payload
 

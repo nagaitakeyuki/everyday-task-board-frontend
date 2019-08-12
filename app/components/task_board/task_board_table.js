@@ -57,9 +57,11 @@ export default connect()(({ stories, dispatch }) => {
         <tbody>
           <DragDropContext onDragEnd={onDragEnd}>
             {stories ?
-              Array.from(stories.values()).map(story => (
-                <TaskBoardStoryRow story={story} key={story.storyId} />
-              ))
+              Array.from(stories.values())
+                .sort((a, b) => a.sortOrder - b.sortOrder)
+                .map(story => (
+                  <TaskBoardStoryRow story={story} key={story.storyId} />
+                ))
               : null}
           </DragDropContext>
         </tbody>
