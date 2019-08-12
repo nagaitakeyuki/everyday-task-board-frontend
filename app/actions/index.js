@@ -86,6 +86,16 @@ export default {
     payload
   }),
 
+  addBacklogCategory: payload => ({
+    type: Types.ADD_BACKLOG_CATEGORY,
+    payload
+  }),
+
+  setNewBacklogCategory: payload => ({
+    type: Types.SET_NEW_BACKLOG_CATEGORY,
+    payload
+  }),
+
   addTasks: payload => ({
     type: Types.ADD_TASKS,
     payload

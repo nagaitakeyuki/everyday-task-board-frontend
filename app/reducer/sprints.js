@@ -125,6 +125,18 @@ export default (state = initState, action) => {
 
       return { ...state, sprints: copiedSprints}
     }
+    case Types.SET_NEW_BACKLOG_CATEGORY: {
+      const { newBacklogCategory } = action.payload
+
+      // copySprintsMap()のために、空のMapを初期設定する
+      newBacklogCategory.stories = new Map()
+      
+      const copiedBacklogCategories = copySprintsMap(state.backlogCategories)
+
+      copiedBacklogCategories.set(newBacklogCategory.backlogCategoryId, newBacklogCategory)
+
+      return { ...state, backlogCategories: copiedBacklogCategories}
+    }
     case Types.SET_STORY: {
       const { sprintId, newStory } = action.payload
 

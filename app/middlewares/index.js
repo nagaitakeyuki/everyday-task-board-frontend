@@ -20,6 +20,14 @@ export default store => next => action => {
     })()
   }
 
+  if (action.type === Types.ADD_BACKLOG_CATEGORY) {
+    ; (async () => {
+      // TODO: エラーハンドリング
+      const newBacklogCategory = await API.sprints.post(action.payload, "/backlogCategory")
+      dispatch(Actions.setNewBacklogCategory({...action.payload, newBacklogCategory}))
+    })()
+  }
+
   if (action.type === Types.ADD_STORY) {
     ; (async () => {
       // TODO: エラーハンドリング
