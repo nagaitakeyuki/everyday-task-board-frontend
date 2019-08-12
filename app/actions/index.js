@@ -46,6 +46,11 @@ export default {
     payload
   }),
 
+  changeStorySortOrder: payload => ({
+    type: Types.CHANGE_STORY_SORT_ORDER,
+    payload
+  }),
+
   swithSprint: payload => ({
     type: Types.SWITCH_SPRINT,
     payload

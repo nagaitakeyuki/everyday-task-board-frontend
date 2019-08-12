@@ -46,6 +46,12 @@ export default store => next => action => {
     })()
   }
 
+  if (action.type === Types.CHANGE_STORY_SORT_ORDER) {
+    ; (async () => {
+      await API.sprints.post(action.payload, "/storySortOrder")
+    })()
+  }
+
   if (action.type === Types.CHANGE_SORT_ORDER) {
     ; (async () => {
       await API.sprints.post(action.payload, "/taskSortOrder")

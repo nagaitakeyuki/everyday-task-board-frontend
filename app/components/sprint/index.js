@@ -30,6 +30,16 @@ class SprintBacklog extends Component {
       
       return
     }
+
+    const isSortOrderChanged = destination.index !== source.index
+    if (isSortOrderChanged) {
+      this.props.dispatch(Actions.changeStorySortOrder({ sourceId: source.droppableId,
+                                                          storyId: draggableId,
+                                                          newIndex: destination.index }))
+
+      return
+    }
+    
   }
 
   render() {

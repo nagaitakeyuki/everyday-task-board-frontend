@@ -196,7 +196,32 @@ export default (state = initState, action) => {
         .forEach((story, index) => (story.sortOrder = index))
 
       return { ...state, sprints: copiedSprints, backlogCategories: copiedBacklogCategories}
-      
+    }
+    case Types.CHANGE_STORY_SORT_ORDER: {
+      const { sourceId, storyId, newIndex } = action.payload
+
+      const copiedSprints = copySprintsMap(state.sprints)
+      const copiedBacklogCategories = copyBacklogCategoriesMap(state.backlogCategories)
+
+      const srcSideCopy = sourceId.startsWith("backlogCategory") ? copiedBacklogCategories : copiedSprints
+
+      const src = srcSideCopy.get(sourceId)
+
+      const changedStory = src.stories.get(storyId)
+      changedStory.sortOrder = newIndex
+
+      // 表示順を再設定する
+      Array.from(src.stories.values())
+        .sort((a, b) => {
+          // ステータス変更されたタスクを優先的に前に並べる
+          if(a.sortOrder === b.sortOrder && a.storyId === storyId) return -1;
+          
+          // その他の場合は単純に昇順に並べる
+          return a.sortOrder - b.sortOrder
+        })
+        .forEach((story, index) => (story.sortOrder = index))
+
+      return { ...state, sprints: copiedSprints, backlogCategories: copiedBacklogCategories}
     }
     case Types.SWITCH_SPRINT: {
       const { sprintId } = action.payload
