@@ -188,7 +188,10 @@ export default (state = initState, action) => {
       Array.from(dest.stories.values())
         .sort((a, b) => {
           // ステータス変更されたタスクを優先的に前に並べる
-          if(a.sortOrder === b.sortOrder && a.storyId === storyId) return -1;
+          if(a.sortOrder === b.sortOrder) {
+            if (a.storyId === storyId) return -1
+            if (b.storyId === storyId) return 1
+          } 
           
           // その他の場合は単純に昇順に並べる
           return a.sortOrder - b.sortOrder
@@ -208,13 +211,22 @@ export default (state = initState, action) => {
       const src = srcSideCopy.get(sourceId)
 
       const changedStory = src.stories.get(storyId)
+      const isUpForward = newIndex - changedStory.sortOrder > 0
       changedStory.sortOrder = newIndex
 
       // 表示順を再設定する
       Array.from(src.stories.values())
         .sort((a, b) => {
-          // ステータス変更されたタスクを優先的に前に並べる
-          if(a.sortOrder === b.sortOrder && a.storyId === storyId) return -1;
+          // 同じ表示順の場合、順番の変更方向によって対象ストーリーを優先的に前 or 後に並べる
+          if(a.sortOrder === b.sortOrder){
+            if (isUpForward) {
+              if(a.storyId === storyId) return 1
+              if(b.storyId === storyId) return -1
+            } else {
+              if(a.storyId === storyId) return -1
+              if(b.storyId === storyId) return 1
+            }
+          } 
           
           // その他の場合は単純に昇順に並べる
           return a.sortOrder - b.sortOrder
