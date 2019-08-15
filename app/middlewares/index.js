@@ -40,6 +40,13 @@ export default store => next => action => {
     })()
   }
 
+  if (action.type === Types.CHANGE_STORY_NAME) {
+    ; (async () => {
+      const changedStory = await API.sprints.post(action.payload, "/storyName")
+      dispatch(Actions.setStoryName({...action.payload, changedStory}))
+    })()
+  }
+
   if (action.type === Types.CHANGE_STORY_BELONGING) {
     ; (async () => {
       await API.sprints.post(action.payload, "/storyBelonging")

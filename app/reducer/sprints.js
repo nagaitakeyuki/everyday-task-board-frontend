@@ -117,6 +117,22 @@ export default (state = initState, action) => {
 
       return { ...state, backlogCategories: copiedBacklogCategories}
     }
+    case Types.SET_STORY_NAME: {
+      const { changedStory } = action.payload
+
+      const isBacklogStory = !!changedStory.backlogCategoryId
+
+      const copiedSideState = isBacklogStory 
+              ? copyBacklogCategoriesMap(state.backlogCategories)
+              : copySprintsMap(state.sprints)
+
+      const parentId = isBacklogStory ? changedStory.backlogCategoryId : changedStory.baseSprintId
+      copiedSideState.get(parentId).stories.get(changedStory.storyId).storyName = changedStory.storyName
+
+      return isBacklogStory
+               ?  { ...state, backlogCategories: copiedSideState}
+               :  { ...state, sprints: copiedSideState}
+    }
     case Types.CHANGE_STORY_BELONGING: {
       const { sourceId, destinationId, storyId, newIndex } = action.payload
 

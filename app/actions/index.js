@@ -41,6 +41,16 @@ export default {
     payload
   }),
 
+  changeStoryName: payload => ({
+    type: Types.CHANGE_STORY_NAME,
+    payload
+  }),
+
+  setStoryName: payload => ({
+    type: Types.SET_STORY_NAME,
+    payload
+  }),
+
   changeStoryBelonging: payload => ({
     type: Types.CHANGE_STORY_BELONGING,
     payload
