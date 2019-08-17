@@ -32,7 +32,9 @@ class Story extends Component {
           >
             {this.state.isEditing ? (
               <div style={{border: "1px solid whitesmoke", borderRadius: "5px", margin: "3px", background: "whitesmoke", cursor: "move"}}>
-                <input type="text" name="storyName" defaultValue={story.storyName} className="form-control form-control-sm p-0" ref={el => storyNameEl = el}/>
+                <input type="text" name="storyName" defaultValue={story.storyName}
+                        className="form-control form-control-sm p-0" 
+                        ref={el => { if (el) el.select(); storyNameEl = el }}/>
                 <button type="button" className="btn btn-secondary btn-sm" onClick={() => changeStoryName()}>変更</button>
                 <button type="button" className="btn btn-secondary btn-sm ml-1" onClick={() => this.setState({isEditing: false})}>キャンセル</button>
               </div>
