@@ -35,6 +35,7 @@
   "scripts": {
     "build": "webpack -p",
     "dev": "webpack -d",
+    "prod": "ENV=prod webpack",
     "start": "webpack-dev-server -d --open"
   }
 }

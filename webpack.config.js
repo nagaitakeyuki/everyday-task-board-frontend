@@ -1,6 +1,10 @@
+const path = require('path');
+
 const context = `${__dirname}/app`
 const distPath = `${__dirname}/dist`
 const exclude = /node_modules/
+
+const environment = process.env.ENV || 'dev';
 
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
@@ -26,6 +30,12 @@ module.exports = {
         }
       }
     ]
+  },
+
+  resolve: {
+    alias: {
+      userEnv$: path.resolve(__dirname, `env/${environment}.js`),
+    }
   },
 
   plugins: [
