@@ -93,6 +93,15 @@ export default (state = initState, action) => {
 
       return { ...state, backlogCategories: copiedBacklogCategories}
     }
+    case Types.SET_BACKLOG_CATEGORY_NAME: {
+      const { changedBacklogCategory } = action.payload
+
+      const copied = copyBacklogCategoriesMap(state.backlogCategories) 
+
+      copied.get(changedBacklogCategory.backlogCategoryId).backlogCategoryName = changedBacklogCategory.backlogCategoryName
+
+      return { ...state, backlogCategories: copied}
+    }
     case Types.SET_STORY: {
       const { sprintId, newStory } = action.payload
 

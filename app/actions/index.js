@@ -116,6 +116,16 @@ export default {
     payload
   }),
 
+  changeBacklogCategoryName: payload => ({
+    type: Types.CHANGE_BACKLOG_CATEGORY_NAME,
+    payload
+  }),
+
+  setBacklogCategoryName: payload => ({
+    type: Types.SET_BACKLOG_CATEGORY_NAME,
+    payload
+  }),
+
   addTasks: payload => ({
     type: Types.ADD_TASKS,
     payload

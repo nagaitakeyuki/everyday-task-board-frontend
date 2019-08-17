@@ -26,6 +26,13 @@ export default store => next => action => {
     })()
   }
 
+  if (action.type === Types.CHANGE_BACKLOG_CATEGORY_NAME) {
+    ; (async () => {
+      const changedBacklogCategory = await API.sprints.post(action.payload, "/backlogCategoryName")
+      dispatch(Actions.setBacklogCategoryName({...action.payload, changedBacklogCategory}))
+    })()
+  }
+
   if (action.type === Types.ADD_STORY) {
     ; (async () => {
       const newStory = await API.sprints.post(action.payload, "/storyBelongingToSprint")

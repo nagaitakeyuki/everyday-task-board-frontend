@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, Fragment} from 'react'
 import ReactModal from 'react-modal'
 import { connect } from 'react-redux'
 import { Droppable } from 'react-beautiful-dnd'
@@ -9,7 +9,8 @@ import Actions from '../../actions'
 class BacklogCategory extends Component{
 
   state = {
-    isOpenStoryAdd: false
+    isOpenStoryAdd: false,
+    isEditing: false
   }
 
   render() {
@@ -26,7 +27,13 @@ class BacklogCategory extends Component{
     }
 
     const closeAddStory = () => {
-      this.setState({isOpenStoryAdd: false})
+      this.setState({...this.state, isOpenStoryAdd: false})
+    }
+
+    let backlogCategoryNameEl
+    const changeBacklogCategoryName = () => {
+      dispatch(Actions.changeBacklogCategoryName({backlogCategoryId: backlogCategory.backlogCategoryId, backlogCategoryName: backlogCategoryNameEl.value}))
+      this.setState({...this.state, isEditing: false})
     }
 
     return (
@@ -40,9 +47,22 @@ class BacklogCategory extends Component{
                 style={{border: "1px solid lightgray", borderRadius: "5px", margin: "5px", background: "lightgray"}}>
 
             <div style={{margin: "2px", cursor: "move"}}>
-              <img src="../resource/plus.png" style={{cursor: "pointer", verticalAlign: "middle"}}
-                  onClick={() => this.setState({isOpenStoryAdd: true})}/>
-              <span style={{verticalAlign: "middle"}}>{backlogCategory.backlogCategoryName}</span>
+              {this.state.isEditing ? (
+                  <Fragment>
+                    <input type="text" name="backlogCategoryName" defaultValue={backlogCategory.backlogCategoryName} className="form-control form-control-sm p-0" ref={el => backlogCategoryNameEl = el}/>
+                    <button type="button" className="btn btn-secondary btn-sm" onClick={() => changeBacklogCategoryName()}>変更</button>
+                    <button type="button" className="btn btn-secondary btn-sm ml-1" onClick={() => this.setState({idEditing: false})}>キャンセル</button>
+                  </Fragment>
+                ) : (
+                  <Fragment>
+                    <img src="../resource/plus.png" style={{cursor: "pointer", verticalAlign: "middle"}}
+                        onClick={() => this.setState({...this.state, isOpenStoryAdd: true})}/>
+                    <span style={{verticalAlign: "middle"}}
+                        onClick={() => this.setState({...this.state, isEditing: true})}>
+                      {backlogCategory.backlogCategoryName}
+                    </span>
+                  </Fragment>
+              )}
             </div>
         
             {backlogCategory.stories ?
