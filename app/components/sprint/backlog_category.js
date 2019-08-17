@@ -51,7 +51,7 @@ class BacklogCategory extends Component{
                   <Fragment>
                     <input type="text" name="backlogCategoryName" defaultValue={backlogCategory.backlogCategoryName} className="form-control form-control-sm p-0" ref={el => backlogCategoryNameEl = el}/>
                     <button type="button" className="btn btn-secondary btn-sm" onClick={() => changeBacklogCategoryName()}>変更</button>
-                    <button type="button" className="btn btn-secondary btn-sm ml-1" onClick={() => this.setState({idEditing: false})}>キャンセル</button>
+                    <button type="button" className="btn btn-secondary btn-sm ml-1" onClick={() => this.setState({isEditing: false})}>キャンセル</button>
                   </Fragment>
                 ) : (
                   <Fragment>
