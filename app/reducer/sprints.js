@@ -155,7 +155,21 @@ export default (state = initState, action) => {
       const dest = destSideCopy.get(destinationId)
 
       const changedStory = src.stories.get(storyId)
+
+      if (sourceId.startsWith("backlogCategory") && destinationId.startsWith("backlogCategory")) {
+        changedStory.backlogCategoryId = destinationId
+      } else if (sourceId.startsWith("backlogCategory") && destinationId.startsWith("sprint")) {
+        changedStory.backlogCategoryId = null
+        changedStory.baseSprintId = destinationId
+      } else if (sourceId.startsWith("sprint") && destinationId.startsWith("backlogCategory")) {
+        changedStory.baseSprintId = null
+        changedStory.backlogCategoryId = destinationId
+      } else {
+        changedStory.baseSprintId = destinationId
+      }
+
       changedStory.sortOrder = newIndex
+
       dest.stories.set(changedStory.storyId, changedStory)
       src.stories.delete(storyId)
 
