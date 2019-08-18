@@ -13,7 +13,10 @@ export default ({ task }) =>
           {...provided.dragHandleProps}
           ref={provided.innerRef}
         >
-          <div style={{ width: "100px", height: "100px", background: "#0099cc", borderRadius: "5px",  marginRight: "5px", marginBottom: "5px", cursor: 'move', wordWrap: "break-word" }}>{task.taskName}</div>
+          <div style={{ width: "100px", height: "100px", background: "#87cefa", borderRadius: "5px",
+            marginRight: "5px", marginBottom: "5px", cursor: 'move', wordWrap: "break-word" }}>
+            {task.taskName}
+          </div>
           
         </div>
       )}

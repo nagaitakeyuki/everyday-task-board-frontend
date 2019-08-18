@@ -34,7 +34,7 @@ export default connect(state => (
   return (
     <Fragment>
       <td>
-        <div style={{width: "100%",  height: "100px", background: "#0099cc", borderRadius: "5px", position: "relative"}}>
+        <div style={{width: "100%",  height: "100px", background: "#87cefa", borderRadius: "5px", position: "relative"}}>
           <div style={{ width: "80%" }}>{story.storyName}</div>
           <img src="../resource/plus.png"
             onClick={() => openTaskAdd()}
