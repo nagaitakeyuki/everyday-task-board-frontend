@@ -71,7 +71,7 @@ class BacklogCategory extends Component{
               )}
             </div>
 
-            <div className="collapse show" id={`stories-${backlogCategory.backlogCategoryId}`}>
+            <div className="collapse" id={`stories-${backlogCategory.backlogCategoryId}`}>
               {backlogCategory.stories ? 
                   Array.from(backlogCategory.stories.values())
                     .sort((a, b) => a.sortOrder - b.sortOrder)
