@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react'
+import React, {Component, Fragment} from 'react'
 import { connect } from 'react-redux'
 import ReactModal from 'react-modal'
 
@@ -6,51 +6,66 @@ import Actions from '../../actions'
 
 ReactModal.setAppElement('#app')
 
-export default connect(state => (
-  {taskAddOpening: state.screen.taskAddOpening}
-))(({story, dispatch, taskAddOpening}) => {
+class TaskBoardStoryCell extends Component {
 
-  const openTaskAdd = () => {
-    dispatch(Actions.openTaskAdd({sprintId: story.baseSprintId, storyId : story.storyId}))
+  state = {
+    isEditing: false,
+    isTaskAdding: false
   }
 
-  const closeTaskAdd = () => {
-    dispatch(Actions.closeTaskAdd())
-  }
+  render() {
 
-  let tasksEl
+    const {story, dispatch} = this.props
 
-  const autofocus = () => {
-    tasksEl.focus()
-  }
+    let tasksEl
+    const autofocus = () => {
+      tasksEl.focus()
+    }
+  
+    const addTasks = () => {
+      const taskNames = tasksEl.value.split("\n")
+      dispatch(Actions.addTasks({sprintId: story.baseSprintId, storyId : story.storyId, taskNames}))
+      closeTaskAdd()
+    }
 
-  const addTasks = () => {
-    const taskNames = tasksEl.value.split("\n")
-    dispatch(Actions.addTasks({sprintId: story.baseSprintId, storyId : story.storyId, taskNames}))
-    closeTaskAdd()
-  }
+    const closeTaskAdd = () => {
+      this.setState({...this.state, isTaskAdding: false})
+    }
 
+    let storyNameEl, storyStatusEl
+    const updateStory = () => {
+      console.log(storyNameEl.value + "  " + storyStatusEl.value)
 
-  return (
-    <Fragment>
+      dispatch(Actions.updateStory({storyId: story.storyId, storyName : storyNameEl.value,
+                                     storyStatus: storyStatusEl.value, baseSprintId: story.baseSprintId}))
+      closeStoryEdit()
+    }
+
+    const closeStoryEdit = () => {
+      this.setState({...this.state, isEditing: false})
+    }
+
+    return (
       <td>
         <div style={{width: "100%",  height: "100px", background: "#87cefa", borderRadius: "5px", position: "relative"}}>
-          <div style={{ width: "80%" }}>{story.storyName}</div>
+          <div style={{ width: "80%", textDecoration: story.storyStatus === "end" ? "line-through" : ""}}>{story.storyName}</div>
           <img src="../resource/plus.png"
-            onClick={() => openTaskAdd()}
+            onClick={() => this.setState({...this.state, isTaskAdding: true})}
             style={{ position: "absolute", right: "5px", top: "5px", cursor: "pointer" }} />
-
+          <img src="../resource/edit.png"
+            onClick={() => this.setState({...this.state, isEditing: true})}
+            style={{ position: "absolute", right: "5px", top: "25px", cursor: "pointer" }} />
+  
           <ReactModal 
-            isOpen={taskAddOpening.sprintId === story.baseSprintId
-               && taskAddOpening.storyId === story.storyId}
+            isOpen={this.state.isTaskAdding}
             onAfterOpen={autofocus}
             onRequestClose={closeTaskAdd}
             style={{content: {marginLeft: "auto", marginRight: "auto",  width: "600px", height: "400px"}}}>
-
+  
             <img src="../resource/cross.png"
                         onClick={() => closeTaskAdd()}
                         style={{ position: "absolute", right: "10px", top: "10px", cursor: "pointer" }} />
-
+  
             <p>{story.storyName} </p>
               <div className="form-group">
                   <textarea name="tasks" rows="10" className="form-control" ref={el => tasksEl = el }/>
@@ -58,11 +73,46 @@ export default connect(state => (
               <div className="form-actions clearfix">
                   <button type="button" className="btn btn-secondary float-right" onClick={() => addTasks()}>登録</button>
               </div>
+  
+          </ReactModal>
+
+          <ReactModal 
+            isOpen={this.state.isEditing}
+            onRequestClose={closeStoryEdit}
+            style={{content: {marginLeft: "auto", marginRight: "auto",  width: "600px", height: "300px"}}}>
+
+            <img src="../resource/cross.png"
+                onClick={() => closeStoryEdit()}
+                style={{ position: "absolute", right: "10px", top: "10px", cursor: "pointer" }} />
+
+            <p>{story.storyName}</p>
+            <div className="form-group">
+                <label htmlFor={`storyName-${story.storyId}`}>ストーリー名</label>
+                <input type="text" name="storyName" className="form-control"
+                  defaultValue={story.storyName}
+                  id={`storyName-${story.storyId}`} ref={el => storyNameEl = el }/>
+            </div>
+            <div className="form-group">
+                <label htmlFor={`storyStatus-${story.storyId}`}>ステータス</label>
+                <select name="storyStatus" className="form-control"
+                  id={`storyStatus-${story.storyId}`} ref={el => storyStatusEl = el }>
+                  <option value="new">新規</option>
+                  <option value="running">進行中</option>
+                  <option value="end">完了</option>
+                </select>
+            </div>
+            <div className="form-actions clearfix">
+                <button type="button" className="btn btn-secondary float-right" onClick={() => updateStory()}>変更</button>
+            </div>
 
           </ReactModal>
 
+  
         </div>
       </td>
-    </Fragment>
-  )
-})
+    )
+  }
+
+}
+
+export default connect()(TaskBoardStoryCell)

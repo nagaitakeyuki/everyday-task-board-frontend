@@ -91,16 +91,6 @@ export default {
     payload
   }),
 
-  openTaskAdd: payload => ({
-    type: Types.OPEN_TASK_ADD,
-    payload
-  }),
-
-  closeTaskAdd: payload => ({
-    type: Types.CLOSE_TASK_ADD,
-    payload
-  }),
-
   addSprint: payload => ({
     type: Types.ADD_SPRINT,
     payload
@@ -126,6 +116,16 @@ export default {
     payload
   }),
 
+  updateStory: payload => ({
+    type: Types.UPDATE_STORY,
+    payload
+  }),
+
+  setUpdatedStory: payload => ({
+    type: Types.SET_UPDATED_STORY,
+    payload
+  }),
+  
   addTasks: payload => ({
     type: Types.ADD_TASKS,
     payload

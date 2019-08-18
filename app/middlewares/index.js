@@ -86,5 +86,12 @@ export default store => next => action => {
     })()
   }
 
+  if (action.type === Types.UPDATE_STORY) {
+    ; (async () => {
+      const updatedStory = await API.sprints.post(action.payload, "/story")
+      dispatch(Actions.setUpdatedStory({...action.payload, updatedStory}))
+    })()
+  }
+
   next(action)
 }

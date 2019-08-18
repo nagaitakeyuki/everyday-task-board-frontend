@@ -39,7 +39,8 @@ class Story extends Component {
                 <button type="button" className="btn btn-secondary btn-sm ml-1" onClick={() => this.setState({isEditing: false})}>キャンセル</button>
               </div>
               ) : (
-              <div style={{border: "1px solid whitesmoke", borderRadius: "5px", margin: "3px", background: "whitesmoke", cursor: "move"}}
+              <div style={{border: "1px solid whitesmoke", borderRadius: "5px", margin: "3px",
+                           background: "whitesmoke", cursor: "move", textDecoration: story.storyStatus === "end" ? "line-through" : ""}}
                     onClick={() => {this.setState({isEditing: true})}}>
                 {story.storyName}
               </div>

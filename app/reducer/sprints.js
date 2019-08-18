@@ -278,6 +278,18 @@ export default (state = initState, action) => {
       return { ...state, sprints: copiedSprints, currentSprint: copiedSprints.get(sprintId)}
       
     }
+    case Types.SET_UPDATED_STORY: {
+      const { storyId, baseSprintId, updatedStory } = action.payload
+
+      const copiedSprints = copySprintsMap(state.sprints)
+
+      const targetStory = copiedSprints.get(baseSprintId).stories.get(storyId)
+
+      targetStory.storyName = updatedStory.storyName
+      targetStory.storyStatus = updatedStory.storyStatus
+
+      return { ...state, sprints: copiedSprints, currentSprint: copiedSprints.get(baseSprintId)}
+    }
     case Types.SET_ADDED_TASKS: {
       const { sprintId, storyId, newTasks } = action.payload
       
