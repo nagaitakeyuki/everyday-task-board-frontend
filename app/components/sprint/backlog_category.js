@@ -46,7 +46,7 @@ class BacklogCategory extends Component{
                 {...provided.droppableProps}
                 style={{border: "1px solid lightgray", borderRadius: "5px", margin: "5px", background: "lightgray"}}>
 
-            <div style={{margin: "2px", cursor: "move"}}>
+            <div style={{position: "relative", margin: "2px", cursor: "move"}}>
               {this.state.isEditing ? (
                   <Fragment>
                     <input type="text" name="backlogCategoryName" defaultValue={backlogCategory.backlogCategoryName} 
@@ -63,19 +63,25 @@ class BacklogCategory extends Component{
                         onClick={() => this.setState({...this.state, isEditing: true})}>
                       {backlogCategory.backlogCategoryName}
                     </span>
+                    <img src="../resource/plus.png"
+                       role="button" className="btn" data-toggle="collapse"
+                       data-target={`#stories-${backlogCategory.backlogCategoryId}`} 
+                       style={{position: "absolute", right: "2px", cursor: "pointer", verticalAlign: "middle"}} />
                   </Fragment>
               )}
             </div>
-        
-            {backlogCategory.stories ?
-                Array.from(backlogCategory.stories.values())
-                  .sort((a, b) => a.sortOrder - b.sortOrder)
-                  .map(story => (
-                    <Story story={story} key={story.storyId} />
-                ))
-                : null}
 
-            {provided.placeholder}
+            <div className="collapse show" id={`stories-${backlogCategory.backlogCategoryId}`}>
+              {backlogCategory.stories ? 
+                  Array.from(backlogCategory.stories.values())
+                    .sort((a, b) => a.sortOrder - b.sortOrder)
+                    .map(story => (
+                      <Story story={story} key={story.storyId} />
+                  ))
+                  : null}
+
+              {provided.placeholder}
+            </div>
 
             <ReactModal 
               isOpen={this.state.isOpenStoryAdd}
