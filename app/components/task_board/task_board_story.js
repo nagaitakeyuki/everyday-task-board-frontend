@@ -95,7 +95,7 @@ class TaskBoardStoryCell extends Component {
             <div className="form-group">
                 <label htmlFor={`storyStatus-${story.storyId}`}>ステータス</label>
                 <select name="storyStatus" className="form-control"
-                  id={`storyStatus-${story.storyId}`} ref={el => storyStatusEl = el }>
+                  id={`storyStatus-${story.storyId}`} ref={el => storyStatusEl = el } defaultValue={story.storyStatus}>
                   <option value="new">新規</option>
                   <option value="running">進行中</option>
                   <option value="end">完了</option>
