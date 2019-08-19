@@ -63,10 +63,10 @@ class BacklogCategory extends Component{
                         onClick={() => this.setState({...this.state, isEditing: true})}>
                       {backlogCategory.backlogCategoryName}
                     </span>
-                    <img src="../resource/plus.png"
+                    <img src="../resource/triangle-down.png"
                        role="button" className="btn" data-toggle="collapse"
                        data-target={`#stories-${backlogCategory.backlogCategoryId}`} 
-                       style={{position: "absolute", right: "2px", cursor: "pointer", verticalAlign: "middle"}} />
+                       style={{position: "absolute", right: "0px", cursor: "pointer"}} />
                   </Fragment>
               )}
             </div>
