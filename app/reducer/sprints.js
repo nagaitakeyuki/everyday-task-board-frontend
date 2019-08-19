@@ -303,7 +303,24 @@ export default (state = initState, action) => {
 
       return { ...state, sprints: copiedSprints, currentSprint: copiedSprints.get(sprintId)}
       
-    } default:
+    }
+    case Types.DELETE_STORY_FROM_STATE: {
+      const { story } = action.payload
+
+      const isBacklogStory = !!story.backlogCategoryId
+
+      const copiedSideState = isBacklogStory 
+              ? copyBacklogCategoriesMap(state.backlogCategories)
+              : copySprintsMap(state.sprints)
+
+      const parentId = isBacklogStory ? story.backlogCategoryId : story.baseSprintId
+      copiedSideState.get(parentId).stories.delete(story.storyId)
+
+      return isBacklogStory
+               ?  { ...state, backlogCategories: copiedSideState}
+               :  { ...state, sprints: copiedSideState}
+    }
+    default:
       return state
   }
 }

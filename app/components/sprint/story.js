@@ -20,6 +20,12 @@ class Story extends Component {
       this.setState({isEditing: false})
     }
 
+    const deleteStory = () => {
+      const doDelete = confirm("ストーリーを削除しますか？紐づくタスクも併せて削除されます。")
+
+      if (doDelete) dispatch(Actions.deleteStory({story}))
+    }
+
     return (
       <Draggable
         draggableId={story.storyId} index={story.sortOrder}>
@@ -40,9 +46,14 @@ class Story extends Component {
               </div>
               ) : (
               <div style={{border: "1px solid whitesmoke", borderRadius: "5px", margin: "3px",
-                           background: "whitesmoke", cursor: "move", textDecoration: story.storyStatus === "end" ? "line-through" : ""}}
-                    onClick={() => {this.setState({isEditing: true})}}>
-                {story.storyName}
+                           background: "whitesmoke", cursor: "move", position: "relative"}}>
+                <span style={{textDecoration: story.storyStatus === "end" ? "line-through" : ""}}
+                      onClick={() => {this.setState({isEditing: true})}}>
+                  {story.storyName}
+                </span>
+                <img src="../resource/trash-can.png"
+                      style={{position: "absolute", right: "2px", top: "4px", cursor: "pointer"}}
+                      onClick={() => deleteStory()} />
               </div>
               )
           }

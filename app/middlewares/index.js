@@ -93,5 +93,13 @@ export default store => next => action => {
     })()
   }
 
+  if (action.type === Types.DELETE_STORY) {
+    ; (async () => {
+      const {story} = action.payload
+      await API.sprints.delete(`/story?storyId=${story.storyId}`)
+      dispatch(Actions.deleteStoryFromState({...action.payload}))
+    })()
+  }
+
   next(action)
 }

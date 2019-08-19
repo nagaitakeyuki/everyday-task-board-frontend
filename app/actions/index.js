@@ -134,8 +134,17 @@ export default {
   setAddedTasks: payload => ({
     type: Types.SET_ADDED_TASKS,
     payload
-  })
+  }),
 
+  deleteStory: payload => ({
+    type: Types.DELETE_STORY,
+    payload
+  }),
+
+  deleteStoryFromState: payload => ({
+    type: Types.DELETE_STORY_FROM_STATE,
+    payload
+  })
 
 
 }
