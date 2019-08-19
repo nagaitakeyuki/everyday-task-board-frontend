@@ -101,5 +101,22 @@ export default store => next => action => {
     })()
   }
 
+  if (action.type === Types.UPDATE_TASK) {
+    ; (async () => {
+      await API.sprints.post(action.payload, "/task")
+      dispatch(Actions.setUpdatedTask({...action.payload}))
+    })()
+  }
+
+  if (action.type === Types.DELETE_TASK) {
+    ; (async () => {
+      const {taskId} = action.payload
+      await API.sprints.delete(`/task?taskId=${taskId}`)
+      dispatch(Actions.deleteTaskFromState({...action.payload}))
+    })()
+  }
+
+
+
   next(action)
 }

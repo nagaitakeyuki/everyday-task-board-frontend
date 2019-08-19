@@ -320,6 +320,26 @@ export default (state = initState, action) => {
                ?  { ...state, backlogCategories: copiedSideState}
                :  { ...state, sprints: copiedSideState}
     }
+    case Types.SET_UPDATED_TASK: {
+      const { taskId, storyId, sprintId, taskName } = action.payload
+
+      const copiedSprints = copySprintsMap(state.sprints)
+
+      const targetTask = copiedSprints.get(sprintId).stories.get(storyId).tasks.get(taskId)
+
+      targetTask.taskName = taskName
+
+      return { ...state, sprints: copiedSprints, currentSprint: copiedSprints.get(sprintId)}
+    }
+    case Types.DELETE_TASK_FROM_STATE: {
+      const { taskId, storyId, sprintId } = action.payload
+
+      const copiedSprints = copySprintsMap(state.sprints)
+
+      copiedSprints.get(sprintId).stories.get(storyId).tasks.delete(taskId)
+
+      return { ...state, sprints: copiedSprints, currentSprint: copiedSprints.get(sprintId)}
+    }
     default:
       return state
   }

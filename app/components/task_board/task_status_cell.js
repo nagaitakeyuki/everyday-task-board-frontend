@@ -23,7 +23,8 @@ export default connect()(({ statusOfCell, story }) =>
                   .filter(task => task.taskStatus === statusOfCell)
                   .sort((a, b) => a.sortOrder - b.sortOrder)
                   .map(task => (
-                        <Task task={task} status={statusOfCell} key={task.taskId + task.taskStatus}/>
+                        <Task task={task} status={statusOfCell}
+                          sprintId={story.baseSprintId} key={task.taskId + task.taskStatus}/>
                       ))}
               </div>
                 : null

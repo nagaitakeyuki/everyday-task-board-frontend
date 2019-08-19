@@ -144,7 +144,27 @@ export default {
   deleteStoryFromState: payload => ({
     type: Types.DELETE_STORY_FROM_STATE,
     payload
-  })
+  }),
+
+  updateTask: payload => ({
+    type: Types.UPDATE_TASK,
+    payload
+  }),
+
+  setUpdatedTask: payload => ({
+    type: Types.SET_UPDATED_TASK,
+    payload
+  }),
+
+  deleteTask: payload => ({
+    type: Types.DELETE_TASK,
+    payload
+  }),
+
+  deleteTaskFromState: payload => ({
+    type: Types.DELETE_TASK_FROM_STATE,
+    payload
+  }),
 
 
 }
