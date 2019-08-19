@@ -14,7 +14,8 @@ export default ({ task }) =>
           ref={provided.innerRef}
         >
           <div style={{ width: "100px", height: "100px", background: "#87cefa", borderRadius: "5px",
-            marginRight: "5px", marginBottom: "5px", cursor: 'move', wordWrap: "break-word" }}>
+            marginRight: "5px", marginBottom: "5px", cursor: 'move', wordWrap: "break-word",
+            textDecoration: task.taskStatus === "end" ? "line-through" : "" }}>
             {task.taskName}
           </div>
           
