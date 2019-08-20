@@ -48,10 +48,10 @@ export default connect()(({ stories, dispatch }) => {
       <table className="table table-bordered" style={{ marginTop: "10px" }}>
         <thead className="thead-light">
           <tr>
-            <th style={{ width: "20%" }}>ストーリー</th>
-            <th style={{ width: "25%" }}>タスク</th>
-            <th style={{ width: "27%" }}>進行中</th>
-            <th style={{ width: "28%" }}>完了</th>
+            <th style={{ width: "13%" }}>ストーリー</th>
+            <th style={{ width: "29%" }}>タスク</th>
+            <th style={{ width: "29%" }}>進行中</th>
+            <th style={{ width: "29%" }}>完了</th>
           </tr>
         </thead>
         <tbody>

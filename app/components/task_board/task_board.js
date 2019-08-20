@@ -20,7 +20,7 @@ export default connect(state => (
       const sprint = this.props.sprint
 
       return (
-        <div className="container" style={{ paddingTop: "5px" }}>
+        <div style={{ paddingTop: "5px", fontSize: "0.8rem"}}>
           {sprint ? (
             <Fragment>
               <TaskBoardTitle sprintName={sprint.sprintName} />

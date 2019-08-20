@@ -43,8 +43,8 @@ class Task extends Component {
               {...provided.dragHandleProps}
               ref={provided.innerRef}
             >
-              <div style={{ width: "100px", height: "100px", background: "#87cefa", borderRadius: "5px",
-                marginRight: "5px", marginBottom: "5px", cursor: 'move', wordWrap: "break-word",
+              <div style={{ width: "80px", height: "80px", background: "#87cefa", borderRadius: "5px",
+                marginRight: "3px", marginBottom: "3px", cursor: 'move', wordWrap: "break-word",
                 textDecoration: task.taskStatus === "end" ? "line-through" : "" }}
                 onClick={() => this.setState({...this.state, isEditing: true})}>
                 {task.taskName}

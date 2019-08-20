@@ -47,7 +47,7 @@ class TaskBoardStoryCell extends Component {
 
     return (
       <td>
-        <div style={{width: "100%",  height: "100px", background: "#87cefa", borderRadius: "5px", position: "relative"}}>
+        <div style={{width: "100%",  height: "80px", background: "#87cefa", borderRadius: "5px", position: "relative"}}>
           <div style={{ width: "80%", textDecoration: story.storyStatus === "end" ? "line-through" : ""}}>{story.storyName}</div>
           <img src="../resource/plus.png"
             onClick={() => this.setState({...this.state, isTaskAdding: true})}
