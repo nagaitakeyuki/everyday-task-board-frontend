@@ -58,7 +58,7 @@ class Task extends Component {
         <ReactModal 
             isOpen={this.state.isEditing}
             onRequestClose={closeTaskEdit}
-            style={{content: {marginLeft: "auto", marginRight: "auto",  width: "600px", height: "165px"}}}>
+            style={{content: {marginLeft: "auto", marginRight: "auto",  width: "600px", height: "170px"}}}>
 
             <img src="../resource/cross.png"
                 onClick={() => closeTaskEdit()}
