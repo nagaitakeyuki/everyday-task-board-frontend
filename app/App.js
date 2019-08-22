@@ -7,8 +7,7 @@ export default () => (
   <Router>
     <Fragment>
       <div className="container-fluid" style={{ marginTop: "10px" }}>
-        <Link to={'/'}>Top</Link>/
-        <Link to={'/backlog'}>バックログ</Link>/
+        <Link to={'/'}>Top</Link>
         <Routes />
       </div>
     </Fragment>
