@@ -46,15 +46,13 @@ class SprintBacklog extends Component {
     const {sprints, backlogCategories} = this.props
 
     return (
-      <div className="container" style={{marginTop: "10px"}}>
-        <div style={{display: "flex"}}>
-          <DragDropContext onDragEnd={this.onDragEnd}>
+      <div style={{marginTop: "10px", display: "flex"}}>
+        <DragDropContext onDragEnd={this.onDragEnd}>
 
-            <SprintColumn sprints={sprints}/>
-            <BacklogColumn backlogCategories={backlogCategories}/>
+          <SprintColumn sprints={sprints}/>
+          <BacklogColumn backlogCategories={backlogCategories}/>
 
-          </DragDropContext>
-        </div>
+        </DragDropContext>
       </div>
     )
   }
