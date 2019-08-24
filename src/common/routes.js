@@ -1,8 +1,8 @@
 import React from 'react'
 import {Route, Switch} from 'react-router'
 
-import Backlog from '../sprint_backlog/component/index'
-import TaskBoard from '../task_board/component/task_board'
+import Backlog from '../task_management/sprint_backlog/component/index'
+import TaskBoard from '../task_management/task_board/component/task_board'
 
 export default () => (
   <Switch>

@@ -3,7 +3,7 @@ import {createHashHistory} from 'history'
 import {routerReducer, routerMiddleware} from 'react-router-redux'
 import {composeWithDevTools} from 'redux-devtools-extension'
 
-import reducer from './reducer/reducers'
+import reducer from './reducers'
 import middleware from './middleware'
 
 export const history = createHashHistory()
