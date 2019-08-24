@@ -1,7 +1,5 @@
 import axios from 'axios'
 
-import userEnv from 'userEnv';
-
 export default new axios.create({
-  baseURL: userEnv.apiUrl
+  baseURL: process.env.REACT_APP_API_URL
 })

@@ -57,13 +57,13 @@ class BacklogCategory extends Component{
                   </Fragment>
                 ) : (
                   <Fragment>
-                    <img src="../resource/plus.png" style={{cursor: "pointer", verticalAlign: "middle"}}
+                    <img src="imgs/plus.png" style={{cursor: "pointer", verticalAlign: "middle"}}
                         onClick={() => this.setState({...this.state, isOpenStoryAdd: true})}/>
                     <span style={{verticalAlign: "middle"}}
                         onClick={() => this.setState({...this.state, isEditing: true})}>
                       {backlogCategory.backlogCategoryName}
                     </span>
-                    <img src="../resource/triangle-down.png"
+                    <img src="imgs/triangle-down.png"
                        role="button" className="btn" data-toggle="collapse"
                        data-target={`#stories-${backlogCategory.backlogCategoryId}`} 
                        style={{position: "absolute", right: "0px", cursor: "pointer"}} />
@@ -89,7 +89,7 @@ class BacklogCategory extends Component{
               onRequestClose={() => closeAddStory()}
               style={{content: {marginLeft: "auto", marginRight: "auto",  width: "600px", height: "200px"}}}>
 
-              <img src="../resource/cross.png"
+              <img src="imgs/cross.png"
                   onClick={() => closeAddStory()}
                   style={{ position: "absolute", right: "10px", top: "10px", cursor: "pointer" }} />
 

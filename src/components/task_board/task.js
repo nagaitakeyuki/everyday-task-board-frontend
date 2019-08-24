@@ -23,7 +23,7 @@ class Task extends Component {
     }
 
     const deleteTask = () => {
-      const doDelete = confirm("タスクを削除しますか？")
+      const doDelete = window.confirm("タスクを削除しますか？")
 
       if (doDelete) dispatch(Actions.deleteTask({taskId: task.taskId, storyId: task.baseStoryId, sprintId}))
     }
@@ -60,7 +60,7 @@ class Task extends Component {
             onRequestClose={closeTaskEdit}
             style={{content: {marginLeft: "auto", marginRight: "auto",  width: "600px", height: "170px"}}}>
 
-            <img src="../resource/cross.png"
+            <img src="imgs/cross.png"
                 onClick={() => closeTaskEdit()}
                 style={{ position: "absolute", right: "10px", top: "10px", cursor: "pointer" }} />
 

@@ -31,7 +31,7 @@ class SprintColumn extends Component {
     return (
       <div style={{display: "flex", flexDirection: "column", width: "50%" }}>
         <div style={{margin: "8px"}}>
-            <img src="../resource/plus.png" style={{cursor: "pointer"}}
+            <img src="imgs/plus.png" style={{cursor: "pointer"}}
                 onClick={() => this.setState({isOpenSprintAdd: true})}/>
             <span style={{verticalAlign: "middle"}}>スプリント</span>
         </div>
@@ -54,7 +54,7 @@ class SprintColumn extends Component {
             onRequestClose={() => closeAddSprint()}
             style={{content: {marginLeft: "auto", marginRight: "auto",  width: "600px", height: "200px"}}}>
     
-            <img src="../resource/cross.png"
+            <img src="imgs/cross.png"
                 onClick={() => closeAddSprint()}
                 style={{ position: "absolute", right: "10px", top: "10px", cursor: "pointer" }} />
     

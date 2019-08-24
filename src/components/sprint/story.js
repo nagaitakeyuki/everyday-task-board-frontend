@@ -21,7 +21,7 @@ class Story extends Component {
     }
 
     const deleteStory = () => {
-      const doDelete = confirm("ストーリーを削除しますか？紐づくタスクも併せて削除されます。")
+      const doDelete = window.confirm("ストーリーを削除しますか？紐づくタスクも併せて削除されます。")
 
       if (doDelete) dispatch(Actions.deleteStory({story}))
     }
@@ -51,7 +51,7 @@ class Story extends Component {
                       onClick={() => {this.setState({isEditing: true})}}>
                   {story.storyName}
                 </span>
-                <img src="../resource/trash-can.png"
+                <img src="imgs/trash-can.png"
                       style={{position: "absolute", right: "2px", top: "4px", cursor: "pointer"}}
                       onClick={() => deleteStory()} />
               </div>

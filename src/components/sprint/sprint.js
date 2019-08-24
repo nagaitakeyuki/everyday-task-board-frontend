@@ -40,7 +40,7 @@ class Sprint extends Component {
               style={{border: "1px solid lightgray", borderRadius: "5px", margin: "5px", background: "lightgray"}}>
 
             <div style={{position: "relative", margin: "2px", cursor: "move"}}>
-              <img src="../resource/plus.png" style={{cursor: "pointer", verticalAlign: "middle"}}
+              <img src="imgs/plus.png" style={{cursor: "pointer", verticalAlign: "middle"}}
                   onClick={() => this.setState({isOpenStoryAdd: true})}/>
               <span style={{verticalAlign: "middle"}}>
                 <Link to={`/sprints/${sprint.sprintId}/task_board`}>{sprint.sprintName}</Link>
@@ -64,7 +64,7 @@ class Sprint extends Component {
               onRequestClose={() => closeAddStory()}
               style={{content: {marginLeft: "auto", marginRight: "auto",  width: "600px", height: "200px"}}}>
 
-              <img src="../resource/cross.png"
+              <img src="imgs/cross.png"
                   onClick={() => closeAddStory()}
                   style={{ position: "absolute", right: "10px", top: "10px", cursor: "pointer" }} />
 

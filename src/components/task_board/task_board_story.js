@@ -4,7 +4,7 @@ import ReactModal from 'react-modal'
 
 import Actions from '../../actions'
 
-ReactModal.setAppElement('#app')
+ReactModal.setAppElement('#root')
 
 class TaskBoardStoryCell extends Component {
 
@@ -51,7 +51,7 @@ class TaskBoardStoryCell extends Component {
               onClick={() => this.setState({...this.state, isEditing: true})}>
             {story.storyName}
           </div>
-          <img src="../resource/plus.png"
+          <img src="imgs/plus.png"
             onClick={() => this.setState({...this.state, isTaskAdding: true})}
             style={{ position: "absolute", right: "5px", top: "5px", cursor: "pointer"}} />
         </div>
@@ -62,7 +62,7 @@ class TaskBoardStoryCell extends Component {
           onRequestClose={closeTaskAdd}
           style={{content: {marginLeft: "auto", marginRight: "auto",  width: "600px", height: "400px"}}}>
 
-          <img src="../resource/cross.png"
+          <img src="imgs/cross.png"
                       onClick={() => closeTaskAdd()}
                       style={{ position: "absolute", right: "10px", top: "10px", cursor: "pointer" }} />
 
@@ -81,7 +81,7 @@ class TaskBoardStoryCell extends Component {
           onRequestClose={closeStoryEdit}
           style={{content: {marginLeft: "auto", marginRight: "auto",  width: "600px", height: "300px"}}}>
 
-          <img src="../resource/cross.png"
+          <img src="imgs/cross.png"
               onClick={() => closeStoryEdit()}
               style={{ position: "absolute", right: "10px", top: "10px", cursor: "pointer" }} />
 
