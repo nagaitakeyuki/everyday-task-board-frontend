@@ -1,9 +1,10 @@
 import React, {Component, Fragment} from 'react'
-import ReactModal from 'react-modal'
 import { connect } from 'react-redux'
 
 import Sprint from "./sprint"
 import Actions from '../sprint_backlog_actions'
+import SprintForm from './SprintForm'
+import Modal from '../../../common/component/Modal'
 
 class SprintColumn extends Component {
 
@@ -14,13 +15,8 @@ class SprintColumn extends Component {
   render() {
     const {sprints, dispatch} = this.props
 
-    let sprintNameEl
-    const autofocus = () => {
-      sprintNameEl.focus()
-    }
-
-    const addSprint = () => {
-      dispatch(Actions.addSprint({sprintName: sprintNameEl.value}))
+    const addSprint = (param) => {
+      dispatch(Actions.addSprint(param))
       closeAddSprint()
     }
 
@@ -48,25 +44,14 @@ class SprintColumn extends Component {
             </Fragment>
           ) : null}
 
-          <ReactModal 
-            isOpen={this.state.isOpenSprintAdd}
-            onAfterOpen={autofocus}
-            onRequestClose={() => closeAddSprint()}
-            style={{content: {marginLeft: "auto", marginRight: "auto",  width: "600px", height: "200px"}}}>
-    
-            <img src="imgs/cross.png"
-                onClick={() => closeAddSprint()}
-                style={{ position: "absolute", right: "10px", top: "10px", cursor: "pointer" }} />
-    
-            <p>スプリントを追加する</p>
-            <div className="form-group">
-                <input type="text" name="sprintName" className="form-control" ref={el => sprintNameEl = el }/>
-            </div>
-            <div className="form-actions clearfix">
-                <button type="button" className="btn btn-secondary float-right" onClick={() => addSprint()}>追加</button>
-            </div>
-    
-          </ReactModal>
+          <Modal
+            visible={this.state.isOpenSprintAdd}
+            onCancel={closeAddSprint}
+            footer={null}
+            destroyOnClose
+            width={500}>
+            <SprintForm onSaveButtonClick={addSprint}/>
+          </Modal>
     
       </div>
     )

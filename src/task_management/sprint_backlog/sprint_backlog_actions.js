@@ -61,11 +61,6 @@ export default {
     payload
   }),
 
-  addSprint: payload => ({
-    type: Types.ADD_SPRINT,
-    payload
-  }),
-
   addBacklogCategory: payload => ({
     type: Types.ADD_BACKLOG_CATEGORY,
     payload

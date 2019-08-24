@@ -6,6 +6,8 @@ import { Droppable } from 'react-beautiful-dnd'
 
 import Story from "./story"
 import Actions from '../sprint_backlog_actions'
+import StoryForm from './StoryForm'
+import Modal from '../../../common/component/Modal'
 
 class Sprint extends Component {
 
@@ -16,13 +18,8 @@ class Sprint extends Component {
   render() {
     const {sprint, dispatch} = this.props
 
-    let storyNameEl
-    const autofocus = () => {
-      storyNameEl.focus()
-    }
-
-    const addStory = () => {
-      dispatch(Actions.addStory({sprintId: sprint.sprintId, storyName: storyNameEl.value}))
+    const addStory = (param) => {
+      dispatch(Actions.addStory(param))
       closeAddStory()
     }
 
@@ -58,25 +55,15 @@ class Sprint extends Component {
 
             {provided.placeholder}
         
-            <ReactModal 
-              isOpen={this.state.isOpenStoryAdd}
-              onAfterOpen={autofocus}
-              onRequestClose={() => closeAddStory()}
-              style={{content: {marginLeft: "auto", marginRight: "auto",  width: "600px", height: "200px"}}}>
+            <Modal
+              visible={this.state.isOpenStoryAdd}
+              onCancel={closeAddStory}
+              footer={null}
+              destroyOnClose
+              width={500}>
+              <StoryForm sprintId={sprint.sprintId} onSaveButtonClick={addStory}/>
+            </Modal>
 
-              <img src="imgs/cross.png"
-                  onClick={() => closeAddStory()}
-                  style={{ position: "absolute", right: "10px", top: "10px", cursor: "pointer" }} />
-
-              <p>{sprint.sprintName}にストーリーを追加する</p>
-              <div className="form-group">
-                  <input type="text" name="sprintName" className="form-control" ref={el => storyNameEl = el }/>
-              </div>
-              <div className="form-actions clearfix">
-                  <button type="button" className="btn btn-secondary float-right" onClick={() => addStory()}>追加</button>
-              </div>
-
-            </ReactModal>
           </div>
         )}
       </Droppable>

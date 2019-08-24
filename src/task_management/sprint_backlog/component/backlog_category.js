@@ -1,10 +1,11 @@
 import React, {Component, Fragment} from 'react'
-import ReactModal from 'react-modal'
 import { connect } from 'react-redux'
 import { Droppable } from 'react-beautiful-dnd'
 
 import Story from './story'
 import Actions from '../sprint_backlog_actions'
+import StoryForm from './StoryForm'
+import Modal from '../../../common/component/Modal'
 
 class BacklogCategory extends Component{
 
@@ -16,13 +17,8 @@ class BacklogCategory extends Component{
   render() {
     const {backlogCategory, dispatch} = this.props
 
-    let storyNameEl
-    const autofocus = () => {
-      storyNameEl.focus()
-    }
-
-    const addStory = () => {
-      dispatch(Actions.addStoryToBacklogCategory({backlogCategoryId: backlogCategory.backlogCategoryId, storyName: storyNameEl.value}))
+    const addStory = (param) => {
+      dispatch(Actions.addStoryToBacklogCategory(param))
       closeAddStory()
     }
 
@@ -83,25 +79,16 @@ class BacklogCategory extends Component{
               {provided.placeholder}
             </div>
 
-            <ReactModal 
-              isOpen={this.state.isOpenStoryAdd}
-              onAfterOpen={autofocus}
-              onRequestClose={() => closeAddStory()}
-              style={{content: {marginLeft: "auto", marginRight: "auto",  width: "600px", height: "200px"}}}>
-
-              <img src="imgs/cross.png"
-                  onClick={() => closeAddStory()}
-                  style={{ position: "absolute", right: "10px", top: "10px", cursor: "pointer" }} />
-
-              <p>{backlogCategory.backlogCategoryName}にストーリーを追加する</p>
-              <div className="form-group">
-                  <input type="text" name="sprintName" className="form-control" ref={el => storyNameEl = el }/>
-              </div>
-              <div className="form-actions clearfix">
-                  <button type="button" className="btn btn-secondary float-right" onClick={() => addStory()}>追加</button>
-              </div>
-
-            </ReactModal>
+            <Modal
+              visible={this.state.isOpenStoryAdd}
+              onCancel={closeAddStory}
+              footer={null}
+              destroyOnClose
+              width={500}>
+              <StoryForm
+                backlogCategoryId={backlogCategory.backlogCategoryId}
+                onSaveButtonClick={addStory}/>
+            </Modal>
 
           </div>
 
