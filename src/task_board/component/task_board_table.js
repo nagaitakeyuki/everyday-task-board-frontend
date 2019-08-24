@@ -1,10 +1,9 @@
 import React, { Fragment } from 'react'
-
+import { connect } from 'react-redux';
 import { DragDropContext } from 'react-beautiful-dnd'
 
-import Actions from '../../actions'
+import Actions from '../task_board_actions'
 import TaskBoardStoryRow from './task_board_story_row'
-import { connect } from 'react-redux';
 
 export default connect()(({ stories, dispatch }) => {
 

@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 
-import Actions from '../../actions'
+import Actions from '../task_board_actions'
 import TaskBoardTitle from './task_board_title'
 import TaskBoardTable from './task_board_table'
 

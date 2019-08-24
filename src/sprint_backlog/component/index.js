@@ -4,7 +4,7 @@ import { DragDropContext } from 'react-beautiful-dnd'
 
 import SprintColumn from './sprint_column'
 import BacklogColumn from './backlog_column'
-import Actions from '../../actions'
+import Actions from '../sprint_backlog_actions'
 
 
 class SprintBacklog extends Component {

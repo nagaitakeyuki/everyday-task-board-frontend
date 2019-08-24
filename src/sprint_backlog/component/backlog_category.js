@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Droppable } from 'react-beautiful-dnd'
 
 import Story from './story'
-import Actions from '../../actions'
+import Actions from '../sprint_backlog_actions'
 
 class BacklogCategory extends Component{
 

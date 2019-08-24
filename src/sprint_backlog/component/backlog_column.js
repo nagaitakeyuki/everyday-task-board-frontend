@@ -3,7 +3,7 @@ import ReactModal from 'react-modal'
 import { connect } from 'react-redux'
 
 import BacklogCategory from './backlog_category'
-import Actions from '../../actions'
+import Actions from '../sprint_backlog_actions'
 
 
 class BacklogColumn extends Component {

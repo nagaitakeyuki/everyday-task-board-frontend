@@ -2,7 +2,7 @@ import React, {Component, Fragment} from 'react'
 import { connect } from 'react-redux'
 import ReactModal from 'react-modal'
 
-import Actions from '../../actions'
+import Actions from '../task_board_actions'
 
 ReactModal.setAppElement('#root')
 

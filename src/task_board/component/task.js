@@ -4,7 +4,7 @@ import ReactModal from 'react-modal'
 
 import { Draggable } from 'react-beautiful-dnd'
 
-import Actions from '../../actions'
+import Actions from '../task_board_actions'
 
 class Task extends Component {
 

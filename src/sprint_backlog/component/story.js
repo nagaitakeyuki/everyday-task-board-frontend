@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import { Draggable } from 'react-beautiful-dnd'
 import { connect } from 'react-redux'
 
-import Actions from '../../actions'
+import Actions from '../sprint_backlog_actions'
 
 class Story extends Component {
 

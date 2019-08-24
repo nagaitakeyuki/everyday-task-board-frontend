@@ -1,4 +1,5 @@
-import Types from '../utils/types'
+import sprintBacklogTypes from '../../sprint_backlog/sprint_backlog_types'
+import taskBoardTypes from '../../task_board/task_board_types'
 
 const initState = {
   sprints: new Map(),
@@ -8,7 +9,7 @@ const initState = {
 
 export default (state = initState, action) => {
   switch (action.type) {
-    case Types.SET_SPRINTS: {
+    case sprintBacklogTypes.SET_SPRINTS: {
       const { sprints } = action.payload
 
       const sprintsMap = new Map()
@@ -69,7 +70,7 @@ export default (state = initState, action) => {
 
       return { ...state, sprints: sprintsMap, backlogCategories: backlogCategoriesMap }
     }
-    case Types.SET_NEW_SPRINT: {
+    case sprintBacklogTypes.SET_NEW_SPRINT: {
       const { newSprint } = action.payload
 
       // copySprintsMap()のために、空のMapを初期設定する
@@ -81,7 +82,7 @@ export default (state = initState, action) => {
 
       return { ...state, sprints: copiedSprints}
     }
-    case Types.SET_NEW_BACKLOG_CATEGORY: {
+    case sprintBacklogTypes.SET_NEW_BACKLOG_CATEGORY: {
       const { newBacklogCategory } = action.payload
 
       // copySprintsMap()のために、空のMapを初期設定する
@@ -93,7 +94,7 @@ export default (state = initState, action) => {
 
       return { ...state, backlogCategories: copiedBacklogCategories}
     }
-    case Types.SET_BACKLOG_CATEGORY_NAME: {
+    case sprintBacklogTypes.SET_BACKLOG_CATEGORY_NAME: {
       const { changedBacklogCategory } = action.payload
 
       const copied = copyBacklogCategoriesMap(state.backlogCategories) 
@@ -102,7 +103,7 @@ export default (state = initState, action) => {
 
       return { ...state, backlogCategories: copied}
     }
-    case Types.SET_STORY: {
+    case sprintBacklogTypes.SET_STORY: {
       const { sprintId, newStory } = action.payload
 
       // copySprintsMap()のために、空のMapを初期設定する
@@ -114,7 +115,7 @@ export default (state = initState, action) => {
 
       return { ...state, sprints: copiedSprints}
     }
-    case Types.SET_STORY_TO_BACKLOGCATEGORY: {
+    case sprintBacklogTypes.SET_STORY_TO_BACKLOGCATEGORY: {
       const { backlogCategoryId, newStory } = action.payload
 
       // copySprintsMap()のために、空のMapを初期設定する
@@ -126,7 +127,7 @@ export default (state = initState, action) => {
 
       return { ...state, backlogCategories: copiedBacklogCategories}
     }
-    case Types.SET_STORY_NAME: {
+    case sprintBacklogTypes.SET_STORY_NAME: {
       const { changedStory } = action.payload
 
       const isBacklogStory = !!changedStory.backlogCategoryId
@@ -142,7 +143,7 @@ export default (state = initState, action) => {
                ?  { ...state, backlogCategories: copiedSideState}
                :  { ...state, sprints: copiedSideState}
     }
-    case Types.CHANGE_STORY_BELONGING: {
+    case sprintBacklogTypes.CHANGE_STORY_BELONGING: {
       const { sourceId, destinationId, storyId, newIndex } = action.payload
 
       const copiedSprints = copySprintsMap(state.sprints)
@@ -186,7 +187,7 @@ export default (state = initState, action) => {
 
       return { ...state, sprints: copiedSprints, backlogCategories: copiedBacklogCategories}
     }
-    case Types.CHANGE_STORY_SORT_ORDER: {
+    case sprintBacklogTypes.CHANGE_STORY_SORT_ORDER: {
       const { sourceId, storyId, newIndex } = action.payload
 
       const copiedSprints = copySprintsMap(state.sprints)
@@ -207,12 +208,12 @@ export default (state = initState, action) => {
 
       return { ...state, sprints: copiedSprints, backlogCategories: copiedBacklogCategories}
     }
-    case Types.SWITCH_SPRINT: {
+    case taskBoardTypes.SWITCH_SPRINT: {
       const { sprintId } = action.payload
 
       return {...state, currentSprint: state.sprints.get(sprintId)}
     }
-    case Types.CHANGE_SORT_ORDER: {
+    case taskBoardTypes.CHANGE_SORT_ORDER: {
       // CHANGE_TASK_STATUSと同様の理由で、DBへの永続化が完了する前に、先行して新しいソート順をstateに反映させる。
       const { sprintId, storyId, taskId, newIndex } = action.payload
 
@@ -238,7 +239,7 @@ export default (state = initState, action) => {
 
       return { ...state, sprints: copiedSprints, currentSprint: copiedSprints.get(sprintId)}
     }
-    case Types.CHANGE_TASK_STATUS: {
+    case taskBoardTypes.CHANGE_TASK_STATUS: {
       // TODO: 新ステータスやソート順の反映をAPIだけで実現できないか。APIとフロントエンドで重複した処理ができている。
 
       /*
@@ -278,7 +279,7 @@ export default (state = initState, action) => {
       return { ...state, sprints: copiedSprints, currentSprint: copiedSprints.get(sprintId)}
       
     }
-    case Types.SET_UPDATED_STORY: {
+    case taskBoardTypes.SET_UPDATED_STORY: {
       const { storyId, baseSprintId, updatedStory } = action.payload
 
       const copiedSprints = copySprintsMap(state.sprints)
@@ -290,7 +291,7 @@ export default (state = initState, action) => {
 
       return { ...state, sprints: copiedSprints, currentSprint: copiedSprints.get(baseSprintId)}
     }
-    case Types.SET_ADDED_TASKS: {
+    case taskBoardTypes.SET_ADDED_TASKS: {
       const { sprintId, storyId, newTasks } = action.payload
       
       const copiedSprints = copySprintsMap(state.sprints)
@@ -304,7 +305,7 @@ export default (state = initState, action) => {
       return { ...state, sprints: copiedSprints, currentSprint: copiedSprints.get(sprintId)}
       
     }
-    case Types.DELETE_STORY_FROM_STATE: {
+    case sprintBacklogTypes.DELETE_STORY_FROM_STATE: {
       const { story } = action.payload
 
       const isBacklogStory = !!story.backlogCategoryId
@@ -320,7 +321,7 @@ export default (state = initState, action) => {
                ?  { ...state, backlogCategories: copiedSideState}
                :  { ...state, sprints: copiedSideState}
     }
-    case Types.SET_UPDATED_TASK: {
+    case taskBoardTypes.SET_UPDATED_TASK: {
       const { taskId, storyId, sprintId, taskName } = action.payload
 
       const copiedSprints = copySprintsMap(state.sprints)
@@ -331,7 +332,7 @@ export default (state = initState, action) => {
 
       return { ...state, sprints: copiedSprints, currentSprint: copiedSprints.get(sprintId)}
     }
-    case Types.DELETE_TASK_FROM_STATE: {
+    case taskBoardTypes.DELETE_TASK_FROM_STATE: {
       const { taskId, storyId, sprintId } = action.payload
 
       const copiedSprints = copySprintsMap(state.sprints)
