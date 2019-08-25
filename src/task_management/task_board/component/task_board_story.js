@@ -3,6 +3,9 @@ import { connect } from 'react-redux'
 import ReactModal from 'react-modal'
 
 import Actions from '../task_board_actions'
+import TaskAddForm from './TaskAddForm'
+import Modal from '../../../common/component/Modal'
+import StoryEditForm from './StoryEditForm';
 
 ReactModal.setAppElement('#root')
 
@@ -17,14 +20,8 @@ class TaskBoardStoryCell extends Component {
 
     const {story, dispatch} = this.props
 
-    let tasksEl
-    const autofocus = () => {
-      tasksEl.focus()
-    }
-  
-    const addTasks = () => {
-      const taskNames = tasksEl.value.split("\n")
-      dispatch(Actions.addTasks({sprintId: story.baseSprintId, storyId : story.storyId, taskNames}))
+    const addTasks = (param) => {
+      dispatch(Actions.addTasks(param))
       closeTaskAdd()
     }
 
@@ -32,10 +29,8 @@ class TaskBoardStoryCell extends Component {
       this.setState({...this.state, isTaskAdding: false})
     }
 
-    let storyNameEl, storyStatusEl
-    const updateStory = () => {
-      dispatch(Actions.updateStory({storyId: story.storyId, storyName : storyNameEl.value,
-                                     storyStatus: storyStatusEl.value, baseSprintId: story.baseSprintId}))
+    const updateStory = (param) => {
+      dispatch(Actions.updateStory(param))
       closeStoryEdit()
     }
 
@@ -56,56 +51,29 @@ class TaskBoardStoryCell extends Component {
             style={{ position: "absolute", right: "5px", top: "5px", cursor: "pointer"}} />
         </div>
 
-        <ReactModal 
-          isOpen={this.state.isTaskAdding}
-          onAfterOpen={autofocus}
-          onRequestClose={closeTaskAdd}
-          style={{content: {marginLeft: "auto", marginRight: "auto",  width: "600px", height: "400px"}}}>
+        <Modal
+          visible={this.state.isTaskAdding}
+          onCancel={closeTaskAdd}
+          footer={null}
+          destroyOnClose
+          width={500}>
+          <TaskAddForm 
+            sprintId={story.baseSprintId}
+            storyId={story.storyId}
+            onSaveButtonClick={addTasks}/>
+        </Modal>
 
-          <img src="imgs/cross.png"
-                      onClick={() => closeTaskAdd()}
-                      style={{ position: "absolute", right: "10px", top: "10px", cursor: "pointer" }} />
-
-          <p>{story.storyName} </p>
-            <div className="form-group">
-                <textarea name="tasks" rows="10" className="form-control" ref={el => tasksEl = el }/>
-            </div>
-            <div className="form-actions clearfix">
-                <button type="button" className="btn btn-secondary float-right" onClick={() => addTasks()}>登録</button>
-            </div>
-
-        </ReactModal>
-
-        <ReactModal 
-          isOpen={this.state.isEditing}
-          onRequestClose={closeStoryEdit}
-          style={{content: {marginLeft: "auto", marginRight: "auto",  width: "600px", height: "300px"}}}>
-
-          <img src="imgs/cross.png"
-              onClick={() => closeStoryEdit()}
-              style={{ position: "absolute", right: "10px", top: "10px", cursor: "pointer" }} />
-
-          <p>{story.storyName}</p>
-          <div className="form-group">
-              <label htmlFor={`storyName-${story.storyId}`}>ストーリー名</label>
-              <input type="text" name="storyName" className="form-control"
-                defaultValue={story.storyName}
-                id={`storyName-${story.storyId}`} ref={el => storyNameEl = el }/>
-          </div>
-          <div className="form-group">
-              <label htmlFor={`storyStatus-${story.storyId}`}>ステータス</label>
-              <select name="storyStatus" className="form-control"
-                id={`storyStatus-${story.storyId}`} ref={el => storyStatusEl = el } defaultValue={story.storyStatus}>
-                <option value="new">新規</option>
-                <option value="running">進行中</option>
-                <option value="end">完了</option>
-              </select>
-          </div>
-          <div className="form-actions clearfix">
-              <button type="button" className="btn btn-secondary float-right" onClick={() => updateStory()}>変更</button>
-          </div>
-
-        </ReactModal>
+        <Modal
+          visible={this.state.isEditing}
+          onCancel={closeStoryEdit}
+          footer={null}
+          destroyOnClose
+          width={500}>
+          <StoryEditForm 
+            story={story}
+            onSaveButtonClick={updateStory}/>
+        </Modal>
+        
       </td>
     )
   }

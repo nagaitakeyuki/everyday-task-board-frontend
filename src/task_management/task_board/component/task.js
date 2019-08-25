@@ -1,10 +1,11 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
-import ReactModal from 'react-modal'
-
 import { Draggable } from 'react-beautiful-dnd'
 
 import Actions from '../task_board_actions'
+import TaskForm from './TaskForm'
+import Modal from '../../../common/component/Modal'
+
 
 class Task extends Component {
 
@@ -15,17 +16,13 @@ class Task extends Component {
   render() {
     const {task, sprintId, dispatch} = this.props
 
-    let taskNameEl
-    const updateTask = () => {
-      dispatch(Actions.updateTask({taskId: task.taskId, taskName: taskNameEl.value,
-                                    storyId: task.baseStoryId, sprintId }))
+    const updateTask = (param) => {
+      dispatch(Actions.updateTask(param))
       closeTaskEdit()
     }
 
-    const deleteTask = () => {
-      const doDelete = window.confirm("タスクを削除しますか？")
-
-      if (doDelete) dispatch(Actions.deleteTask({taskId: task.taskId, storyId: task.baseStoryId, sprintId}))
+    const deleteTask = (param) => {
+      dispatch(Actions.deleteTask(param))
     }
 
     const closeTaskEdit = () => {
@@ -55,27 +52,19 @@ class Task extends Component {
 
         </Draggable>
 
-        <ReactModal 
-            isOpen={this.state.isEditing}
-            onRequestClose={closeTaskEdit}
-            style={{content: {marginLeft: "auto", marginRight: "auto",  width: "600px", height: "170px"}}}>
+        <Modal
+          visible={this.state.isEditing}
+          onCancel={closeTaskEdit}
+          footer={null}
+          destroyOnClose
+          width={500}>
+          <TaskForm
+            task={task}
+            sprintId={sprintId}
+            onSaveButtonClick={updateTask}
+            onDeleteButtonClick={deleteTask}/>
+        </Modal>
 
-            <img src="imgs/cross.png"
-                onClick={() => closeTaskEdit()}
-                style={{ position: "absolute", right: "10px", top: "10px", cursor: "pointer" }} />
-
-            <div className="form-group">
-                <label htmlFor={`taskName-${task.taskId}`}>タスク名</label>
-                <input type="text" name="taskName" className="form-control"
-                  defaultValue={task.taskName}
-                  id={`taskName-${task.taskId}`} ref={el => taskNameEl = el }/>
-            </div>
-            <div className="form-actions clearfix">
-                <button type="button" className="btn btn-secondary float-right ml-1" onClick={() => deleteTask()}>削除</button>
-                <button type="button" className="btn btn-secondary float-right" onClick={() => updateTask()}>変更</button>
-            </div>
-
-          </ReactModal>
       </Fragment>
     )
   }
