@@ -2,9 +2,9 @@ import React, { Component, Fragment } from 'react'
 import {connect} from 'react-redux'
 import { DragDropContext } from 'react-beautiful-dnd'
 
-import SprintColumn from './sprint_column'
-import BacklogColumn from './backlog_column'
-import Actions from '../sprint_backlog_actions'
+import SprintColumn from './SprintColumn'
+import BacklogColumn from './BacklogColumn'
+import Actions from '../sprintBacklogActions'
 
 
 class SprintBacklog extends Component {

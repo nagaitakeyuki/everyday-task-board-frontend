@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 
-import TaskBoardStoryCell from './task_board_story'
-import TaskStatusCell from './task_status_cell'
+import TaskBoardStoryCell from './TaskBoardStoryCell'
+import TaskStatusCell from './TaskStatusCell'
 
 export default ({ story }) =>
   (

@@ -4,7 +4,7 @@ import {routerReducer, routerMiddleware} from 'react-router-redux'
 import {composeWithDevTools} from 'redux-devtools-extension'
 
 import reducer from './reducers'
-import middleware from '../task_management/task_management_middleware'
+import middleware from '../task_management/taskManagementMiddleware'
 
 export const history = createHashHistory()
 const RouterMiddleware = routerMiddleware(history)

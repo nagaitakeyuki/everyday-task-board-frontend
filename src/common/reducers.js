@@ -1,4 +1,4 @@
-import sprint from '../task_management/task_management_reducer'
+import sprint from '../task_management/taskManagementReducer'
 
 export default {
   sprint

@@ -1,10 +1,10 @@
 import React, {Component, Fragment} from 'react'
 import { connect } from 'react-redux'
 
-import BacklogCategory from './backlog_category'
-import Actions from '../sprint_backlog_actions'
-import BacklogCategoryForm from './form/BacklogCategoryForm'
 import Modal from '../../../common/component/Modal'
+import BacklogCategory from './BacklogCategory'
+import BacklogCategoryForm from './form/BacklogCategoryForm'
+import Actions from '../sprintBacklogActions'
 
 
 class BacklogColumn extends Component {

@@ -1,4 +1,4 @@
-import Types from './sprint_backlog_types'
+import Types from './sprintBacklogTypes'
 
 export default {
 

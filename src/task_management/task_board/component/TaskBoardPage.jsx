@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 
-import Actions from '../task_board_actions'
-import TaskBoardTitle from './task_board_title'
-import TaskBoardTable from './task_board_table'
+import TaskBoardTitle from './TaskBoardTitle'
+import TaskBoardTable from './TaskBoardTable'
+import Actions from '../taskBoardActions'
 
 
 export default connect(state => (

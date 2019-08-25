@@ -2,10 +2,10 @@ import React, {Component, Fragment} from 'react'
 import { connect } from 'react-redux'
 import ReactModal from 'react-modal'
 
-import Actions from '../task_board_actions'
-import TaskAddForm from './form/TaskAddForm'
 import Modal from '../../../common/component/Modal'
+import TaskAddForm from './form/TaskAddForm'
 import StoryEditForm from './form/StoryEditForm';
+import Actions from '../taskBoardActions'
 
 ReactModal.setAppElement('#root')
 

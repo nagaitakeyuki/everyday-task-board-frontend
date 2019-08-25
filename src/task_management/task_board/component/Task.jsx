@@ -2,9 +2,9 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { Draggable } from 'react-beautiful-dnd'
 
-import Actions from '../task_board_actions'
-import TaskForm from './form/TaskForm'
 import Modal from '../../../common/component/Modal'
+import TaskForm from './form/TaskForm'
+import Actions from '../taskBoardActions'
 
 
 class Task extends Component {

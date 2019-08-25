@@ -1,7 +1,7 @@
-import sprintBacklogActions from './sprint_backlog/sprint_backlog_actions'
-import sprintBacklogTypes from './sprint_backlog/sprint_backlog_types'
-import taskBoardActions from './task_board/task_board_actions'
-import taskBoardTypes from './task_board/task_board_types'
+import sprintBacklogActions from './sprint_backlog/sprintBacklogActions'
+import sprintBacklogTypes from './sprint_backlog/sprintBacklogTypes'
+import taskBoardActions from './task_board/taskBoardActions'
+import taskBoardTypes from './task_board/taskBoardTypes'
 import API from '../common/utils/api'
 
 export default store => next => action => {

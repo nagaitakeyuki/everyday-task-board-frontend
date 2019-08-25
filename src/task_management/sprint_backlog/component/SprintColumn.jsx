@@ -1,10 +1,10 @@
 import React, {Component, Fragment} from 'react'
 import { connect } from 'react-redux'
 
-import Sprint from "./sprint"
-import Actions from '../sprint_backlog_actions'
-import SprintForm from './form/SprintForm'
 import Modal from '../../../common/component/Modal'
+import Sprint from "./Sprint"
+import SprintForm from './form/SprintForm'
+import Actions from '../sprintBacklogActions'
 
 class SprintColumn extends Component {
 

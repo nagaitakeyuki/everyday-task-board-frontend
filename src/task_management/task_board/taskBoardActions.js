@@ -1,4 +1,4 @@
-import Types from './task_board_types'
+import Types from './taskBoardTypes'
 
 export default {
 

@@ -2,8 +2,7 @@ import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
 import { Droppable } from 'react-beautiful-dnd'
 
-import Task from './task'
-
+import Task from './Task'
 
 export default connect()(({ statusOfCell, story }) =>
   (

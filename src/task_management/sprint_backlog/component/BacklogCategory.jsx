@@ -2,10 +2,10 @@ import React, {Component, Fragment} from 'react'
 import { connect } from 'react-redux'
 import { Droppable } from 'react-beautiful-dnd'
 
-import Story from './story'
-import Actions from '../sprint_backlog_actions'
-import StoryForm from './form/StoryForm'
 import Modal from '../../../common/component/Modal'
+import Story from './Story'
+import StoryForm from './form/StoryForm'
+import Actions from '../sprintBacklogActions'
 
 class BacklogCategory extends Component{
 

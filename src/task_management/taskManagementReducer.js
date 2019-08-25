@@ -1,5 +1,5 @@
-import sprintBacklogTypes from './sprint_backlog/sprint_backlog_types'
-import taskBoardTypes from './task_board/task_board_types'
+import sprintBacklogTypes from './sprint_backlog/sprintBacklogTypes'
+import taskBoardTypes from './task_board/taskBoardTypes'
 
 const initState = {
   sprints: new Map(),
