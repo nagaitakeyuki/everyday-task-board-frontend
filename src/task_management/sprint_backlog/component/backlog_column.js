@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import BacklogCategory from './backlog_category'
 import Actions from '../sprint_backlog_actions'
-import BacklogCategoryForm from './BacklogCategoryForm'
+import BacklogCategoryForm from './form/BacklogCategoryForm'
 import Modal from '../../../common/component/Modal'
 
 

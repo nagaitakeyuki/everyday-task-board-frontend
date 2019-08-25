@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Draggable } from 'react-beautiful-dnd'
 
 import Actions from '../task_board_actions'
-import TaskForm from './TaskForm'
+import TaskForm from './form/TaskForm'
 import Modal from '../../../common/component/Modal'
 
 

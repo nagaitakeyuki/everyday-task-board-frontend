@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import Sprint from "./sprint"
 import Actions from '../sprint_backlog_actions'
-import SprintForm from './SprintForm'
+import SprintForm from './form/SprintForm'
 import Modal from '../../../common/component/Modal'
 
 class SprintColumn extends Component {

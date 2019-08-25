@@ -3,9 +3,9 @@ import { connect } from 'react-redux'
 import ReactModal from 'react-modal'
 
 import Actions from '../task_board_actions'
-import TaskAddForm from './TaskAddForm'
+import TaskAddForm from './form/TaskAddForm'
 import Modal from '../../../common/component/Modal'
-import StoryEditForm from './StoryEditForm';
+import StoryEditForm from './form/StoryEditForm';
 
 ReactModal.setAppElement('#root')
 

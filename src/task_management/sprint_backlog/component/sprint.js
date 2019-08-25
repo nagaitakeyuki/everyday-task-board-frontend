@@ -1,12 +1,11 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
-import ReactModal from 'react-modal'
 import { connect } from 'react-redux'
 import { Droppable } from 'react-beautiful-dnd'
 
 import Story from "./story"
 import Actions from '../sprint_backlog_actions'
-import StoryForm from './StoryForm'
+import StoryForm from './form/StoryForm'
 import Modal from '../../../common/component/Modal'
 
 class Sprint extends Component {

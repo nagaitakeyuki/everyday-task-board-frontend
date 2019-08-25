@@ -4,7 +4,7 @@ import { Droppable } from 'react-beautiful-dnd'
 
 import Story from './story'
 import Actions from '../sprint_backlog_actions'
-import StoryForm from './StoryForm'
+import StoryForm from './form/StoryForm'
 import Modal from '../../../common/component/Modal'
 
 class BacklogCategory extends Component{
