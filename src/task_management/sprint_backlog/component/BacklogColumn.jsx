@@ -26,8 +26,8 @@ class BacklogColumn extends Component {
     }
 
     return (
-      <div style={{display: "flex", flexDirection: "column", width: "50%" }}>
-        <div style={{margin: "8px"}}>
+      <div style={{display: "flex", flexDirection: "column", width: "50%", marginLeft: "10px" }}>
+        <div style={{margin: "3px"}}>
             <img src="imgs/plus.png" style={{cursor: "pointer"}}
                   onClick={() => this.setState({isOpenBacklogCategoryAdd: true})}/>
             <span style={{verticalAlign: "middle"}}>バックログ</span>

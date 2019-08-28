@@ -44,13 +44,13 @@ export default connect()(({ stories, dispatch }) => {
 
   return (
     <Fragment>
-      <table className="table table-bordered" style={{ marginTop: "10px" }}>
-        <thead className="thead-light">
+      <table style={{ marginTop: "10px", border: "1px solid #dee2e6", width: "100%", marginBottom: "1rem", color: "#212529", borderCollapse:"collapse" }}>
+        <thead style={{backgroundColor: "#e9ecef", border: "1px solid #dee2e6"}}>
           <tr>
-            <th style={{ width: "13%" }}>ストーリー</th>
-            <th style={{ width: "29%" }}>タスク</th>
-            <th style={{ width: "29%" }}>進行中</th>
-            <th style={{ width: "29%" }}>完了</th>
+            <th style={{ width: "13%", padding: ".75rem", border: "1px solid #dee2e6" }}>ストーリー</th>
+            <th style={{ width: "29%", padding: ".75rem", border: "1px solid #dee2e6" }}>タスク</th>
+            <th style={{ width: "29%", padding: ".75rem", border: "1px solid #dee2e6" }}>進行中</th>
+            <th style={{ width: "29%", padding: ".75rem", border: "1px solid #dee2e6" }}>完了</th>
           </tr>
         </thead>
         <tbody>

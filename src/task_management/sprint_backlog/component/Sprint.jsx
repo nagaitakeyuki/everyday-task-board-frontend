@@ -33,7 +33,7 @@ class Sprint extends Component {
         {provided => (
           <div ref={provided.innerRef}
               {...provided.droppableProps}
-              style={{border: "1px solid lightgray", borderRadius: "5px", margin: "5px", background: "lightgray"}}>
+              style={{border: "1px solid lightgray", borderRadius: "5px", marginTop: "5px", background: "lightgray"}}>
 
             <div style={{position: "relative", margin: "2px", cursor: "move"}}>
               <img src="imgs/plus.png" style={{cursor: "pointer", verticalAlign: "middle"}}

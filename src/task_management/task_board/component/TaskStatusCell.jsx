@@ -13,6 +13,7 @@ export default connect()(({ statusOfCell, story }) =>
         
         {provided => (
           <td 
+            style={{padding: ".75rem", border: "1px solid #dee2e6", verticalAlign: "top" }}
             ref={provided.innerRef}
             {...provided.droppableProps}>
               {story.tasks ?

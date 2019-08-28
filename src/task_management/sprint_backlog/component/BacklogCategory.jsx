@@ -1,6 +1,7 @@
 import React, {Component, Fragment} from 'react'
 import { connect } from 'react-redux'
 import { Droppable } from 'react-beautiful-dnd'
+import { Input, Button } from "antd"
 
 import Modal from '../../../common/component/Modal'
 import Story from './Story'
@@ -11,26 +12,13 @@ class BacklogCategory extends Component{
 
   state = {
     isOpenStoryAdd: false,
-    isEditing: false
+    isEditing: false,
+    isCollapsed: true,
+    backlogCategoryName: this.props.backlogCategory.backlogCategoryName
   }
 
   render() {
-    const {backlogCategory, dispatch} = this.props
-
-    const addStory = (param) => {
-      dispatch(Actions.addStoryToBacklogCategory(param))
-      closeAddStory()
-    }
-
-    const closeAddStory = () => {
-      this.setState({...this.state, isOpenStoryAdd: false})
-    }
-
-    let backlogCategoryNameEl
-    const changeBacklogCategoryName = () => {
-      dispatch(Actions.changeBacklogCategoryName({backlogCategoryId: backlogCategory.backlogCategoryId, backlogCategoryName: backlogCategoryNameEl.value}))
-      this.setState({...this.state, isEditing: false})
-    }
+    const {backlogCategory} = this.props
 
     return (
 
@@ -40,16 +28,37 @@ class BacklogCategory extends Component{
         {provided => (
           <div ref={provided.innerRef}
                 {...provided.droppableProps}
-                style={{border: "1px solid lightgray", borderRadius: "5px", margin: "5px", background: "lightgray"}}>
+                style={{border: "1px solid lightgray", borderRadius: "5px", marginTop: "5px", background: "lightgray"}}>
 
             <div style={{position: "relative", margin: "2px", cursor: "move"}}>
               {this.state.isEditing ? (
                   <Fragment>
-                    <input type="text" name="backlogCategoryName" defaultValue={backlogCategory.backlogCategoryName} 
-                            className="form-control form-control-sm p-0"
-                            ref={el => { if (el) el.select(); backlogCategoryNameEl = el }}/>
-                    <button type="button" className="btn btn-secondary btn-sm" onClick={() => changeBacklogCategoryName()}>変更</button>
-                    <button type="button" className="btn btn-secondary btn-sm ml-1" onClick={() => this.setState({...this.state, isEditing: false})}>キャンセル</button>
+                    <Input
+                      size="small"
+                      autoFocus={true}
+                      value={this.state.backlogCategoryName}
+                      onChange={(e) => this.handleTextChange(e, "backlogCategoryName")}
+                    />
+                    <Button
+                      size="small"
+                      type="default"
+                      onClick={
+                        () => {
+                          this.changeBacklogCategoryName({backlogCategoryId: backlogCategory.backlogCategoryId, 
+                                                          backlogCategoryName: this.state.backlogCategoryName})
+                        }
+                      }
+                    >
+                      変更
+                    </Button>
+                    <Button
+                      size="small"
+                      type="default"
+                      onClick={() => { this.setState({...this.state, isEditing: false})}}
+                    >
+                      キャンセル
+                    </Button>
+
                   </Fragment>
                 ) : (
                   <Fragment>
@@ -59,15 +68,15 @@ class BacklogCategory extends Component{
                         onClick={() => this.setState({...this.state, isEditing: true})}>
                       {backlogCategory.backlogCategoryName}
                     </span>
-                    <img src="imgs/triangle-down.png"
-                       role="button" className="btn" data-toggle="collapse"
-                       data-target={`#stories-${backlogCategory.backlogCategoryId}`} 
-                       style={{position: "absolute", right: "0px", cursor: "pointer"}} />
+                    <img src="imgs/arrow.png"
+                       style={{position: "absolute", right: "5px", top: "5px", cursor: "pointer", 
+                                transform: this.state.isCollapsed ? "rotate(-90deg)" : "", transition: "0.1s"}}
+                       onClick={() => this.setState({isCollapsed: !this.state.isCollapsed})} />
                   </Fragment>
               )}
             </div>
 
-            <div className="collapse" id={`stories-${backlogCategory.backlogCategoryId}`}>
+            <div style={{display: this.state.isCollapsed ? "none" : ""}}>
               {backlogCategory.stories ? 
                   Array.from(backlogCategory.stories.values())
                     .sort((a, b) => a.sortOrder - b.sortOrder)
@@ -81,13 +90,13 @@ class BacklogCategory extends Component{
 
             <Modal
               visible={this.state.isOpenStoryAdd}
-              onCancel={closeAddStory}
+              onCancel={this.closeAddStory}
               footer={null}
               destroyOnClose
               width={500}>
               <StoryForm
                 backlogCategoryId={backlogCategory.backlogCategoryId}
-                onSaveButtonClick={addStory}/>
+                onSaveButtonClick={this.addStory}/>
             </Modal>
 
           </div>
@@ -96,6 +105,24 @@ class BacklogCategory extends Component{
       </Droppable>
 
     )
+  }
+
+  handleTextChange(e, key) {
+    this.setState({ [key]: e.target.value })
+  }
+
+  changeBacklogCategoryName = (param) => {
+    this.props.dispatch(Actions.changeBacklogCategoryName(param))
+    this.setState({...this.state, isEditing: false})
+  }
+
+  addStory = (param) => {
+    this.props.dispatch(Actions.addStoryToBacklogCategory(param))
+    this.closeAddStory()
+  }
+
+  closeAddStory = () => {
+    this.setState({...this.state, isOpenStoryAdd: false})
   }
 
 }

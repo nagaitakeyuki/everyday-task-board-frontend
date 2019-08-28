@@ -26,7 +26,7 @@ class SprintColumn extends Component {
 
     return (
       <div style={{display: "flex", flexDirection: "column", width: "50%" }}>
-        <div style={{margin: "8px"}}>
+        <div style={{margin: "3px"}}>
             <img src="imgs/plus.png" style={{cursor: "pointer"}}
                 onClick={() => this.setState({isOpenSprintAdd: true})}/>
             <span style={{verticalAlign: "middle"}}>スプリント</span>

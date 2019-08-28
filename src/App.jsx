@@ -8,14 +8,12 @@ import TaskBoardPage from './task_management/task_board/component/TaskBoardPage'
 
 export default () => (
   <Router>
-    <Fragment>
-      <div className="container-fluid" style={{ marginTop: "10px" }}>
-        <Link to={'/'}>Top</Link>
-        <Switch>
-          <Route path={'/'} component={SprintBacklogPage} exact={true} />
-          <Route path={'/sprints/:sprintId/task_board'} component={TaskBoardPage} exact={true} />
-        </Switch>
-      </div>
-    </Fragment>
+    <div style={{width: "100%", height: "100vh", padding: "10px"}}>
+      <Link to={'/'}>Top</Link>
+      <Switch>
+        <Route path={'/'} component={SprintBacklogPage} exact={true} />
+        <Route path={'/sprints/:sprintId/task_board'} component={TaskBoardPage} exact={true} />
+      </Switch>
+    </div>
   </Router>
 )
