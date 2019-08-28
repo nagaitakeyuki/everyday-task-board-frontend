@@ -38,7 +38,7 @@ class Sprint extends Component {
             <div style={{position: "relative", margin: "2px", cursor: "move"}}>
               <img src="imgs/plus.png" style={{cursor: "pointer", verticalAlign: "middle"}}
                   onClick={() => this.setState({isOpenStoryAdd: true})}/>
-              <span style={{verticalAlign: "middle"}}>
+              <span style={{verticalAlign: "middle", marginLeft: "3px"}}>
                 <Link to={`/sprints/${sprint.sprintId}/task_board`}>{sprint.sprintName}</Link>
               </span>
               <span style={{position: "absolute", right: "5px"}}>2019/7/14 〜 2019/7/28</span>

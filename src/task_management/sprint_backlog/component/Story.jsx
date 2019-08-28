@@ -56,10 +56,10 @@ class Story extends Component {
               ) : (
               <div style={{border: "1px solid whitesmoke", borderRadius: "5px", margin: "3px",
                            background: "whitesmoke", cursor: "move", position: "relative"}}>
-                <span style={{textDecoration: story.storyStatus === "end" ? "line-through" : ""}}
+                <div style={{textDecoration: story.storyStatus === "end" ? "line-through" : "", width: "90%"}}
                       onClick={() => {this.setState({isEditing: true})}}>
                   {story.storyName}
-                </span>
+                </div>
                 <Popconfirm
                   title="ストーリーを削除しますか？紐づくタスクも併せて削除されます。"
                   onConfirm={this.deleteStory}

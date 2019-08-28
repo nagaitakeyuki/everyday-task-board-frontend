@@ -30,7 +30,7 @@ class BacklogColumn extends Component {
         <div style={{margin: "3px"}}>
             <img src="imgs/plus.png" style={{cursor: "pointer"}}
                   onClick={() => this.setState({isOpenBacklogCategoryAdd: true})}/>
-            <span style={{verticalAlign: "middle"}}>バックログ</span>
+            <span style={{verticalAlign: "middle", marginLeft: "3px"}}>バックログ</span>
         </div>
     
         {backlogCategories.size > 0 ? (

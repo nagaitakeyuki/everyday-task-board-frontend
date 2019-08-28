@@ -64,7 +64,7 @@ class BacklogCategory extends Component{
                   <Fragment>
                     <img src="imgs/plus.png" style={{cursor: "pointer", verticalAlign: "middle"}}
                         onClick={() => this.setState({...this.state, isOpenStoryAdd: true})}/>
-                    <span style={{verticalAlign: "middle"}}
+                    <span style={{verticalAlign: "middle", marginLeft: "3px"}}
                         onClick={() => this.setState({...this.state, isEditing: true})}>
                       {backlogCategory.backlogCategoryName}
                     </span>

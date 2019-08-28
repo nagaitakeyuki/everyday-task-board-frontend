@@ -29,7 +29,7 @@ class SprintColumn extends Component {
         <div style={{margin: "3px"}}>
             <img src="imgs/plus.png" style={{cursor: "pointer"}}
                 onClick={() => this.setState({isOpenSprintAdd: true})}/>
-            <span style={{verticalAlign: "middle"}}>スプリント</span>
+            <span style={{verticalAlign: "middle", marginLeft: "3px"}}>スプリント</span>
         </div>
     
         {sprints.size > 0 ? (
