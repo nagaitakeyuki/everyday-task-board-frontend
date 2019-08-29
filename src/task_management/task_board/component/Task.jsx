@@ -42,7 +42,7 @@ class Task extends Component {
             >
               <div style={{ width: "80px", height: "80px", background: "#87cefa", borderRadius: "5px",
                 marginRight: "3px", marginBottom: "3px", cursor: 'move', wordWrap: "break-word",
-                textDecoration: task.taskStatus === "end" ? "line-through" : "" }}
+                textDecoration: task.taskStatus === "end" ? "line-through" : "" , overflow: "hidden"}}
                 onClick={() => this.setState({...this.state, isEditing: true})}>
                 {task.taskName}
               </div>
