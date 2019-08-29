@@ -35,13 +35,18 @@ class Sprint extends Component {
               {...provided.droppableProps}
               style={{border: "1px solid lightgray", borderRadius: "5px", marginTop: "5px", background: "lightgray"}}>
 
-            <div style={{position: "relative", margin: "2px", cursor: "move"}}>
+            <div style={{margin: "2px", cursor: "move"}}>
               <img src="imgs/plus.png" style={{cursor: "pointer", verticalAlign: "middle"}}
                   onClick={() => this.setState({isOpenStoryAdd: true})}/>
+              <Link to={`/sprints/${sprint.sprintId}/task_board`}>
+                <img src="imgs/grid.png" style={{cursor: "pointer", verticalAlign: "middle", marginLeft: "5px"}}/>
+              </Link>
               <span style={{verticalAlign: "middle", marginLeft: "3px"}}>
-                <Link to={`/sprints/${sprint.sprintId}/task_board`}>{sprint.sprintName}</Link>
+                {sprint.sprintName}
               </span>
-              <span style={{position: "absolute", right: "5px"}}>2019/7/14 〜 2019/7/28</span>
+              <div style={{float: "right"}}>
+                <span>7/14 〜 7/28</span>
+              </div>
             </div>
         
             {sprint.stories.size > 0 ?
