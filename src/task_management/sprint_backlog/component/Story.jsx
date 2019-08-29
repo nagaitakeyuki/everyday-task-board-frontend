@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import { Draggable } from 'react-beautiful-dnd'
 import { connect } from 'react-redux'
-import { Input, Button, Popconfirm} from "antd"
+import { Input, Button, Popconfirm, Icon} from "antd"
 
 import Actions from '../sprintBacklogActions'
 
@@ -64,7 +64,9 @@ class Story extends Component {
                   title="ストーリーを削除しますか？紐づくタスクも併せて削除されます。"
                   onConfirm={this.deleteStory}
                   okText="削除"
+                  okType="danger"
                   cancelText="キャンセル"
+                  icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
                 >
                   <img src="imgs/trash-can.png"
                         style={{position: "absolute", right: "2px", top: "4px", cursor: "pointer"}} />
