@@ -69,7 +69,7 @@ class Story extends Component {
                   icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
                 >
                   <img src="imgs/trash-can.png"
-                        style={{position: "absolute", right: "2px", top: "4px", cursor: "pointer"}} />
+                        style={{position: "absolute", right: "2px", top: "4px", cursor: "pointer", opacity: "0.7"}} />
                 </Popconfirm>
               </div>
               )
