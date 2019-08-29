@@ -5,6 +5,7 @@ import "antd/dist/antd.css"
 
 import SprintBacklogPage from './task_management/sprint_backlog/component/SprintBacklogPage'
 import TaskBoardPage from './task_management/task_board/component/TaskBoardPage'
+import './App.css'
 
 export default () => (
   <Router>
