@@ -23,7 +23,7 @@ export default connect(state => (
         <div style={{ paddingTop: "5px", fontSize: "0.8rem"}}>
           {sprint ? (
             <Fragment>
-              <TaskBoardTitle sprintName={sprint.sprintName} />
+              <TaskBoardTitle sprint={sprint} />
               <TaskBoardTable stories={sprint.stories} />
             </Fragment>
           ): null}

@@ -49,8 +49,10 @@ class SprintColumn extends Component {
             onCancel={closeAddSprint}
             footer={null}
             destroyOnClose
-            width={500}>
-            <SprintForm onSaveButtonClick={addSprint}/>
+            width={300}>
+            <SprintForm 
+              mode={SprintForm.Mode.New}
+              onSaveButtonClick={addSprint}/>
           </Modal>
     
       </div>

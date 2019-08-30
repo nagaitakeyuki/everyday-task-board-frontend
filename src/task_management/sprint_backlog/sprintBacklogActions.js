@@ -21,6 +21,11 @@ export default {
     payload
   }),
 
+  updateSprint: payload => ({
+    type: Types.UPDATE_SPRINT,
+    payload
+  }),  
+
   addStory: payload => ({
     type: Types.ADD_STORY,
     payload

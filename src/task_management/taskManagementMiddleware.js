@@ -21,6 +21,13 @@ export default store => next => action => {
     })()
   }
 
+  if (action.type === sprintBacklogTypes.UPDATE_SPRINT) {
+    ; (async () => {
+      const {sprintId} = action.payload
+      await API.sprints.put(action.payload, `/sprint/${sprintId}`)
+    })()
+  }
+
   if (action.type === sprintBacklogTypes.ADD_BACKLOG_CATEGORY) {
     ; (async () => {
       const newBacklogCategory = await API.sprints.post(action.payload, "/backlogCategory")

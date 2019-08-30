@@ -1,10 +1,15 @@
 import React, {Fragment} from 'react'
+import moment from 'moment'
 
-export default (props) => (
+export default ({sprint}) => (
   <Fragment>
     <div style={{position: "relative"}}>
-      <h3 style={{ display: "inline" }}>{props.sprintName}</h3>
-      <span style={{position: "absolute", right: "0", bottom: "0"}}>2019/7/14 〜 2019/7/28</span>
+      <h3 style={{ display: "inline" }}>{sprint.sprintName}</h3>
+      <span style={{position: "absolute", right: "0", bottom: "0"}}>
+        {moment(sprint.startDate, "YYYYMMDD").format("YYYY/MM/DD")}
+        &nbsp;〜&nbsp;
+        {moment(sprint.endDate, "YYYYMMDD").format("YYYY/MM/DD")}
+      </span>
 
     </div>
   </Fragment>

@@ -82,6 +82,18 @@ export default (state = initState, action) => {
 
       return { ...state, sprints: copiedSprints}
     }
+    case sprintBacklogTypes.UPDATE_SPRINT: {
+      const { sprintId, sprintName, startDate, endDate } = action.payload
+
+      const copiedSprints = copySprintsMap(state.sprints)
+
+      const sprint = copiedSprints.get(sprintId)
+      sprint.sprintName = sprintName
+      sprint.startDate = startDate
+      sprint.endDate = endDate
+
+      return { ...state, sprints: copiedSprints}
+    }
     case sprintBacklogTypes.SET_NEW_BACKLOG_CATEGORY: {
       const { newBacklogCategory } = action.payload
 
