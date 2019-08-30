@@ -13,7 +13,7 @@ class SprintColumn extends Component {
   }
 
   render() {
-    const {sprints, dispatch} = this.props
+    const {sprints, dispatch, isClosedView} = this.props
 
     const addSprint = (param) => {
       dispatch(Actions.addSprint(param))
@@ -26,16 +26,19 @@ class SprintColumn extends Component {
 
     return (
       <div style={{display: "flex", flexDirection: "column", width: "50%" }}>
-        <div style={{margin: "3px"}}>
-            <img src="imgs/plus.png" style={{cursor: "pointer"}}
-                onClick={() => this.setState({isOpenSprintAdd: true})}/>
+          <div style={{margin: "3px"}}>
+            {!isClosedView ? 
+                <img src="imgs/plus.png" style={{cursor: "pointer"}}
+                    onClick={() => this.setState({isOpenSprintAdd: true})}/>
+            : null}
             <span style={{verticalAlign: "middle", marginLeft: "3px"}}>スプリント</span>
-        </div>
+          </div>
     
-        {sprints.size > 0 ? (
+        {sprints ? (
             <Fragment >
               {
                 Array.from(sprints.values())
+                  .filter(sprint => !isClosedView ? sprint.sprintStatus !== "end" : sprint.sprintStatus === "end")
                   .sort((a, b) => a.sortOrder - b.sortOrder)
                   .map(sprint => (
                     <Sprint sprint={sprint} key={sprint.sprintId}/>

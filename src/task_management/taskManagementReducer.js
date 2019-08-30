@@ -2,8 +2,8 @@ import sprintBacklogTypes from './sprint_backlog/sprintBacklogTypes'
 import taskBoardTypes from './task_board/taskBoardTypes'
 
 const initState = {
-  sprints: new Map(),
-  backlogCategories: new Map(),
+  sprints: undefined,
+  backlogCategories: undefined,
   currentSprint: undefined
 }
 
@@ -70,6 +70,9 @@ export default (state = initState, action) => {
 
       return { ...state, sprints: sprintsMap, backlogCategories: backlogCategoriesMap }
     }
+    case sprintBacklogTypes.RESET_SPRINTS: {
+      return initState
+    }
     case sprintBacklogTypes.SET_NEW_SPRINT: {
       const { newSprint } = action.payload
 
@@ -83,7 +86,7 @@ export default (state = initState, action) => {
       return { ...state, sprints: copiedSprints}
     }
     case sprintBacklogTypes.UPDATE_SPRINT: {
-      const { sprintId, sprintName, startDate, endDate } = action.payload
+      const { sprintId, sprintName, startDate, endDate, status } = action.payload
 
       const copiedSprints = copySprintsMap(state.sprints)
 
@@ -91,6 +94,7 @@ export default (state = initState, action) => {
       sprint.sprintName = sprintName
       sprint.startDate = startDate
       sprint.endDate = endDate
+      sprint.sprintStatus = status
 
       return { ...state, sprints: copiedSprints}
     }

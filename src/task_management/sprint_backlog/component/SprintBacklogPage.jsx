@@ -8,10 +8,6 @@ import Actions from '../sprintBacklogActions'
 
 
 class SprintBacklog extends Component {
-  componentDidMount() {
-    this.props.dispatch(Actions.getSprints())
-  }
-
   onDragEnd = result => {
     const { destination, source, draggableId } = result
 
@@ -43,14 +39,14 @@ class SprintBacklog extends Component {
   }
 
   render() {
-    const {sprints, backlogCategories} = this.props
+    const {sprints, backlogCategories, isClosedView} = this.props
 
     return (
       <div style={{marginTop: "10px", display: "flex"}}>
         <DragDropContext onDragEnd={this.onDragEnd}>
 
-          <SprintColumn sprints={sprints}/>
-          <BacklogColumn backlogCategories={backlogCategories}/>
+          <SprintColumn sprints={sprints} isClosedView={isClosedView}/>
+          <BacklogColumn backlogCategories={backlogCategories} isClosedView={isClosedView}/>
 
         </DragDropContext>
       </div>

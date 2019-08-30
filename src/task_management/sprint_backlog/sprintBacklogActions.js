@@ -11,6 +11,10 @@ export default {
     payload
   }),
   
+  resetSprints: () => ({
+    type: Types.RESET_SPRINTS
+  }),
+
   addSprint: payload => ({
     type: Types.ADD_SPRINT,
     payload

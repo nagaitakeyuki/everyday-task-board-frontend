@@ -14,7 +14,7 @@ class BacklogColumn extends Component {
   }
 
   render() {
-    const {backlogCategories, dispatch} = this.props
+    const {backlogCategories, dispatch, isClosedView} = this.props
 
     const addBacklogCategory = (param) => {
       dispatch(Actions.addBacklogCategory(param))
@@ -28,15 +28,18 @@ class BacklogColumn extends Component {
     return (
       <div style={{display: "flex", flexDirection: "column", width: "50%", marginLeft: "10px" }}>
         <div style={{margin: "3px"}}>
-            <img src="imgs/plus.png" style={{cursor: "pointer"}}
-                  onClick={() => this.setState({isOpenBacklogCategoryAdd: true})}/>
+            {!isClosedView ? 
+              <img src="imgs/plus.png" style={{cursor: "pointer"}}
+                    onClick={() => this.setState({isOpenBacklogCategoryAdd: true})}/>
+            : null}
             <span style={{verticalAlign: "middle", marginLeft: "3px"}}>バックログ</span>
         </div>
     
-        {backlogCategories.size > 0 ? (
+        {backlogCategories ? (
             <Fragment >
               {
                 Array.from(backlogCategories.values())
+                  .filter(backlogCategory => !isClosedView ? backlogCategory.status !== "end" : backlogCategory.status === "end")
                   .sort((a, b) => a.sortOrder - b.sortOrder)
                   .map(backlogCategory => (
                     <BacklogCategory backlogCategory={backlogCategory} key={backlogCategory.backlogCategoryId}/>

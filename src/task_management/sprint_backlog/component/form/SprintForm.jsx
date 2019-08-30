@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
-import { Row, Col, Input, Button, DatePicker } from "antd"
+import { Row, Col, Input, Button, DatePicker, Select } from "antd"
 import moment from 'moment'
 
 const dateFormat = 'YYYY/MM/DD'
@@ -17,7 +17,8 @@ class SprintForm extends Component {
     this.state = {
       name: sprint ? sprint.sprintName : "",
       startDate: sprint ? sprint.startDate : "",
-      endDate: sprint ? sprint.endDate : ""
+      endDate: sprint ? sprint.endDate : "",
+      status: sprint ? sprint.sprintStatus : undefined
     }
     this.handleTextChange = this.handleTextChange.bind(this)
   }
@@ -60,6 +61,26 @@ class SprintForm extends Component {
               />
             </Row>
           </Row>
+
+          {this.props.mode === SprintForm.Mode.Edit ?
+            <Row style={{ marginTop: "10px" }}>
+              <Row>
+                ステータス:
+              </Row>
+              <Row>
+                <Select
+                  onChange={(value) => this.handleSelectChange(value, "status")}
+                  value={`${this.state.status}`}
+                  dropdownMatchSelectWidth={false}
+                >
+                  <Select.Option key={"new"}>新規</Select.Option>
+                  <Select.Option key={"running"}>進行中</Select.Option>
+                  <Select.Option key={"end"}>完了</Select.Option>
+                </Select>
+              </Row>
+            </Row>
+           : null}
+
           <Row style={{ marginTop: "10px" }}>
             <Button
               type="default"
@@ -68,7 +89,8 @@ class SprintForm extends Component {
                   this.props.onSaveButtonClick({sprintId: this.props.sprint ? this.props.sprint.sprintId : null,
                                                 sprintName: this.state.name,
                                                 startDate: this.state.startDate,
-                                                endDate: this.state.endDate})
+                                                endDate: this.state.endDate,
+                                                status: this.state.status})
                 }
               }
               style={{ float: "right" }}
@@ -88,6 +110,11 @@ class SprintForm extends Component {
   handleDateRangeChange(date, keys) {
     this.setState({ [keys[0]]: date[0].format("YYYYMMDD"), [keys[1]]: date[1].format("YYYYMMDD")})
   }
+
+  handleSelectChange(value, key) {
+    this.setState({ [key]: value })
+  }
+  
 }
 
 SprintForm.propTypes = {
