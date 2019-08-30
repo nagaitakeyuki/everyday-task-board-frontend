@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from "react-router-dom"
-import { Spin } from 'antd'
+import Spin from '../common/component/Spin'
 
 import Actions from '../task_management/sprint_backlog/sprintBacklogActions'
 
@@ -16,7 +16,7 @@ class InitalLoadPage extends Component {
       <Fragment>
         {this.props.isLoaded
           ? <Redirect to={"/running"} />
-          : <div><Spin tip="Loading..."/></div>}
+          : <Spin />}
       </Fragment>
     )
   }

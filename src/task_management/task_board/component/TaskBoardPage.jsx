@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
-import { Spin } from 'antd'
+import Spin from '../../../common/component/Spin'
 
 import TaskBoardTitle from './TaskBoardTitle'
 import TaskBoardTable from './TaskBoardTable'
@@ -40,7 +40,7 @@ export default connect(state => (
                 ): null}
               </div>
             : 
-              <div><Spin tip="Loading..."/></div>}
+              <Spin />}
         </Fragment>
       )
     }
