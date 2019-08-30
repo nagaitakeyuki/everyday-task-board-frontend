@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import {connect} from 'react-redux'
 import { DragDropContext } from 'react-beautiful-dnd'
+import { Redirect } from "react-router-dom"
 
 import SprintColumn from './SprintColumn'
 import BacklogColumn from './BacklogColumn'
@@ -39,6 +40,10 @@ class SprintBacklog extends Component {
   }
 
   render() {
+    if (!this.props.isLoaded) {
+      return <Redirect to={"/"} />
+    }
+
     const {sprints, backlogCategories, isClosedView} = this.props
 
     return (
@@ -58,6 +63,7 @@ class SprintBacklog extends Component {
 export default connect(state => {
   return {
     sprints: state.sprint.sprints,
-    backlogCategories: state.sprint.backlogCategories
+    backlogCategories: state.sprint.backlogCategories,
+    isLoaded: state.sprint.sprints !== undefined
   }
 })(SprintBacklog)
