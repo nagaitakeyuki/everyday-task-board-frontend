@@ -14,6 +14,10 @@ export default class {
     return await this.ajax({path})
   }
 
+  async put(body, path = '') {
+    return await this.ajax({type: 'put', body, path})
+  }
+
   async post(body, path = '') {
     return await this.ajax({type: 'post', body, path})
   }
