@@ -5,6 +5,7 @@ import {composeWithDevTools} from 'redux-devtools-extension'
 
 import reducer from './reducers'
 import middleware from '../task_management/taskManagementMiddleware'
+import loginMiddleware from '../login/loginMiddleware'
 
 export const history = createHashHistory()
 const RouterMiddleware = routerMiddleware(history)
@@ -14,7 +15,7 @@ const store = createStore(
     ...reducer,
     router: routerReducer
   }),
-  composeWithDevTools(applyMiddleware(middleware, RouterMiddleware))
+  composeWithDevTools(applyMiddleware(middleware, loginMiddleware, RouterMiddleware))
 )
 
 export default store

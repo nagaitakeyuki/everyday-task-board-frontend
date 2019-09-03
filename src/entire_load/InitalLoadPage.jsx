@@ -8,15 +8,20 @@ import Actions from '../task_management/sprint_backlog/sprintBacklogActions'
 
 class InitalLoadPage extends Component {
   componentDidMount() {
-    this.props.dispatch(Actions.getSprints())
+    if (this.props.isLogined) {
+      this.props.dispatch(Actions.getSprints())
+    }
   }
 
   render() {
     return (
       <Fragment>
-        {this.props.isLoaded
-          ? <Redirect to={"/running"} />
-          : <Spin />}
+        {this.props.isLogined 
+          ? this.props.isLoaded
+            ? <Redirect to={"/running"} />
+            : <Spin />
+          : <Redirect to={"/login"} />
+        }
       </Fragment>
     )
   }
@@ -25,6 +30,7 @@ class InitalLoadPage extends Component {
 
 export default connect(state => {
   return {
+    isLogined: state.login.jwt !== undefined,
     isLoaded: state.sprint.sprints !== undefined
   }
 })(InitalLoadPage)

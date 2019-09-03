@@ -6,11 +6,26 @@ export default class {
   }
 
   async ajax({type = 'get', path = '', body = null}) {
+    await fetch(this.resource + path, {
+      method: type,
+      headers: new Headers({
+        "Content-Type": "application/json"
+      }),
+      body: JSON.stringify(body)
+    }).then(response => {
+
+
+    }) 
+
+
+
+
     const {data} = await $http[type](this.resource + path, body)
     return data
   }
 
   async get(path = '') {
+    fetch()
     return await this.ajax({path})
   }
 
