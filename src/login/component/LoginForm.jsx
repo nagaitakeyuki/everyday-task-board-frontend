@@ -27,7 +27,7 @@ class LoginForm extends Component {
               />
             </Row>
           </Row>
-          <Row>
+          <Row style={{marginTop: "20px"}}>
             <Row>
               パスワード：
             </Row>
@@ -39,7 +39,7 @@ class LoginForm extends Component {
               />
             </Row>
           </Row>
-          <Row style={{ marginTop: "10px" }}>
+          <Row style={{ marginTop: "30px" }}>
             <Button
               type="default"
               onClick={

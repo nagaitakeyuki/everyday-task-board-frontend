@@ -10,5 +10,16 @@ export default {
   setLoginUser: payload => ({
     type: Types.SET_LOGIN_USER,
     payload
-  })
+  }),
+
+  markNotLoggedInYet: payload => ({
+    type: Types.MARK_NOT_LOGGED_IN_YET,
+    payload
+  }),
+
+  getLoginUser: () => ({
+    type: Types.GET_LOGIN_USER
+  }),
+
+
 }

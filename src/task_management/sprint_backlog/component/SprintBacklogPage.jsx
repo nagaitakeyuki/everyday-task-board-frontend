@@ -1,14 +1,42 @@
 import React, { Component, Fragment } from 'react'
 import {connect} from 'react-redux'
 import { DragDropContext } from 'react-beautiful-dnd'
-import { Redirect } from "react-router-dom"
 
 import SprintColumn from './SprintColumn'
 import BacklogColumn from './BacklogColumn'
 import Actions from '../sprintBacklogActions'
+import Spin from '../../../common/component/Spin'
 
 
 class SprintBacklog extends Component {
+
+  componentDidMount() {
+    if (!this.props.isLoaded) 
+      this.props.dispatch(Actions.getSprints())
+  }
+
+  render() {
+    const {sprints, backlogCategories, isClosedView} = this.props
+
+    return (
+      <Fragment>
+        {this.props.isLoaded
+          ?
+            <div style={{marginTop: "10px", display: "flex"}}>
+              <DragDropContext onDragEnd={this.onDragEnd}>
+      
+                <SprintColumn sprints={sprints} isClosedView={isClosedView}/>
+                <BacklogColumn backlogCategories={backlogCategories} isClosedView={isClosedView}/>
+      
+              </DragDropContext>
+            </div>
+          :
+            <Spin />
+        }
+      </Fragment>
+    )
+  }
+
   onDragEnd = result => {
     const { destination, source, draggableId } = result
 
@@ -39,24 +67,6 @@ class SprintBacklog extends Component {
     
   }
 
-  render() {
-    if (!this.props.isLoaded) {
-      return <Redirect to={"/"} />
-    }
-
-    const {sprints, backlogCategories, isClosedView} = this.props
-
-    return (
-      <div style={{marginTop: "10px", display: "flex"}}>
-        <DragDropContext onDragEnd={this.onDragEnd}>
-
-          <SprintColumn sprints={sprints} isClosedView={isClosedView}/>
-          <BacklogColumn backlogCategories={backlogCategories} isClosedView={isClosedView}/>
-
-        </DragDropContext>
-      </div>
-    )
-  }
 
 }
 

@@ -1,29 +1,39 @@
 import Actions from './loginActions'
 import Types from './loginTypes'
-import API from '../common/utils/api'
+import ApiCommon from '../common/utils/api/apiCommon';
 
 export default store => next => action => {
   const {dispatch} = store
 
   if (action.type === Types.LOGIN) {
-    const params = action.payload
+    ; (async () => {
+      const params = action.payload
 
-    fetch("/authenticate", {
-      method: "post",
-      body: Object.keys(params).map((key)=>key+"="+encodeURIComponent(params[key])).join("&"),
-      headers : new Headers({'Content-type' : 'application/x-www-form-urlencoded' })
-    })
-    .then((response) => {
+      const response =  await ApiCommon.post("/authenticate", params, {
+        body: Object.keys(params).map((key)=>key+"="+encodeURIComponent(params[key])).join("&"),
+        headers : new Headers({"Content-type" : "application/x-www-form-urlencoded" })
+      })
+  
       if (response.ok) {
-        const jwt = response.headers.get("Authorization").substring(7)
-        dispatch(Actions.setLoginUser({jwt}))
+        dispatch(Actions.setLoginUser(response.json))
+      } else {
+        console.log("ログイン失敗")
       }
-      // TODO: エラーハンドリング
-    })
-    .catch((error) =>{
-      console.error(error);
-    });
+    })()
   }
+
+  if (action.type === Types.GET_LOGIN_USER) {
+    ; (async () => {
+      const response =  await ApiCommon.get("/user/loginUser")
+  
+      if (response.ok) {
+        dispatch(Actions.setLoginUser(response.json))
+      } else {
+        dispatch(Actions.markNotLoggedInYet())
+      }
+    })()
+  }
+
 
   next(action)
 }

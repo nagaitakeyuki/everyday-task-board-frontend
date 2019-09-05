@@ -1,7 +1,10 @@
 let setting = undefined
 let endPoint = ""
 const mode = "cors"
-const credential = "omit"
+const credential = "same-origin"
+const headers = new Headers({
+  "Content-type": "application/json"
+})
 
 export default class ApiCommon {
   static Method = {
@@ -14,34 +17,34 @@ export default class ApiCommon {
   static init(serverSetting) {
     // setting = serverSetting
     // endPoint = `${setting.url}/${setting.base}`
-    endPoint = "/sprints"
+    endPoint = ""
   }
 
-  static async get(path, jwt) {
+  static async get(path) {
     return doFetch(
       getApiUrl(path),
-      getOption(jwt)
+      getOption()
     )
   }
 
-  static async post(path, request, jwt) {
+  static async post(path, request, option) {
     return doFetch(
       getApiUrl(path),
-      getUpdateOption(ApiCommon.Method.POST, request, jwt)
+      getUpdateOption(ApiCommon.Method.POST, request, option)
     )
   }
 
-  static async put(path, request, jwt) {
+  static async put(path, request) {
     return doFetch(
       getApiUrl(path),
-      getUpdateOption(ApiCommon.Method.PUT, request, jwt)
+      getUpdateOption(ApiCommon.Method.PUT, request)
     )
   }
 
-  static async delete(path, request, jwt) {
+  static async delete(path, request) {
     return doFetch(
       getApiUrl(path),
-      getUpdateOption(ApiCommon.Method.DELETE, request, jwt)
+      getUpdateOption(ApiCommon.Method.DELETE, request)
     )
   }
 }
@@ -51,55 +54,31 @@ const getApiUrl = (path) => {
   return apiUrl
 }
 
-const getOption = (jwt) => {
-  const headers =  jwt
-    ?
-      new Headers({
-        "Content-type": "application/json",
-        "Authorization": `Bearer ${jwt}`
-      })
-    :
-      new Headers({
-        "Content-type": "application/json"
-      })
-
+const getOption = () => {
   const option = {
     method: ApiCommon.Method.GET,
-    mode: mode,
-    credential: credential,
+    mode,
+    credential,
     headers
   }
 
-  console.log(option)
   return option
 }
 
-const getUpdateOption = (method, request, jwt) => {
-  const headers =  jwt
-    ?
-      new Headers({
-        "Content-type": "application/json",
-        "Authorization": `Bearer ${jwt}`
-      })
-    :
-      new Headers({
-        "Content-type": "application/json"
-      })
-
+const getUpdateOption = (method, request, priorOption) => {
   const option = {
     method: method,
-    mode: mode,
-    credential: credential,
+    mode,
+    credential,
     headers,
     body: JSON.stringify(request),
   }
-  return option
+  return Object.assign({}, option, priorOption)
 }
 
 const doFetch = async (path, option) => {
   let ok = false
   let status = -1
-  console.debug("API-request:", path, option)
   return await fetch(
     path,
     option,
@@ -109,10 +88,8 @@ const doFetch = async (path, option) => {
     return response.text()
   }).then(text => {
     const json = (text !== "") ? JSON.parse(text) : {}
-    console.debug("API-response:", path, status, { json })
     return { ok, status, json }
   }).catch(error => {
-    console.debug("API-error:", path, { error })
     throw error
   })
 }
