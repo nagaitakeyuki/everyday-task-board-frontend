@@ -31,7 +31,7 @@ export default connect(state => (
         <Fragment>
           {this.props.isLoaded && sprint
             ? 
-              <div style={{ paddingTop: "5px", fontSize: "0.8rem"}}>
+              <div style={{ paddingTop: "10px", fontSize: "0.8rem"}}>
                 {sprint ? (
                   <Fragment>
                     <TaskBoardTitle sprint={sprint} />

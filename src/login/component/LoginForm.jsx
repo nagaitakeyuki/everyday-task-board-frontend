@@ -14,7 +14,7 @@ class LoginForm extends Component {
 
   render() {
     return (
-      <div>
+      <div style={{marginTop: "40px"}}>
         <Col>
           <Row>
             <Row>

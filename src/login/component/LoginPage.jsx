@@ -9,7 +9,8 @@ class LoginPage extends Component {
 
   render() {
     return (
-        <div style={{marginTop: "10px", margin: "0 auto", width: "300px"}}>
+        <div style={{margin: "20px auto 0", width: "350px"}}>
+          <h2>Everyday Task Board　ログイン</h2>
           <LoginForm onLoginButtonClick={this.login} />
         </div>
     )
