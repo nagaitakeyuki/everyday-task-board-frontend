@@ -15,6 +15,9 @@ export default (state = initState, action) => {
     case Types.MARK_NOT_LOGGED_IN_YET: {
       return { ...state, isLoggedIn: false }
     }
+    case Types.CLEAR_LOGIN_USER: {
+      return {...initState, isLoggedIn: false}
+    }
     default:
       return state
   }

@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from 'react'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
 
 import Spin from '../../common/component/Spin'
 import Actions from '../loginActions'
-import LoginPage from './LoginPage'
 
 class LoginCheck extends Component {
 
@@ -26,7 +26,7 @@ class LoginCheck extends Component {
                   {this.props.children}
                 </Fragment>
               :
-                <LoginPage />
+                <Redirect to="/login" />
         }
       </Fragment>
     )

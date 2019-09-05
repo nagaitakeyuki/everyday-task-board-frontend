@@ -21,5 +21,12 @@ export default {
     type: Types.GET_LOGIN_USER
   }),
 
+  logout: () => ({
+    type: Types.LOGOUT
+  }),
+
+  clearLoginUser: () => ({
+    type: Types.CLEAR_LOGIN_USER
+  })
 
 }

@@ -1,29 +1,44 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, Component} from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { Button } from "antd"
 
 import LoginCheck from '../../login/component/LoginCheck'
-import { statement } from '@babel/template'
+import Actions from '../../login/loginActions'
 
-const MainLayout = (props) => (
-  <Fragment>
-    <div>
-      <a href="/">
-        <img src="imgs/logo.png" />
-      </a>
-      &nbsp;&nbsp;
-      <Link to={'/running'} style={{verticalAlign: "middle"}}>進行中</Link>
-      &nbsp;&nbsp;
-      <Link to={'/closed'} style={{verticalAlign: "middle"}}>完了分</Link>
+class MainLayout extends Component {
+  render() {
+    return (
+        <Fragment>
+          <div>
+            <a href="/">
+              <img src="imgs/logo.png" />
+            </a>
+            &nbsp;&nbsp;
+            <Link to={'/running'} style={{verticalAlign: "middle"}}>進行中</Link>
+            &nbsp;&nbsp;
+            <Link to={'/closed'} style={{verticalAlign: "middle"}}>過去分</Link>
+      
+            <div style={{float: "right"}}>
+              <span>{this.props.loginUser.userName}</span>
+              <Button type="link" size="small" style={{marginLeft: "5px"}} onClick={this.logout}>ログアウト</Button>
+            </div>
+          </div>
+      
+          <LoginCheck>
+            {this.props.children}
+          </LoginCheck>
+        </Fragment>
+    )
+  }
 
-      <div style={{float: "right"}}>{props.loginUser.userName}</div>
-    </div>
+  logout = () => {
+    this.props.dispatch(Actions.logout())
+  }
+  
+}
 
-    <LoginCheck>
-      {props.children}
-    </LoginCheck>
-  </Fragment>
-)
+
 
 export default connect(state => ({
   loginUser: state.login

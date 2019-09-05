@@ -34,6 +34,14 @@ export default store => next => action => {
     })()
   }
 
+  if (action.type === Types.LOGOUT) {
+    ; (async () => {
+      await ApiCommon.get("/logout")
+      dispatch(Actions.clearLoginUser())
+    })()
+  }
+
+
 
   next(action)
 }

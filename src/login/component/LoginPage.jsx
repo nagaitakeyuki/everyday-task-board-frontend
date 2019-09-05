@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import {connect} from 'react-redux'
+import {Redirect} from 'react-router-dom'
 
 import Actions from '../loginActions'
 import LoginForm from './LoginForm'
@@ -9,10 +10,17 @@ class LoginPage extends Component {
 
   render() {
     return (
-        <div style={{margin: "20px auto 0", width: "350px"}}>
-          <h2>Everyday Task Board　ログイン</h2>
-          <LoginForm onLoginButtonClick={this.login} />
-        </div>
+      <Fragment>
+        {this.props.isLoggedIn
+          ?
+            <Redirect to="/running" />
+          :
+            <div style={{margin: "20px auto 0", width: "350px"}}>
+              <h2>Everyday Task Board　ログイン</h2>
+              <LoginForm onLoginButtonClick={this.login} />
+            </div>
+        }
+      </Fragment>
     )
   }
 
@@ -22,4 +30,6 @@ class LoginPage extends Component {
 
 }
 
-export default connect()(LoginPage)
+export default connect(state => ({
+  isLoggedIn: state.login.isLoggedIn
+}))(LoginPage)
