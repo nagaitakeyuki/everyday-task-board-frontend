@@ -11,12 +11,16 @@ import middleware from '../task_management/taskManagementMiddleware'
 export const history = createHashHistory()
 const RouterMiddleware = routerMiddleware(history)
 
-const store = createStore(
-  combineReducers({
-    ...reducer,
-    router: routerReducer
-  }),
-  composeWithDevTools(applyMiddleware(middleware, loginMiddleware, signInMiddleware, RouterMiddleware))
-)
+const appReducer = combineReducers({...reducer, router: routerReducer})
+
+const rootReducer = (state, action) => {
+  if (action.type === "CLEAR_STATE") {
+      state = undefined;
+  }
+  return appReducer(state, action);
+};
+const storeEnhancer = applyMiddleware(middleware, loginMiddleware, signInMiddleware, RouterMiddleware)
+
+const store = createStore(rootReducer, composeWithDevTools(storeEnhancer))
 
 export default store

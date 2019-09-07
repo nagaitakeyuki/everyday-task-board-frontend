@@ -1,3 +1,5 @@
+import { push } from 'react-router-redux'
+
 import Actions from './loginActions'
 import Types from './loginTypes'
 import ApiCommon from '../common/utils/api/apiCommon';
@@ -37,11 +39,10 @@ export default store => next => action => {
   if (action.type === Types.LOGOUT) {
     ; (async () => {
       await ApiCommon.get("/logout")
-      dispatch(Actions.clearLoginUser())
+      dispatch({type: "CLEAR_STATE"})
+      dispatch(push("/login"))
     })()
   }
-
-
 
   next(action)
 }
