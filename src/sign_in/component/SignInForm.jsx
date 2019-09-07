@@ -15,7 +15,7 @@ class SignInForm extends Component {
 
   render() {
     return (
-      <div style={{marginTop: "40px"}}>
+      <div style={{marginTop: "30px"}}>
         <Col>
           <Row>
             <Row>
@@ -61,7 +61,7 @@ class SignInForm extends Component {
               }
               style={{ float: "right" }}
             >
-              サインイン（会員登録）
+              登録する
             </Button>
           </Row>
         </Col>

@@ -16,7 +16,7 @@ class LoginPage extends Component {
             <Redirect to="/running" />
           :
             <div style={{margin: "20px auto 0", width: "350px"}}>
-              <h2>Everyday Task Board　ログイン</h2>
+              <h2>Everyday Task Board ログイン</h2>
               <LoginForm onLoginButtonClick={this.login} />
             </div>
         }

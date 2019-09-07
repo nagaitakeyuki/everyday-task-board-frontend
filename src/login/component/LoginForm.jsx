@@ -41,6 +41,7 @@ class LoginForm extends Component {
             </Row>
           </Row>
           <Row style={{ marginTop: "30px" }}>
+            <Link to="/signIn">ユーザー登録</Link>
             <Button
               type="default"
               onClick={
@@ -53,7 +54,6 @@ class LoginForm extends Component {
             >
               ログイン
             </Button>
-            <Link to="/signIn" style={{marginLeft: "5px"}}>サインイン（新規登録）</Link>
           </Row>
         </Col>
       </div >
