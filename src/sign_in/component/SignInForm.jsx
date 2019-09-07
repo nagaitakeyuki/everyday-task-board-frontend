@@ -1,13 +1,13 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
 import { Row, Col, Input, Button } from "antd"
-import { Link } from 'react-router-dom'
 
-class LoginForm extends Component {
+class SignInForm extends Component {
   constructor(props) {
     super(props)
     this.state = {
       email: "",
+      userName: "",
       password: ""
     }
     this.handleTextChange = this.handleTextChange.bind(this)
@@ -30,10 +30,19 @@ class LoginForm extends Component {
           </Row>
           <Row style={{marginTop: "20px"}}>
             <Row>
+              名前：
+            </Row>
+            <Row>
+              <Input
+                onChange={(e) => this.handleTextChange(e, "userName")}
+              />
+            </Row>
+          </Row>
+          <Row style={{marginTop: "20px"}}>
+            <Row>
               パスワード：
             </Row>
             <Row>
-
               <Input
                 type="password"
                 onChange={(e) => this.handleTextChange(e, "password")}
@@ -45,15 +54,15 @@ class LoginForm extends Component {
               type="default"
               onClick={
                 () => {
-                  this.props.onLoginButtonClick({email: this.state.email,
+                  this.props.onSignInButtonClick({email: this.state.email,
+                                                  userName: this.state.userName,
                                                   pass: this.state.password})
                 }
               }
               style={{ float: "right" }}
             >
-              ログイン
+              サインイン（会員登録）
             </Button>
-            <Link to="/signIn" style={{marginLeft: "5px"}}>サインイン（新規登録）</Link>
           </Row>
         </Col>
       </div >
@@ -66,8 +75,8 @@ class LoginForm extends Component {
 
 }
 
-LoginForm.propTypes = {
-  onLoginButtonClick: PropTypes.func.isRequired
+SignInForm.propTypes = {
+  onSignInButtonClick: PropTypes.func.isRequired
 }
 
-export default LoginForm
+export default SignInForm
