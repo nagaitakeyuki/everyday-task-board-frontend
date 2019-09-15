@@ -59,7 +59,7 @@ export default connect()(({ stories, dispatch }) => {
               Array.from(stories.values())
                 .sort((a, b) => a.sortOrder - b.sortOrder)
                 .map(story => (
-                  <TaskBoardStoryRow story={story} key={story.storyId} />
+                  <TaskBoardStoryRow story={story} key={story.id} />
                 ))
               : null}
           </DragDropContext>

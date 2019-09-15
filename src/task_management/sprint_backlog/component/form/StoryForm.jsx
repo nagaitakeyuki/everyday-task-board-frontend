@@ -1,6 +1,8 @@
-import React, { Component } from "react"
-import PropTypes from "prop-types"
-import { Row, Col, Input, Button } from "antd"
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { Row, Col, Input, Button } from 'antd'
+
+import { Story } from '../../../taskManagementModel'
 
 class StoryForm extends Component {
   constructor(props) {
@@ -38,11 +40,17 @@ class StoryForm extends Component {
               type="default"
               onClick={
                 () => {
-                  const param = this.props.sprintId
-                                  ? {sprintId: this.props.sprintId, storyName: this.state.name}
-                                  : {backlogCategoryId: this.props.backlogCategoryId, storyName: this.state.name}
+                  const story = new Story (
+                    null,
+                    this.state.name,
+                    null,
+                    this.props.sprintId,
+                    this.props.backlogCategoryId,
+                    null,
+                    null
+                  )
 
-                  this.props.onSaveButtonClick(param)
+                  this.props.onSaveButtonClick(story)
                 }
               }
               style={{ float: "right" }}

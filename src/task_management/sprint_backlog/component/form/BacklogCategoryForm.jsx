@@ -2,6 +2,8 @@ import React, { Component } from "react"
 import PropTypes from "prop-types"
 import { Row, Col, Input, Button } from "antd"
 
+import { BacklogCategory } from "../../../taskManagementModel"
+
 class BacklogCategoryForm extends Component {
   constructor(props) {
     super(props)
@@ -38,7 +40,11 @@ class BacklogCategoryForm extends Component {
               type="default"
               onClick={
                 () => {
-                  this.props.onSaveButtonClick({backlogCategoryName: this.state.name})
+                  const backlogCategory = new BacklogCategory(
+                    null,
+                    this.state.name
+                  )
+                  this.props.onSaveButtonClick(backlogCategory)
                 }
               }
               style={{ float: "right" }}

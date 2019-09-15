@@ -10,65 +10,8 @@ const initState = {
 export default (state = initState, action) => {
   switch (action.type) {
     case sprintBacklogTypes.SET_SPRINTS: {
-      const { sprints } = action.payload
-
-      const sprintsMap = new Map()
-
-      for (const sprintId in sprints) {
-        const sprint = sprints[sprintId]
-        sprintsMap.set(sprintId, sprint)
-
-        const storiesMap = new Map()
-
-        for (const storyId in sprint.stories) {
-          const story = sprint.stories[storyId]
-          storiesMap.set(storyId, story)
-
-          const tasksMap = new Map()
-
-          for (const taskId in story.tasks) {
-            const task = story.tasks[taskId]
-            tasksMap.set(taskId, task)
-
-          }
-
-          story.tasks = tasksMap
-        }
-
-        sprint.stories = storiesMap
-
-      }
-
-      const { backlogCategories } = action.payload
-
-      const backlogCategoriesMap = new Map()
-
-      for (const backlogCategoryId in backlogCategories) {
-        const backlogCategory = backlogCategories[backlogCategoryId]
-        backlogCategoriesMap.set(backlogCategoryId, backlogCategory)
-
-        const storiesMap = new Map()
-
-        for (const storyId in backlogCategory.stories) {
-          const story = backlogCategory.stories[storyId]
-          storiesMap.set(storyId, story)
-
-          const tasksMap = new Map()
-
-          for (const taskId in story.tasks) {
-            const task = story.tasks[taskId]
-            tasksMap.set(taskId, task)
-
-          }
-
-          story.tasks = tasksMap
-        }
-
-        backlogCategory.stories = storiesMap
-
-      }
-
-      return { ...state, sprints: sprintsMap, backlogCategories: backlogCategoriesMap }
+      const { sprints, backlogCategories } = action.payload
+      return { ...state, sprints, backlogCategories }
     }
     case sprintBacklogTypes.RESET_SPRINTS: {
       return initState
@@ -86,61 +29,40 @@ export default (state = initState, action) => {
       return { ...state, sprints: copiedSprints}
     }
     case sprintBacklogTypes.UPDATE_SPRINT: {
-      const { sprintId, sprintName, startDate, endDate, status } = action.payload
+      const reqSprint = action.payload
 
       const copiedSprints = copySprintsMap(state.sprints)
 
-      const sprint = copiedSprints.get(sprintId)
-      sprint.sprintName = sprintName
-      sprint.startDate = startDate
-      sprint.endDate = endDate
-      sprint.sprintStatus = status
+      const sprint = copiedSprints.get(reqSprint.id)
+      sprint.name = reqSprint.name
+      sprint.startDate = reqSprint.startDate
+      sprint.endDate = reqSprint.endDate
+      sprint.status = reqSprint.status
 
       return { ...state, sprints: copiedSprints}
     }
     case sprintBacklogTypes.SET_NEW_BACKLOG_CATEGORY: {
       const { newBacklogCategory } = action.payload
-
-      // copySprintsMap()のために、空のMapを初期設定する
-      newBacklogCategory.stories = new Map()
-      
       const copiedBacklogCategories = copySprintsMap(state.backlogCategories)
-
-      copiedBacklogCategories.set(newBacklogCategory.backlogCategoryId, newBacklogCategory)
-
+      copiedBacklogCategories.set(newBacklogCategory.id, newBacklogCategory)
       return { ...state, backlogCategories: copiedBacklogCategories}
     }
     case sprintBacklogTypes.SET_BACKLOG_CATEGORY_NAME: {
       const { changedBacklogCategory } = action.payload
-
       const copied = copyBacklogCategoriesMap(state.backlogCategories) 
-
-      copied.get(changedBacklogCategory.backlogCategoryId).backlogCategoryName = changedBacklogCategory.backlogCategoryName
-
+      copied.get(changedBacklogCategory.id).name = changedBacklogCategory.name
       return { ...state, backlogCategories: copied}
     }
     case sprintBacklogTypes.SET_STORY: {
-      const { sprintId, newStory } = action.payload
-
-      // copySprintsMap()のために、空のMapを初期設定する
-      newStory.tasks = new Map()
-      
+      const { newStory } = action.payload
       const copiedSprints = copySprintsMap(state.sprints)
-
-      copiedSprints.get(sprintId).stories.set(newStory.storyId, newStory)
-
+      copiedSprints.get(newStory.baseSprintId).stories.set(newStory.id, newStory)
       return { ...state, sprints: copiedSprints}
     }
     case sprintBacklogTypes.SET_STORY_TO_BACKLOGCATEGORY: {
-      const { backlogCategoryId, newStory } = action.payload
-
-      // copySprintsMap()のために、空のMapを初期設定する
-      newStory.tasks = new Map()
-      
+      const { newStory } = action.payload
       const copiedBacklogCategories = copyBacklogCategoriesMap(state.backlogCategories)
-
-      copiedBacklogCategories.get(backlogCategoryId).stories.set(newStory.storyId, newStory)
-
+      copiedBacklogCategories.get(newStory.backlogCategoryId).stories.set(newStory.id, newStory)
       return { ...state, backlogCategories: copiedBacklogCategories}
     }
     case sprintBacklogTypes.SET_STORY_NAME: {
@@ -153,7 +75,7 @@ export default (state = initState, action) => {
               : copySprintsMap(state.sprints)
 
       const parentId = isBacklogStory ? changedStory.backlogCategoryId : changedStory.baseSprintId
-      copiedSideState.get(parentId).stories.get(changedStory.storyId).storyName = changedStory.storyName
+      copiedSideState.get(parentId).stories.get(changedStory.id).name = changedStory.name
 
       return isBacklogStory
                ?  { ...state, backlogCategories: copiedSideState}
@@ -187,7 +109,7 @@ export default (state = initState, action) => {
 
       changedStory.sortOrder = newIndex
 
-      dest.stories.set(changedStory.storyId, changedStory)
+      dest.stories.set(changedStory.id, changedStory)
       src.stories.delete(storyId)
 
       // 表示順を再設定する
@@ -198,7 +120,7 @@ export default (state = initState, action) => {
 
       // 　2. 移動先のスプリント or バックログカテゴリーのストーリー群
       Array.from(dest.stories.values())
-        .sort((a, b) => sortItems(a, a.storyId, b, b.storyId, storyId))
+        .sort((a, b) => sortItems(a, a.id, b, b.id, storyId))
         .forEach((story, index) => (story.sortOrder = index))
 
       return { ...state, sprints: copiedSprints, backlogCategories: copiedBacklogCategories}
@@ -219,10 +141,26 @@ export default (state = initState, action) => {
 
       // 表示順を再設定する
       Array.from(src.stories.values())
-        .sort((a, b) => sortItemsByForwardDirection(a, a.storyId, b, b.storyId, storyId, isUpForward))
+        .sort((a, b) => sortItemsByForwardDirection(a, a.id, b, b.id, storyId, isUpForward))
         .forEach((story, index) => story.sortOrder = index)
 
       return { ...state, sprints: copiedSprints, backlogCategories: copiedBacklogCategories}
+    }
+    case sprintBacklogTypes.DELETE_STORY_FROM_STATE: {
+      const { story } = action.payload
+
+      const isBacklogStory = !!story.backlogCategoryId
+
+      const copiedSideState = isBacklogStory 
+              ? copyBacklogCategoriesMap(state.backlogCategories)
+              : copySprintsMap(state.sprints)
+
+      const parentId = isBacklogStory ? story.backlogCategoryId : story.baseSprintId
+      copiedSideState.get(parentId).stories.delete(story.id)
+
+      return isBacklogStory
+               ?  { ...state, backlogCategories: copiedSideState}
+               :  { ...state, sprints: copiedSideState}
     }
     case taskBoardTypes.SWITCH_SPRINT: {
       const { sprintId } = action.payload
@@ -240,7 +178,7 @@ export default (state = initState, action) => {
       const changedTask = tasks.get(taskId)
 
       // 現在のステータス
-      const currentStatus = changedTask.taskStatus
+      const currentStatus = changedTask.status
 
       const isUpForward = newIndex - changedTask.sortOrder > 0
 
@@ -249,15 +187,13 @@ export default (state = initState, action) => {
 
       // タスク順を再設定する
       Array.from(tasks.values())
-        .filter(task => task.taskStatus === currentStatus)
-        .sort((a, b) => sortItemsByForwardDirection(a, a.taskId, b, b.taskId, taskId, isUpForward))
+        .filter(task => task.status === currentStatus)
+        .sort((a, b) => sortItemsByForwardDirection(a, a.id, b, b.id, taskId, isUpForward))
         .forEach((task, index) => task.sortOrder = index)
 
       return { ...state, sprints: copiedSprints, currentSprint: copiedSprints.get(sprintId)}
     }
     case taskBoardTypes.CHANGE_TASK_STATUS: {
-      // TODO: 新ステータスやソート順の反映をAPIだけで実現できないか。APIとフロントエンドで重複した処理ができている。
-
       /*
       DBへの永続化が完了する前に、先行して新ステータスをstateに反映させる。
       先行して反映させないと、タスクのオブジェクトが旧ステータスの位置に一瞬だけ戻ってしまう。
@@ -270,10 +206,10 @@ export default (state = initState, action) => {
 
       const changedTask = tasks.get(taskId)
 
-      const oldStatus = changedTask.taskStatus
+      const oldStatus = changedTask.status
 
       // ステータス変更
-      changedTask.taskStatus = newStatus
+      changedTask.status = newStatus
 
       // 新ステータスでの表示位置を指定
       changedTask.sortOrder = newIndex
@@ -282,30 +218,30 @@ export default (state = initState, action) => {
       // 　1. 変更前のステータス
       // 　　　　ステータス変更されたタスクが無くなると、抜け番ができる。その抜け番を詰める。
       Array.from(tasks.values())
-        .filter(task => task.taskStatus === oldStatus)
+        .filter(task => task.status === oldStatus)
         .sort((a, b) => a.sortOrder - b.sortOrder)
         .forEach((task, index) => (task.sortOrder = index))
       
       // 　2. 変更後のステータス
       Array.from(tasks.values())
-        .filter(task => task.taskStatus === newStatus)
-        .sort((a, b) => sortItems(a, a.taskId, b, b.taskId, taskId))
+        .filter(task => task.status === newStatus)
+        .sort((a, b) => sortItems(a, a.id, b, b.id, taskId))
         .forEach((task, index) => (task.sortOrder = index))
 
       return { ...state, sprints: copiedSprints, currentSprint: copiedSprints.get(sprintId)}
       
     }
     case taskBoardTypes.SET_UPDATED_STORY: {
-      const { storyId, baseSprintId, updatedStory } = action.payload
+      const { updatedStory } = action.payload
 
       const copiedSprints = copySprintsMap(state.sprints)
 
-      const targetStory = copiedSprints.get(baseSprintId).stories.get(storyId)
+      const targetStory = copiedSprints.get(updatedStory.baseSprintId).stories.get(updatedStory.id)
 
-      targetStory.storyName = updatedStory.storyName
-      targetStory.storyStatus = updatedStory.storyStatus
+      targetStory.name = updatedStory.name
+      targetStory.status = updatedStory.status
 
-      return { ...state, sprints: copiedSprints, currentSprint: copiedSprints.get(baseSprintId)}
+      return { ...state, sprints: copiedSprints, currentSprint: copiedSprints.get(updatedStory.baseSprintId)}
     }
     case taskBoardTypes.SET_ADDED_TASKS: {
       const { sprintId, storyId, newTasks } = action.payload
@@ -316,35 +252,19 @@ export default (state = initState, action) => {
                           .stories.get(storyId)
                           .tasks
 
-      newTasks.forEach(newTask => {tasks.set(newTask.taskId, newTask)});
+      newTasks.forEach(newTask => {tasks.set(newTask.id, newTask)});
 
       return { ...state, sprints: copiedSprints, currentSprint: copiedSprints.get(sprintId)}
       
     }
-    case sprintBacklogTypes.DELETE_STORY_FROM_STATE: {
-      const { story } = action.payload
-
-      const isBacklogStory = !!story.backlogCategoryId
-
-      const copiedSideState = isBacklogStory 
-              ? copyBacklogCategoriesMap(state.backlogCategories)
-              : copySprintsMap(state.sprints)
-
-      const parentId = isBacklogStory ? story.backlogCategoryId : story.baseSprintId
-      copiedSideState.get(parentId).stories.delete(story.storyId)
-
-      return isBacklogStory
-               ?  { ...state, backlogCategories: copiedSideState}
-               :  { ...state, sprints: copiedSideState}
-    }
     case taskBoardTypes.SET_UPDATED_TASK: {
-      const { taskId, storyId, sprintId, taskName } = action.payload
+      const { task, sprintId } = action.payload
 
       const copiedSprints = copySprintsMap(state.sprints)
 
-      const targetTask = copiedSprints.get(sprintId).stories.get(storyId).tasks.get(taskId)
+      const targetTask = copiedSprints.get(sprintId).stories.get(task.baseStoryId).tasks.get(task.id)
 
-      targetTask.taskName = taskName
+      targetTask.name = task.name
 
       return { ...state, sprints: copiedSprints, currentSprint: copiedSprints.get(sprintId)}
     }

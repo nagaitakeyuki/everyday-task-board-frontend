@@ -4,12 +4,13 @@ import { connect } from 'react-redux'
 import { Input, Button, Popconfirm, Icon} from "antd"
 
 import Actions from '../sprintBacklogActions'
+import { Story } from '../../taskManagementModel'
 
-class Story extends Component {
+class StoryBox extends Component {
 
   state = {
     isEditing: false,
-    storyName: this.props.story.storyName
+    storyName: this.props.story.name
   }
 
   render() {
@@ -17,7 +18,7 @@ class Story extends Component {
 
     return (
       <Draggable
-        draggableId={story.storyId} index={story.sortOrder}>
+        draggableId={story.id} index={story.sortOrder}>
       
         {provided => (
           <div
@@ -39,7 +40,11 @@ class Story extends Component {
                   type="default"
                   onClick={
                     () => {
-                      this.changeStoryName({storyId: story.storyId, storyName: this.state.storyName})
+                      const storyToUpdate = new Story(
+                        story.id,
+                        this.state.storyName
+                      )
+                      this.changeStoryName(storyToUpdate)
                     }
                   }
                 >
@@ -56,9 +61,9 @@ class Story extends Component {
               ) : (
               <div style={{border: "1px solid whitesmoke", borderRadius: "5px", margin: "3px",
                            background: "whitesmoke", cursor: "move", position: "relative"}}>
-                <div style={{textDecoration: story.storyStatus === "end" ? "line-through" : "", width: "90%"}}
+                <div style={{textDecoration: story.status === "end" ? "line-through" : "", width: "90%"}}
                       onClick={() => {this.setState({isEditing: true})}}>
-                  {story.storyName}
+                  {story.name}
                 </div>
                 <Popconfirm
                   title="ストーリーを削除しますか？紐づくタスクも併せて削除されます。"
@@ -87,16 +92,15 @@ class Story extends Component {
   }
 
   changeStoryName = (param) => {
-    // TODO: 変更前の内容が一瞬表示されてしまう。他に方法ないのか。
     this.props.dispatch(Actions.changeStoryName(param))
     this.setState({isEditing: false})
   }
 
   deleteStory = () => {
-    this.props.dispatch(Actions.deleteStory({story: this.props.story}))
+    this.props.dispatch(Actions.deleteStory(this.props.story))
   }
 
 
 }
 
-export default connect()(Story)
+export default connect()(StoryBox)

@@ -3,6 +3,8 @@ import PropTypes from "prop-types"
 import { Row, Col, Input, Button, DatePicker, Select } from "antd"
 import moment from 'moment'
 
+import { Sprint } from '../../../taskManagementModel'
+
 const dateFormat = 'YYYY/MM/DD'
 
 class SprintForm extends Component {
@@ -15,10 +17,10 @@ class SprintForm extends Component {
     super(props)
     const {sprint} = props
     this.state = {
-      name: sprint ? sprint.sprintName : "",
+      name: sprint ? sprint.name : "",
       startDate: sprint ? sprint.startDate : "",
       endDate: sprint ? sprint.endDate : "",
-      status: sprint ? sprint.sprintStatus : undefined
+      status: sprint ? sprint.status : undefined
     }
     this.handleTextChange = this.handleTextChange.bind(this)
   }
@@ -86,11 +88,15 @@ class SprintForm extends Component {
               type="default"
               onClick={
                 () => {
-                  this.props.onSaveButtonClick({sprintId: this.props.sprint ? this.props.sprint.sprintId : null,
-                                                sprintName: this.state.name,
-                                                startDate: this.state.startDate,
-                                                endDate: this.state.endDate,
-                                                status: this.state.status})
+                  const sprint = new Sprint(
+                    this.props.sprint ? this.props.sprint.id : null,
+                    this.state.name,
+                    this.state.status,
+                    this.state.startDate,
+                    this.state.endDate,
+                  )
+
+                  this.props.onSaveButtonClick(sprint)
                 }
               }
               style={{ float: "right" }}

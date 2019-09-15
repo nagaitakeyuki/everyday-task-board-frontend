@@ -40,7 +40,7 @@ class Sprint extends Component {
 
     return (
       <Droppable
-        droppableId={sprint.sprintId}>
+        droppableId={sprint.id}>
         
         {provided => (
           <div ref={provided.innerRef}
@@ -50,12 +50,12 @@ class Sprint extends Component {
             <div style={{margin: "2px", cursor: "move"}}>
               <img src="imgs/plus.png" style={{cursor: "pointer", verticalAlign: "middle"}}
                   onClick={() => this.setState({isOpenStoryAdd: true})}/>
-              <Link to={`/sprints/${sprint.sprintId}/task_board`}>
+              <Link to={`/sprints/${sprint.id}/task_board`}>
                 <img src="imgs/grid.png" style={{cursor: "pointer", verticalAlign: "middle", marginLeft: "5px", opacity: "0.6"}}/>
               </Link>
               <span style={{verticalAlign: "middle", marginLeft: "3px"}}
                     onClick={() => this.setState({isOpenSprintEdit: true})}>
-                {sprint.sprintName}
+                {sprint.name}
               </span>
               <div style={{float: "right"}}>
                 <span onClick={() => this.setState({isOpenSprintEdit: true})}>
@@ -70,7 +70,7 @@ class Sprint extends Component {
                 Array.from(sprint.stories.values())
                   .sort((a, b) => a.sortOrder - b.sortOrder)
                   .map(story => (
-                    <Story story={story} key={story.storyId} />
+                    <Story story={story} key={story.id} />
                   ))
                 : null}
 
@@ -94,7 +94,7 @@ class Sprint extends Component {
               footer={null}
               destroyOnClose
               width={500}>
-              <StoryForm sprintId={sprint.sprintId} onSaveButtonClick={addStory}/>
+              <StoryForm sprintId={sprint.id} onSaveButtonClick={addStory}/>
             </Modal>
 
           </div>
