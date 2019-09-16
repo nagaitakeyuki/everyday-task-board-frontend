@@ -2,12 +2,14 @@ import React, { Component } from "react"
 import PropTypes from "prop-types"
 import { Row, Col, Input, Button } from "antd"
 
+import { Task } from '../../../taskManagementModel'
+
 class TaskForm extends Component {
   constructor(props) {
     super(props)
     const task = props.task
     this.state = {
-      name: task.taskName
+      name: task.name
     }
     this.handleTextChange = this.handleTextChange.bind(this)
   }
@@ -40,9 +42,15 @@ class TaskForm extends Component {
                 type="default"
                 onClick={
                   () => {
-                    this.props.onSaveButtonClick({taskId: this.props.task.taskId,
-                                                  taskName: this.state.name,
-                                                  storyId: this.props.task.baseStoryId,
+                    const updatedTask = new Task(
+                      this.props.task.id,
+                      this.state.name,
+                      this.props.task.status,
+                      this.props.task.baseStoryId,
+                      this.props.task.sortOrder
+                    )
+
+                    this.props.onSaveButtonClick({task: updatedTask,
                                                   sprintId: this.props.sprintId })
                   }
                 }
@@ -55,7 +63,7 @@ class TaskForm extends Component {
                   () => {
                     if (!window.confirm("タスクを削除しますか？")) return
 
-                    this.props.onDeleteButtonClick({taskId: this.props.task.taskId,
+                    this.props.onDeleteButtonClick({taskId: this.props.task.id,
                                                     storyId: this.props.task.baseStoryId,
                                                     sprintId: this.props.sprintId})
                   }

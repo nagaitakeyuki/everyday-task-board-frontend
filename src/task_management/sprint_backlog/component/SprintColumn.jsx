@@ -38,10 +38,10 @@ class SprintColumn extends Component {
             <Fragment >
               {
                 Array.from(sprints.values())
-                  .filter(sprint => !isClosedView ? sprint.sprintStatus !== "end" : sprint.sprintStatus === "end")
+                  .filter(sprint => !isClosedView ? sprint.status !== "end" : sprint.status === "end")
                   .sort((a, b) => a.sortOrder - b.sortOrder)
                   .map(sprint => (
-                    <Sprint sprint={sprint} key={sprint.sprintId}/>
+                    <Sprint sprint={sprint} key={sprint.id}/>
                   ))
               }
             </Fragment>

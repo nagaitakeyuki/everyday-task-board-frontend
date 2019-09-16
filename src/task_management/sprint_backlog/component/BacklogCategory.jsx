@@ -7,14 +7,15 @@ import Modal from '../../../common/component/Modal'
 import Story from './Story'
 import StoryForm from './form/StoryForm'
 import Actions from '../sprintBacklogActions'
+import { BacklogCategory } from '../../taskManagementModel'
 
-class BacklogCategory extends Component{
+class BacklogCategoryBox extends Component{
 
   state = {
     isOpenStoryAdd: false,
     isEditing: false,
     isCollapsed: true,
-    backlogCategoryName: this.props.backlogCategory.backlogCategoryName
+    backlogCategoryName: this.props.backlogCategory.name
   }
 
   render() {
@@ -23,7 +24,7 @@ class BacklogCategory extends Component{
     return (
 
       <Droppable
-        droppableId={backlogCategory.backlogCategoryId}>
+        droppableId={backlogCategory.id}>
         
         {provided => (
           <div ref={provided.innerRef}
@@ -44,8 +45,15 @@ class BacklogCategory extends Component{
                       type="default"
                       onClick={
                         () => {
-                          this.changeBacklogCategoryName({backlogCategoryId: backlogCategory.backlogCategoryId, 
-                                                          backlogCategoryName: this.state.backlogCategoryName})
+                          const bcToUpdate = new BacklogCategory(
+                            backlogCategory.id,
+                            this.state.backlogCategoryName,
+                            backlogCategory.status,
+                            backlogCategory.stories,
+                            backlogCategory.sortOrder
+                          )
+
+                          this.changeBacklogCategoryName(bcToUpdate)
                         }
                       }
                     >
@@ -66,7 +74,7 @@ class BacklogCategory extends Component{
                         onClick={() => this.setState({...this.state, isOpenStoryAdd: true})}/>
                     <span style={{verticalAlign: "middle", marginLeft: "3px", width: "90%"}}
                         onClick={() => this.setState({...this.state, isEditing: true})}>
-                      {backlogCategory.backlogCategoryName}
+                      {backlogCategory.name}
                     </span>
                     <img src="imgs/arrow.png"
                        style={{position: "absolute", right: "5px", top: "5px", cursor: "pointer", 
@@ -81,7 +89,7 @@ class BacklogCategory extends Component{
                   Array.from(backlogCategory.stories.values())
                     .sort((a, b) => a.sortOrder - b.sortOrder)
                     .map(story => (
-                      <Story story={story} key={story.storyId} />
+                      <Story story={story} key={story.id} />
                   ))
                   : null}
 
@@ -95,7 +103,7 @@ class BacklogCategory extends Component{
               destroyOnClose
               width={500}>
               <StoryForm
-                backlogCategoryId={backlogCategory.backlogCategoryId}
+                backlogCategoryId={backlogCategory.id}
                 onSaveButtonClick={this.addStory}/>
             </Modal>
 
@@ -127,4 +135,4 @@ class BacklogCategory extends Component{
 
 }
 
-export default connect()(BacklogCategory)
+export default connect()(BacklogCategoryBox)

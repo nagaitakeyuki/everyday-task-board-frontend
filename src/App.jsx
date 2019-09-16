@@ -7,8 +7,8 @@ import ApiCommon from './common/utils/api/apiCommon'
 import LoginCheck from './login/component/LoginCheck'
 import LoginPage from './login/component/LoginPage'
 import SignInPage from './sign_in/component/SignInPage'
-import SprintBacklogPageTemplate from './task_management/sprint_backlog/component/SprintBacklogPageTemplate'
-import TaskBoardPageTemplate from './task_management/task_board/component/TaskBoardPageTemplate'
+import SprintBacklogPage from './task_management/sprint_backlog/component/SprintBacklogPage'
+import TaskBoardPage from './task_management/task_board/component/TaskBoardPage'
 import './App.css'
 
 ApiCommon.init()
@@ -20,9 +20,9 @@ export default () => (
         <Route path={'/'} exact={true} render={() => <LoginCheck><Redirect to="/running" /></LoginCheck>}/>
         <Route path={'/signIn'} exact={true} component={SignInPage}/>
         <Route path={'/login'} exact={true} component={LoginPage}/>
-        <Route path={'/running'} exact={true} render={() => <SprintBacklogPageTemplate isClosedView={false}/>} />
-        <Route path={'/closed'} exact={true} render={() => <SprintBacklogPageTemplate isClosedView={true}/>} />
-        <Route path={'/sprints/:sprintId/task_board'} exact={true}render={(props) => <TaskBoardPageTemplate {...props}/>} />
+        <Route path={'/running'} exact={true} render={() => <SprintBacklogPage isClosedView={false}/>} />
+        <Route path={'/closed'} exact={true} render={() => <SprintBacklogPage isClosedView={true}/>} />
+        <Route path={'/sprints/:sprintId/task_board'} exact={true}render={(props) => <TaskBoardPage {...props}/>} />
       </Switch>
     </div>
   </Router>

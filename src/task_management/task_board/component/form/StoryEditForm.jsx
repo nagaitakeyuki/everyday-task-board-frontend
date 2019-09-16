@@ -2,13 +2,15 @@ import React, { Component } from "react"
 import PropTypes from "prop-types"
 import { Row, Col, Input, Button, Select } from "antd"
 
+import { Story } from '../../../taskManagementModel'
+
 class StoryEditForm extends Component {
   constructor(props) {
     super(props)
     const story = props.story
     this.state = {
-      name: story.storyName,
-      status: story.storyStatus
+      name: story.name,
+      status: story.status
     }
     this.handleTextChange = this.handleTextChange.bind(this)
     this.handleSelectChange = this.handleSelectChange.bind(this)
@@ -59,10 +61,14 @@ class StoryEditForm extends Component {
               type="default"
               onClick={
                 () => {
-                  this.props.onSaveButtonClick({storyId: this.props.story.storyId,
-                                                 storyName : this.state.name,
-                                                 storyStatus: this.state.status,
-                                                 baseSprintId: this.props.story.baseSprintId})
+                  const updatedStory = new Story(
+                    this.props.story.id,
+                    this.state.name,
+                    this.state.status,
+                    this.props.story.baseSprintId
+                  )
+
+                  this.props.onSaveButtonClick(updatedStory)
                 }
               }
               style={{ float: "right" }}
