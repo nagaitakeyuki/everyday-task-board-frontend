@@ -7,42 +7,41 @@ import TaskBoardTable from './TaskBoardTable'
 import sprintBacklogActions from '../../sprint_backlog/sprintBacklogActions'
 import taskBoardActions from '../taskBoardActions'
 
+class TaskBoardPage extends Component {
 
-export default connect(state => (
-  { sprint: state.sprint.currentSprint,
-    isLoaded: state.sprint.sprints !== undefined }
-))(
-  class extends Component {
-
-    componentDidMount() {
-      if (!this.props.isLoaded) 
-        this.props.dispatch(sprintBacklogActions.getSprints())
-    }
-
-    render() {
-      if(this.props.isLoaded && !this.props.sprint) {
-        const { sprintId } = this.props.match.params
-        this.props.dispatch(taskBoardActions.swithSprint({ sprintId }))
-      }
-
-      const sprint = this.props.sprint
-
-      return (
-        <Fragment>
-          {this.props.isLoaded && sprint
-            ? 
-              <div style={{ paddingTop: "10px", fontSize: "0.8rem"}}>
-                {sprint ? (
-                  <Fragment>
-                    <TaskBoardTitle sprint={sprint} />
-                    <TaskBoardTable stories={sprint.stories} />
-                  </Fragment>
-                ): null}
-              </div>
-            : 
-              <Spin />}
-        </Fragment>
-      )
-    }
+  componentDidMount() {
+    if (!this.props.isLoaded) 
+      this.props.dispatch(sprintBacklogActions.getSprints())
   }
-)
+
+  render() {
+    if(this.props.isLoaded && !this.props.sprint) {
+      const { sprintId } = this.props.match.params
+      this.props.dispatch(taskBoardActions.swithSprint({ sprintId }))
+    }
+
+    const sprint = this.props.sprint
+
+    return (
+      <Fragment>
+        {this.props.isLoaded && sprint
+          ? 
+            <div style={{ paddingTop: "10px", fontSize: "0.8rem"}}>
+              {sprint ? (
+                <Fragment>
+                  <TaskBoardTitle sprint={sprint} />
+                  <TaskBoardTable stories={sprint.stories} />
+                </Fragment>
+              ): null}
+            </div>
+          : 
+            <Spin />}
+      </Fragment>
+    )
+  }
+}
+  
+export default connect(state => ({
+  sprint: state.sprint.currentSprint,
+  isLoaded: state.sprint.sprints !== undefined
+}))(TaskBoardPage)
