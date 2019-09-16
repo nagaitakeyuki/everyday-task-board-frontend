@@ -35,7 +35,7 @@ export default class TaskManagementService {
   }
 
   static updateSprint = async sprintToUpdate => {
-    const request = Converter.toUpdateRequest(sprintToUpdate)
+    const request = Converter.toUpdateSprintRequest(sprintToUpdate)
 
     return await API.updateSprint(sprintToUpdate.id, request)
       .then(res => {
