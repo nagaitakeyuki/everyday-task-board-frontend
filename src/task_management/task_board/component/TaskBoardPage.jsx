@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import Spin from '../../../common/component/Spin'
 
+import MainLayout from '../../../common/component/MainLayout'
 import TaskBoardTitle from './TaskBoardTitle'
 import TaskBoardTable from './TaskBoardTable'
 import sprintBacklogActions from '../../sprint_backlog/sprintBacklogActions'
@@ -23,7 +24,7 @@ class TaskBoardPage extends Component {
     const sprint = this.props.sprint
 
     return (
-      <Fragment>
+      <MainLayout>
         {this.props.isLoaded && sprint
           ? 
             <div style={{ paddingTop: "10px", fontSize: "0.8rem"}}>
@@ -36,7 +37,7 @@ class TaskBoardPage extends Component {
             </div>
           : 
             <Spin />}
-      </Fragment>
+      </MainLayout>
     )
   }
 }

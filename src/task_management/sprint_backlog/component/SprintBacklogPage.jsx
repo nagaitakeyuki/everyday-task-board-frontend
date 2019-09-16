@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import {connect} from 'react-redux'
 import { DragDropContext } from 'react-beautiful-dnd'
 
+import MainLayout from '../../../common/component/MainLayout'
 import SprintColumn from './SprintColumn'
 import BacklogColumn from './BacklogColumn'
 import Actions from '../sprintBacklogActions'
@@ -19,7 +20,7 @@ class SprintBacklog extends Component {
     const {sprints, backlogCategories, isClosedView} = this.props
 
     return (
-      <Fragment>
+      <MainLayout>
         {this.props.isLoaded
           ?
             <div style={{marginTop: "10px", display: "flex"}}>
@@ -33,7 +34,7 @@ class SprintBacklog extends Component {
           :
             <Spin />
         }
-      </Fragment>
+      </MainLayout>
     )
   }
 

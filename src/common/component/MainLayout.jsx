@@ -9,26 +9,24 @@ import Actions from '../../login/loginActions'
 class MainLayout extends Component {
   render() {
     return (
-        <Fragment>
-          <div>
-            <a href="/">
-              <img src="imgs/logo.png" />
-            </a>
-            &nbsp;&nbsp;
-            <Link to={'/running'} style={{verticalAlign: "middle"}}>進行中</Link>
-            &nbsp;&nbsp;
-            <Link to={'/closed'} style={{verticalAlign: "middle"}}>過去分</Link>
-      
-            <div style={{float: "right"}}>
-              <span>{this.props.loginUser.userName}</span>
-              <Button type="link" size="small" style={{marginLeft: "5px"}} onClick={this.logout}>ログアウト</Button>
-            </div>
+      <LoginCheck>
+        <div>
+          <a href="/">
+            <img src="imgs/logo.png" />
+          </a>
+          &nbsp;&nbsp;
+          <Link to={'/running'} style={{verticalAlign: "middle"}}>進行中</Link>
+          &nbsp;&nbsp;
+          <Link to={'/closed'} style={{verticalAlign: "middle"}}>過去分</Link>
+    
+          <div style={{float: "right"}}>
+            <span>{this.props.loginUser.userName}</span>
+            <Button type="link" size="small" style={{marginLeft: "5px"}} onClick={this.logout}>ログアウト</Button>
           </div>
+        </div>
       
-          <LoginCheck>
-            {this.props.children}
-          </LoginCheck>
-        </Fragment>
+        {this.props.children}
+      </LoginCheck>
     )
   }
 
@@ -37,8 +35,6 @@ class MainLayout extends Component {
   }
   
 }
-
-
 
 export default connect(state => ({
   loginUser: state.login
