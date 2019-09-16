@@ -2,7 +2,6 @@ import sprintBacklogActions from './sprint_backlog/sprintBacklogActions'
 import sprintBacklogTypes from './sprint_backlog/sprintBacklogTypes'
 import taskBoardActions from './task_board/taskBoardActions'
 import taskBoardTypes from './task_board/taskBoardTypes'
-import ApiCommon from '../common/utils/api/apiCommon'
 
 import Service from './taskManagementService'
 
