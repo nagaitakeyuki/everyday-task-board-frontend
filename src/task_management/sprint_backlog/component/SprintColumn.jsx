@@ -52,7 +52,7 @@ class SprintColumn extends Component {
             onCancel={closeAddSprint}
             footer={null}
             destroyOnClose
-            width={300}>
+            width={500}>
             <SprintForm 
               mode={SprintForm.Mode.New}
               onSaveButtonClick={addSprint}/>
