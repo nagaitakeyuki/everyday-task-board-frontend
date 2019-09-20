@@ -14,8 +14,7 @@ class SprintForm extends Component {
   }
 
   state = {
-    isStartDateTouched: false,
-    isEndDateTouched: false
+    isPeriodTouched: false
   }
 
   componentDidMount() {
@@ -30,8 +29,7 @@ class SprintForm extends Component {
     const sprintNameError = isFieldTouched('sprintName') && getFieldError('sprintName')
     const sprintStatusError = isFieldTouched('sprintStatus') && getFieldError('sprintStatus')
     // DatePickerの場合はフォーカスインしてもisFieldTouchedがtrueにならないため、独自に状態を管理する
-    const sprintStartDateError = this.state.isStartDateTouched && getFieldError('sprintStartDate')
-    const sprintEndDateError = this.state.isEndDateTouched && getFieldError('sprintEndDate')
+    const sprintPeriodError = this.state.isPeriodTouched && getFieldError('sprintPeriod')
 
     return (
       <Form labelCol={{span: 7}} wrapperCol={{span: 15 }}  onSubmit={this.handleSubmit} >
@@ -56,80 +54,57 @@ class SprintForm extends Component {
           }
         </Form.Item> 
 
-        <Form.Item label="期間" style={{marginBottom: 0}} required>
-
-          <Form.Item
-            style={{ display: 'inline-block', width: 'calc(50% - 12px)', marginBottom: 0}}
-            validateStatus={sprintStartDateError ? 'error' : ''} help={sprintStartDateError || ''}>
-            {
-              getFieldDecorator('sprintStartDate', {
-                initialValue:
-                  this.props.sprint && this.props.sprint.startDate
-                    ? moment(this.props.sprint.startDate, "YYYYMMDD")
-                    : null,
-                rules: [
-                  { type: 'date', required: true, message: '入力してください' }
-                ]
-    
-              })(
-                  <DatePicker
-                    format={dateFormat}
-                    placeholder="日付を選択"
-                    onBlur={() => this.setState({isStartDateTouched: true})} />
-                )
-            }
-          </Form.Item>
-
-          <span style={{ display: 'inline-block', width: '24px', textAlign: 'center', marginBottom: 0}}>-</span>
-  
-          <Form.Item
-            style={{ display: 'inline-block', width: 'calc(50% - 12px)', marginBottom: 0}}
-            validateStatus={sprintEndDateError ? 'error' : ''} help={sprintEndDateError || ''}>
-            {
-              getFieldDecorator('sprintEndDate', {
-                initialValue:
-                  this.props.sprint && this.props.sprint.endDate
-                    ? moment(this.props.sprint.endDate, "YYYYMMDD")
-                    : null,
-                rules: [
-                  { validator: async (rule, value) => {
-                      if (!value) {
-                        throw new Error("入力してください")
-                      }
-                      const sprintStartDate = this.props.form.getFieldValue("sprintStartDate")
-                      if (value && sprintStartDate && !value.isAfter(sprintStartDate)) {
-                        throw new Error("開始日より後の日を指定してください")
-                      }
-                  }}
-                ]
-              })(
-                  <DatePicker
-                    format={dateFormat}
-                    placeholder="日付を選択"
-                    onBlur={() => this.setState({isEndDateTouched: true})} />
-                )
-            }
-          </Form.Item>
-
-        </Form.Item>          
-
         <Form.Item
-          label="ステータス" style={{marginBottom: 0}}
-          validateStatus={sprintStatusError ? 'error' : ''} help={sprintStatusError || ''}>
+          label="期間" style={{ marginBottom: 0}}
+          validateStatus={sprintPeriodError ? 'error' : ''} help={sprintPeriodError || ''} required>
           {
-            getFieldDecorator('sprintStatus', {
-              initialValue: this.props.sprint ? this.props.sprint.status : null,
-              rules: [{ required: true, message: '入力してください' }],
-              validateTrigger: [ "onBlur", "onChange" ]
+            getFieldDecorator('sprintPeriod', {
+              initialValue:
+                this.props.sprint
+                    ? [moment(this.props.sprint.startDate, "YYYYMMDD"), moment(this.props.sprint.endDate, "YYYYMMDD")]
+                    : [null, null],
+              rules: [
+                { 
+                  validator: async (rule, value) => {
+                    const startDate = value[0]
+                    const endDate = value[1]
+                    if (!startDate || !endDate) {
+                      throw new Error("入力してください")
+                    }
+                  }
+                }
+              ]
+  
             })(
-                <Select dropdownMatchSelectWidth={false}>
-                  <Select.Option key={"new"}>新規</Select.Option>
-                  <Select.Option key={"running"}>進行中</Select.Option>
-                  <Select.Option key={"end"}>完了</Select.Option>
-                </Select>
+                <DatePicker.RangePicker
+                  format={dateFormat}
+                  placeholder={["日付を選択", "日付を選択"]}
+                  onBlur={() => this.setState({isPeriodTouched: true})} />
               )
           }
-        </Form.Item>          
+        </Form.Item>
+
+        {this.props.mode === SprintForm.Mode.Edit
+          ?
+            <Form.Item
+              label="ステータス" style={{marginBottom: 0}}
+              validateStatus={sprintStatusError ? 'error' : ''} help={sprintStatusError || ''}>
+              {
+                getFieldDecorator('sprintStatus', {
+                  initialValue: this.props.sprint ? this.props.sprint.status : null,
+                  rules: [{ required: true, message: '入力してください' }],
+                  validateTrigger: [ "onBlur", "onChange" ]
+                })(
+                    <Select dropdownMatchSelectWidth={false}>
+                      <Select.Option key={"new"}>新規</Select.Option>
+                      <Select.Option key={"running"}>進行中</Select.Option>
+                      <Select.Option key={"end"}>完了</Select.Option>
+                    </Select>
+                  )
+              }
+            </Form.Item>
+          : null
+        }
 
         <Form.Item wrapperCol={{span: 22}} style={{marginTop: "10px", marginBottom: 0}}>
           <Button
@@ -158,8 +133,8 @@ class SprintForm extends Component {
       this.props.sprint ? this.props.sprint.id: null,
       values.sprintName,
       values.sprintStatus,
-      values.sprintStartDate.format("YYYYMMDD"),
-      values.sprintEndDate.format("YYYYMMDD"),
+      values.sprintPeriod[0].format("YYYYMMDD"),
+      values.sprintPeriod[1].format("YYYYMMDD"),
     )
 
     this.props.onSaveButtonClick(sprint)
