@@ -4,8 +4,8 @@ import {Route, Switch} from 'react-router'
 import "antd/dist/antd.css"
 
 import ApiCommon from './common/utils/api/apiCommon'
-import LoginCheck from './login/component/LoginCheck'
-import LoginPage from './login/component/LoginPage'
+import LoginCheck from './authentication/component/LoginCheck'
+import LoginPage from './authentication/component/LoginPage'
 import SignInPage from './sign_in/component/SignInPage'
 import SprintBacklogPage from './task_management/sprint_backlog/component/SprintBacklogPage'
 import TaskBoardPage from './task_management/task_board/component/TaskBoardPage'

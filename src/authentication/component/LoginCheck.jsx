@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 
 import Spin from '../../common/component/Spin'
-import Actions from '../loginActions'
+import Actions from '../authenticationActions'
 
 class LoginCheck extends Component {
 

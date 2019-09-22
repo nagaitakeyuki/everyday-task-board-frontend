@@ -1,4 +1,4 @@
-import Types from './loginTypes'
+import Types from './authenticationTypes'
 
 export default {
 
