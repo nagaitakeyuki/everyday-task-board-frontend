@@ -1,7 +1,7 @@
 import { push } from 'react-router-redux'
 
-import Actions from './loginActions'
-import Types from './loginTypes'
+import Actions from './authenticationActions'
+import Types from './authenticationTypes'
 import ApiCommon from '../common/utils/api/apiCommon';
 
 export default store => next => action => {
