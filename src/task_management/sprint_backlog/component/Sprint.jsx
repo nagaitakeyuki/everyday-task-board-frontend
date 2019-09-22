@@ -81,7 +81,7 @@ class Sprint extends Component {
               onCancel={closeEditSprint}
               footer={null}
               destroyOnClose
-              width={300}>
+              width={500}>
               <SprintForm 
                 mode={SprintForm.Mode.Edit}
                 sprint={sprint}

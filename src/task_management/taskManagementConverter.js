@@ -3,7 +3,7 @@ import { Sprint, Story, Task, BacklogCategory} from "./taskManagementModel"
 export default class TaskManagementConverter {
   static toSprintCreateRequest = sprint => {
     return {
-      sprintName: sprint.sprintName,
+      sprintName: sprint.name,
       startDate: sprint.startDate,
       endDate: sprint.endDate
     }

@@ -1,92 +1,92 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
-import { Row, Col, Input, Button, Select } from "antd"
+import { Form, Input, Button, Select } from "antd"
 
 import { Story } from '../../../taskManagementModel'
 
 class StoryEditForm extends Component {
-  constructor(props) {
-    super(props)
-    const story = props.story
-    this.state = {
-      name: story.name,
-      status: story.status
-    }
-    this.handleTextChange = this.handleTextChange.bind(this)
-    this.handleSelectChange = this.handleSelectChange.bind(this)
+
+  componentDidMount() {
+    // 描画時にサブミットボタンを非活性にする
+    this.props.form.validateFields()
   }
 
   render() {
+    const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form
+
+    // componentDidMountでvalidateFieldsしても、エラーメッセージが表示されないようにする
+    const nameError = isFieldTouched('name') && getFieldError('name')
+    const statusError = isFieldTouched('status') && getFieldError('status')
+
     return (
-      <div>
-        <Col>
-          <Row style={{ marginBottom: "10px" }}>
-            <div>
-              ストーリーを変更する
-            </div>
-          </Row>
+      <Form labelCol={{span: 7}} wrapperCol={{span: 15 }} >
+        <div style={{ marginBottom: "10px" }}>
+          ストーリーの変更
+        </div>
 
-          <Row>
-            <Row>
-              ストーリー名:
-            </Row>
-            <Row>
-              <Input.TextArea
-                autoFocus={true}
-                value={this.state.name}
-                onChange={(e) => this.handleTextChange(e, "name")}
-                autosize
-              />
-            </Row>
-          </Row>
-          <Row style={{ marginTop: "10px" }}>
-            <Row>
-              ステータス:
-            </Row>
-            <Row>
-              <Select
-                onChange={(value) => this.handleSelectChange(value, "status")}
-                value={`${this.state.status}`}
-                dropdownMatchSelectWidth={false}
-              >
-                <Select.Option key={"new"}>新規</Select.Option>
-                <Select.Option key={"running"}>進行中</Select.Option>
-                <Select.Option key={"end"}>完了</Select.Option>
-              </Select>
-            </Row>
-          </Row>
+        <Form.Item
+          label="ストーリー名" style={{marginBottom: 0}}
+          validateStatus={nameError ? 'error' : ''} help={nameError || ''}>
+          {
+            getFieldDecorator('name', {
+              initialValue: this.props.story.name,
+              rules: [
+                { required: true, message: '入力してください' },
+                { max: 50, message: '50文字以下で入力してください' }
+              ],
+              validateTrigger: [ "onBlur", "onChange" ]
+            })(
+                <Input autoFocus={true}/>
+              )
+          }
+        </Form.Item> 
 
-          <Row style={{ marginTop: "10px" }}>
-            <Button
-              type="default"
-              onClick={
-                () => {
-                  const updatedStory = new Story(
-                    this.props.story.id,
-                    this.state.name,
-                    this.state.status,
-                    this.props.story.baseSprintId
-                  )
+        <Form.Item
+          label="ステータス" style={{marginBottom: 0}}
+          validateStatus={statusError ? 'error' : ''} help={statusError || ''}>
+          {
+            getFieldDecorator('status', {
+              initialValue: this.props.story.status,
+              rules: [{ required: true, message: '入力してください' }],
+              validateTrigger: [ "onBlur", "onChange" ]
+            })(
+                <Select dropdownMatchSelectWidth={false}>
+                  <Select.Option key={"new"}>新規</Select.Option>
+                  <Select.Option key={"running"}>進行中</Select.Option>
+                  <Select.Option key={"end"}>完了</Select.Option>
+                </Select>
+              )
+          }
+        </Form.Item>
 
-                  this.props.onSaveButtonClick(updatedStory)
-                }
-              }
-              style={{ float: "right" }}
-            >
-              変更する
-            </Button>
-          </Row>
-        </Col>
-      </div >
+        <Form.Item wrapperCol={{span: 22}} style={{marginTop: "10px", marginBottom: 0}}>
+          <Button
+            type="default"
+            style={{float: "right"}}
+            disabled={this.hasErrors(getFieldsError())}
+            onClick={() => {
+              const values = this.props.form.getFieldsValue()
+
+              const story = new Story(
+                this.props.story.id,
+                values.name,
+                values.status,
+                this.props.story.baseSprintId
+              )
+          
+              this.props.onSaveButtonClick(story)
+            }}
+          >
+            変更する
+          </Button>
+        </Form.Item>
+
+      </Form >
     )
   }
 
-  handleTextChange(e, key) {
-    this.setState({ [key]: e.target.value })
-  }
-
-  handleSelectChange(value, key) {
-    this.setState({ [key]: value })
+  hasErrors(fieldsError) {
+    return Object.keys(fieldsError).some(field => fieldsError[field]);
   }
 
 }
@@ -96,4 +96,4 @@ StoryEditForm.propTypes = {
   onSaveButtonClick: PropTypes.func.isRequired
 }
 
-export default StoryEditForm
+export default Form.create({})(StoryEditForm)
