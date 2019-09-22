@@ -80,7 +80,7 @@ class LoginForm extends Component {
           </Form.Item>
 
           <Form.Item style={{marginTop: "10px", marginBottom: 0}}>
-            <Link to="/signIn" style={{float: "right"}}>ユーザー登録</Link>
+            <Link to="/signUp" style={{float: "right"}}>ユーザー登録</Link>
           </Form.Item>
 
         </Form >

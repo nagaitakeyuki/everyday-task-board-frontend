@@ -1,13 +1,13 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
 import { Form, Input, Button } from "antd"
-import "./SignInForm.css"
+import "./SignUpForm.css"
 
-class SignInForm extends Component {
+class SignUpForm extends Component {
 
   state = {
     // 初期描画の時点でログインボタンを非活性にする
-    isSignInButtonDisabled: true
+    isSignUpButtonDisabled: true
   }
   
   componentDidMount() {
@@ -15,7 +15,7 @@ class SignInForm extends Component {
     this.props.form.validateFields()
 
     // 初期描画以降は、バリデーションエラーの有無に応じてログインボタンの活性状態を制御する
-    this.setState({isSignInButtonDisabled: false})
+    this.setState({isSignUpButtonDisabled: false})
   }
 
   render() {
@@ -27,7 +27,7 @@ class SignInForm extends Component {
     const passwordError = isFieldTouched('password') && getFieldError('password')
 
     return (
-      <div id="signInForm">
+      <div id="signUpForm">
         <Form style={{marginTop: "40px"}} hideRequiredMark={true}>
 
           <Form.Item
@@ -81,11 +81,11 @@ class SignInForm extends Component {
           <Form.Item style={{marginTop: "35px", marginBottom: 0}}>
             <Button
               type="primary"
-              disabled={this.state.isSignInButtonDisabled || this.hasErrors(getFieldsError())}
+              disabled={this.state.isSignUpButtonDisabled || this.hasErrors(getFieldsError())}
               style={{width: "100%"}}
               onClick={() => {
                 const values = this.props.form.getFieldsValue()
-                this.props.onSignInButtonClick({
+                this.props.onSignUpButtonClick({
                   email: values.email,
                   userName: values.userName,
                   pass: values.password})
@@ -106,8 +106,8 @@ class SignInForm extends Component {
 
 }
 
-SignInForm.propTypes = {
-  onSignInButtonClick: PropTypes.func.isRequired
+SignUpForm.propTypes = {
+  onSignUpButtonClick: PropTypes.func.isRequired
 }
 
-export default Form.create({})(SignInForm)
+export default Form.create({})(SignUpForm)

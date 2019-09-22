@@ -1,6 +1,6 @@
 import { push } from 'react-router-redux'
 
-import Types from './signInTypes'
+import Types from './signUpTypes'
 import ApiCommon from '../common/utils/api/apiCommon';
 
 export default store => next => action => {
