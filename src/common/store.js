@@ -4,8 +4,8 @@ import {routerReducer, routerMiddleware} from 'react-router-redux'
 import {composeWithDevTools} from 'redux-devtools-extension'
 
 import reducer from './reducers'
-import signInMiddleware from '../sign_in/signInMiddleware'
-import loginMiddleware from '../login/loginMiddleware'
+import signUpMiddleware from '../sign_up/signUpMiddleware'
+import authenticationMiddleware from '../authentication/authenticationMiddleware'
 import middleware from '../task_management/taskManagementMiddleware'
 
 export const history = createHashHistory()
@@ -19,7 +19,7 @@ const rootReducer = (state, action) => {
   }
   return appReducer(state, action);
 };
-const storeEnhancer = applyMiddleware(middleware, loginMiddleware, signInMiddleware, RouterMiddleware)
+const storeEnhancer = applyMiddleware(middleware, authenticationMiddleware, signUpMiddleware, RouterMiddleware)
 
 const store = createStore(rootReducer, composeWithDevTools(storeEnhancer))
 

@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Button } from "antd"
 
-import LoginCheck from '../../login/component/LoginCheck'
-import Actions from '../../login/loginActions'
+import LoginCheck from '../../authentication/component/LoginCheck'
+import Actions from '../../authentication/authenticationActions'
 
 class MainLayout extends Component {
   render() {

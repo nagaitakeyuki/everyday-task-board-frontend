@@ -1,8 +1,8 @@
-import Types from './signInTypes'
+import Types from './signUpTypes'
 
 export default {
 
-  signIn: payload => ({
+  signUp: payload => ({
     type: Types.SIGN_IN,
     payload
   })
