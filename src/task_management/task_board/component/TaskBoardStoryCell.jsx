@@ -1,13 +1,10 @@
 import React, {Component, Fragment} from 'react'
 import { connect } from 'react-redux'
-import ReactModal from 'react-modal'
 
 import Modal from '../../../common/component/Modal'
 import TaskAddForm from './form/TaskAddForm'
 import StoryEditForm from './form/StoryEditForm';
 import Actions from '../taskBoardActions'
-
-ReactModal.setAppElement('#root')
 
 class TaskBoardStoryCell extends Component {
 
@@ -42,9 +39,9 @@ class TaskBoardStoryCell extends Component {
       <td style={{padding: ".75rem", border: "1px solid #dee2e6", verticalAlign: "top" }}>
         <div style={{width: "100%",  height: "80px", background: "#87cefa",
              borderRadius: "5px", position: "relative"}}>
-          <div style={{ width: "80%", height: "100%", textDecoration: story.storyStatus === "end" ? "line-through" : "", cursor: "pointer"}}
+          <div style={{ width: "80%", height: "100%", textDecoration: story.status === "end" ? "line-through" : "", cursor: "pointer"}}
               onClick={() => this.setState({...this.state, isEditing: true})}>
-            {story.storyName}
+            {story.name}
           </div>
           <img src="imgs/plus.png"
             onClick={() => this.setState({...this.state, isTaskAdding: true})}
@@ -59,7 +56,7 @@ class TaskBoardStoryCell extends Component {
           width={500}>
           <TaskAddForm 
             sprintId={story.baseSprintId}
-            storyId={story.storyId}
+            storyId={story.id}
             onSaveButtonClick={addTasks}/>
         </Modal>
 

@@ -42,7 +42,7 @@ class BacklogColumn extends Component {
                   .filter(backlogCategory => !isClosedView ? backlogCategory.status !== "end" : backlogCategory.status === "end")
                   .sort((a, b) => a.sortOrder - b.sortOrder)
                   .map(backlogCategory => (
-                    <BacklogCategory backlogCategory={backlogCategory} key={backlogCategory.backlogCategoryId}/>
+                    <BacklogCategory backlogCategory={backlogCategory} key={backlogCategory.id}/>
                 ))
               }
             </Fragment>
@@ -53,7 +53,7 @@ class BacklogColumn extends Component {
             onCancel={closeAddBacklogCategory}
             footer={null}
             destroyOnClose
-            width={500}>
+            width={700}>
             <BacklogCategoryForm onSaveButtonClick={addBacklogCategory}/>
           </Modal>
 

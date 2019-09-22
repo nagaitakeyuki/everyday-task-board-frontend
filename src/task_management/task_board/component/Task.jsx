@@ -32,7 +32,7 @@ class Task extends Component {
     return (
       <Fragment>
         <Draggable
-          draggableId={task.taskId} index={task.sortOrder}>
+          draggableId={task.id} index={task.sortOrder}>
           
           {provided => (
             <div
@@ -42,9 +42,9 @@ class Task extends Component {
             >
               <div style={{ width: "80px", height: "80px", background: "#87cefa", borderRadius: "5px",
                 marginRight: "3px", marginBottom: "3px", cursor: 'move', wordWrap: "break-word",
-                textDecoration: task.taskStatus === "end" ? "line-through" : "" , overflow: "hidden"}}
+                textDecoration: task.status === "end" ? "line-through" : "" , overflow: "hidden"}}
                 onClick={() => this.setState({...this.state, isEditing: true})}>
-                {task.taskName}
+                {task.name}
               </div>
               
             </div>

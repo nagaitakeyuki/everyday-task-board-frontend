@@ -1,78 +1,97 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
-import { Row, Col, Input, Button } from "antd"
+import { Form, Input, Button, Popconfirm, Icon } from "antd"
+
+import { Task } from '../../../taskManagementModel'
 
 class TaskForm extends Component {
-  constructor(props) {
-    super(props)
-    const task = props.task
-    this.state = {
-      name: task.taskName
-    }
-    this.handleTextChange = this.handleTextChange.bind(this)
+
+  componentDidMount() {
+    // 描画時にサブミットボタンを非活性にする
+    this.props.form.validateFields()
   }
 
   render() {
-    return (
-      <div>
-        <Col>
-          <Row style={{ marginBottom: "10px" }}>
-            <div>
-              タスクを変更する
-            </div>
-          </Row>
-          <Row>
-            <Row>
-              タスク名:
-            </Row>
-            <Row>
-              <Input.TextArea
-                autoFocus={true}
-                value={this.state.name}
-                onChange={(e) => this.handleTextChange(e, "name")}
-                autosize
-              />
-            </Row>
-          </Row>
-          <Row style={{ marginTop: "10px" }}>
-            <div style={{ float: "right" }}>
-              <Button
-                type="default"
-                onClick={
-                  () => {
-                    this.props.onSaveButtonClick({taskId: this.props.task.taskId,
-                                                  taskName: this.state.name,
-                                                  storyId: this.props.task.baseStoryId,
-                                                  sprintId: this.props.sprintId })
-                  }
-                }
-              >
-                変更する
-              </Button>
-              <Button
-                type="default"
-                onClick={
-                  () => {
-                    if (!window.confirm("タスクを削除しますか？")) return
+    const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form
 
-                    this.props.onDeleteButtonClick({taskId: this.props.task.taskId,
-                                                    storyId: this.props.task.baseStoryId,
-                                                    sprintId: this.props.sprintId})
-                  }
+    // componentDidMountでvalidateFieldsしても、エラーメッセージが表示されないようにする
+    const nameError = isFieldTouched('name') && getFieldError('name')
+
+    return (
+      <Form labelCol={{span: 5}} wrapperCol={{span: 17 }} >
+        <div style={{ marginBottom: "10px" }}>
+          タスクの変更
+        </div>
+
+        <Form.Item
+          label="タスク名" style={{marginBottom: 0}}
+          validateStatus={nameError ? 'error' : ''} help={nameError || ''}>
+          {
+            getFieldDecorator('name', {
+              initialValue: this.props.task.name,
+              rules: [
+                { required: true, message: '入力してください' },
+                { max: 50, message: '50文字以下で入力してください' }
+              ],
+              validateTrigger: [ "onBlur", "onChange" ]
+            })(
+                <Input autoFocus={true} />
+              )
+          }
+        </Form.Item> 
+
+        <Form.Item wrapperCol={{span: 22}} style={{marginTop: "10px", marginBottom: 0}}>
+          <div style={{ float: "right" }}>
+            <Button
+              type="default"
+              disabled={this.hasErrors(getFieldsError())}
+              onClick={
+                () => {
+                  const values = this.props.form.getFieldsValue()
+
+                  const task = new Task(
+                    this.props.task.id,
+                    values.name,
+                    this.props.task.status,
+                    this.props.task.baseStoryId,
+                    this.props.task.sortOrder
+                  )
+
+                  this.props.onSaveButtonClick({task,
+                                                sprintId: this.props.sprintId })
                 }
-                style={{marginLeft: "2px"}}
-              >
+              }
+            >
+              変更する
+            </Button>
+
+            <Popconfirm
+              title="タスクを削除しますか？"
+              okText="削除"
+              okType="danger"
+              cancelText="キャンセル"
+              icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
+              onConfirm={
+                () => {
+                  this.props.onDeleteButtonClick({taskId: this.props.task.id,
+                                                  storyId: this.props.task.baseStoryId,
+                                                  sprintId: this.props.sprintId})
+                }
+              }
+            >
+              <Button type="default" style={{marginLeft: "2px"}} >
                 削除する
               </Button>
-            </div>
-          </Row>
-        </Col>
-      </div >
+            </Popconfirm>
+          </div>
+        </Form.Item>
+
+      </Form >
     )
   }
 
-  handleTextChange(e, key) {
-    this.setState({ [key]: e.target.value })
+  hasErrors(fieldsError) {
+    return Object.keys(fieldsError).some(field => fieldsError[field]);
   }
 
 }
@@ -84,4 +103,4 @@ TaskForm.propTypes = {
   onDeleteButtonClick: PropTypes.func.isRequired
 }
 
-export default TaskForm
+export default Form.create({})(TaskForm)

@@ -5,7 +5,7 @@ import { DragDropContext } from 'react-beautiful-dnd'
 import TaskBoardStoryRow from './TaskBoardStoryRow'
 import Actions from '../taskBoardActions'
 
-export default connect()(({ stories, dispatch }) => {
+const TaskBoardTable = ({ stories, dispatch }) => {
 
   const onDragEnd = result => {
     const { destination, source, draggableId } = result
@@ -59,7 +59,7 @@ export default connect()(({ stories, dispatch }) => {
               Array.from(stories.values())
                 .sort((a, b) => a.sortOrder - b.sortOrder)
                 .map(story => (
-                  <TaskBoardStoryRow story={story} key={story.storyId} />
+                  <TaskBoardStoryRow story={story} key={story.id} />
                 ))
               : null}
           </DragDropContext>
@@ -67,4 +67,6 @@ export default connect()(({ stories, dispatch }) => {
       </table>
     </Fragment>
   )
-})
+}
+
+export default connect()(TaskBoardTable)
