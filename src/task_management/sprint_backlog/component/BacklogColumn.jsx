@@ -53,7 +53,7 @@ class BacklogColumn extends Component {
             onCancel={closeAddBacklogCategory}
             footer={null}
             destroyOnClose
-            width={500}>
+            width={700}>
             <BacklogCategoryForm onSaveButtonClick={addBacklogCategory}/>
           </Modal>
 

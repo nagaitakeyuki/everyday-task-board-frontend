@@ -8,6 +8,7 @@ import { Sprint } from '../../../taskManagementModel'
 const dateFormat = 'YYYY/MM/DD'
 
 class SprintForm extends Component {
+  
   static Mode = {
     New: "New",
     Edit: "Edit"
@@ -26,22 +27,22 @@ class SprintForm extends Component {
     const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form
 
     // componentDidMountでvalidateFieldsしても、エラーメッセージが表示されないようにする
-    const sprintNameError = isFieldTouched('sprintName') && getFieldError('sprintName')
-    const sprintStatusError = isFieldTouched('sprintStatus') && getFieldError('sprintStatus')
+    const nameError = isFieldTouched('name') && getFieldError('name')
+    const statusError = isFieldTouched('status') && getFieldError('status')
     // DatePickerの場合はフォーカスインしてもisFieldTouchedがtrueにならないため、独自に状態を管理する
-    const sprintPeriodError = this.state.isPeriodTouched && getFieldError('sprintPeriod')
+    const periodError = this.state.isPeriodTouched && getFieldError('period')
 
     return (
-      <Form labelCol={{span: 7}} wrapperCol={{span: 15 }}  onSubmit={this.handleSubmit} >
+      <Form labelCol={{span: 7}} wrapperCol={{span: 15 }} >
         <div style={{ marginBottom: "10px" }}>
           {this.props.mode === SprintForm.Mode.New ? "新しいスプリント" : "スプリントの変更"}
         </div>
 
         <Form.Item
           label="スプリント名" style={{marginBottom: 0}}
-          validateStatus={sprintNameError ? 'error' : ''} help={sprintNameError || ''}>
+          validateStatus={nameError ? 'error' : ''} help={nameError || ''}>
           {
-            getFieldDecorator('sprintName', {
+            getFieldDecorator('name', {
               initialValue: this.props.sprint ? this.props.sprint.name : null,
               rules: [
                 { required: true, message: '入力してください' },
@@ -56,9 +57,9 @@ class SprintForm extends Component {
 
         <Form.Item
           label="期間" style={{ marginBottom: 0}}
-          validateStatus={sprintPeriodError ? 'error' : ''} help={sprintPeriodError || ''} required>
+          validateStatus={periodError ? 'error' : ''} help={periodError || ''} required>
           {
-            getFieldDecorator('sprintPeriod', {
+            getFieldDecorator('period', {
               initialValue:
                 this.props.sprint
                     ? [moment(this.props.sprint.startDate, "YYYYMMDD"), moment(this.props.sprint.endDate, "YYYYMMDD")]
@@ -88,9 +89,9 @@ class SprintForm extends Component {
           ?
             <Form.Item
               label="ステータス" style={{marginBottom: 0}}
-              validateStatus={sprintStatusError ? 'error' : ''} help={sprintStatusError || ''}>
+              validateStatus={statusError ? 'error' : ''} help={statusError || ''}>
               {
-                getFieldDecorator('sprintStatus', {
+                getFieldDecorator('status', {
                   initialValue: this.props.sprint ? this.props.sprint.status : null,
                   rules: [{ required: true, message: '入力してください' }],
                   validateTrigger: [ "onBlur", "onChange" ]
@@ -109,9 +110,22 @@ class SprintForm extends Component {
         <Form.Item wrapperCol={{span: 22}} style={{marginTop: "10px", marginBottom: 0}}>
           <Button
             type="default"
-            htmlType="submit"
             style={{float: "right"}}
-            disabled={this.hasErrors(getFieldsError())}>
+            disabled={this.hasErrors(getFieldsError())}
+            onClick={() => {
+              const values = this.props.form.getFieldsValue()
+
+              const sprint = new Sprint(
+                this.props.sprint ? this.props.sprint.id: null,
+                values.name,
+                values.status,
+                values.period[0].format("YYYYMMDD"),
+                values.period[1].format("YYYYMMDD"),
+              )
+          
+              this.props.onSaveButtonClick(sprint)
+            }}
+          >
             {this.props.mode === SprintForm.Mode.New ? "追加する" : "変更する"}
           </Button>
         </Form.Item>
@@ -124,23 +138,6 @@ class SprintForm extends Component {
     return Object.keys(fieldsError).some(field => fieldsError[field]);
   }
 
-  handleSubmit = event => {
-    event.preventDefault()
-
-    const values = this.props.form.getFieldsValue()
-
-    const sprint = new Sprint(
-      this.props.sprint ? this.props.sprint.id: null,
-      values.sprintName,
-      values.sprintStatus,
-      values.sprintPeriod[0].format("YYYYMMDD"),
-      values.sprintPeriod[1].format("YYYYMMDD"),
-    )
-
-    this.props.onSaveButtonClick(sprint)
-
-  }
-  
 }
 
 SprintForm.propTypes = {
