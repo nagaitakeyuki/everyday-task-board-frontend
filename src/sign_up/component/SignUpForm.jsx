@@ -6,7 +6,7 @@ import "./SignUpForm.css"
 class SignUpForm extends Component {
 
   state = {
-    // 初期描画の時点でログインボタンを非活性にする
+    // 初期描画の時点でログインボタンを非活性にする。
     isSignUpButtonDisabled: true
   }
   
